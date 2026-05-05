@@ -8,17 +8,13 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: Arial, sans-serif; background: #f4f4f4; padding-bottom: 40px; }
-
 .header { background: #1b2d45; color: white; padding: 20px 16px; }
 .header h1 { font-size: 20px; margin-bottom: 4px; }
 .header p { font-size: 12px; color: #aac4d8; }
-
 .api-bar { background: #243a57; color: #aac4d8; font-size: 11px; padding: 7px 16px; display: none; justify-content: space-between; align-items: center; }
 .dot { width: 7px; height: 7px; background: #4caf92; border-radius: 50%; display: inline-block; margin-right: 5px; }
 .btn-link { background: none; border: none; color: #aac4d8; font-size: 11px; cursor: pointer; text-decoration: underline; }
-
 .main { max-width: 700px; margin: 0 auto; padding: 16px; }
-
 .box { background: white; border-radius: 8px; border: 1px solid #ddd; padding: 20px; margin-bottom: 12px; }
 .box h2 { font-size: 16px; margin-bottom: 8px; color: #1b2d45; }
 .box p { font-size: 13px; color: #555; line-height: 1.6; margin-bottom: 14px; }
@@ -30,25 +26,21 @@ body { font-family: Arial, sans-serif; background: #f4f4f4; padding-bottom: 40px
 .btn:hover { background: #243a57; }
 .btn:disabled { background: #aaa; cursor: not-allowed; }
 .note { font-size: 11px; color: #999; margin-top: 8px; }
-
 .mode-tabs { display: flex; margin-bottom: 10px; background: white; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; }
-.mode-tab { flex: 1; padding: 11px 6px; font-size: 12px; font-weight: bold; cursor: pointer; border: none; background: white; color: #666; text-align: center; transition: all 0.15s; border-right: 1px solid #ddd; }
+.mode-tab { flex: 1; padding: 11px 4px; font-size: 12px; font-weight: bold; cursor: pointer; border: none; background: white; color: #666; text-align: center; transition: all 0.15s; border-right: 1px solid #ddd; }
 .mode-tab:last-child { border-right: none; }
 .mode-tab.active { background: #1b2d45; color: white; }
 .mode-tab:hover:not(.active) { background: #f0f4f8; }
-
 .search-wrap { position: relative; margin-bottom: 10px; }
 .search-row { display: flex; gap: 8px; background: white; border: 1px solid #ccc; border-radius: 8px; padding: 4px 4px 4px 12px; align-items: center; }
 .search-input { flex: 1; border: none; outline: none; font-size: 14px; padding: 10px 0; background: transparent; }
 .btn-x { background: none; border: none; color: #aaa; font-size: 15px; cursor: pointer; padding: 0 4px; }
 .btn-search { background: #1b2d45; color: white; border: none; border-radius: 6px; padding: 9px 14px; font-size: 13px; font-weight: bold; cursor: pointer; }
 .btn-search:disabled { background: #aaa; cursor: not-allowed; }
-
 .autocomplete { display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: white; border: 1px solid #1b2d45; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.12); z-index: 100; overflow: hidden; }
 .ac-item { padding: 10px 14px; font-size: 13px; cursor: pointer; color: #333; border-bottom: 1px solid #f0f0f0; }
 .ac-item:last-child { border-bottom: none; }
 .ac-item:hover, .ac-item.active { background: #eef4ff; color: #1b2d45; font-weight: bold; }
-
 .filters-box { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; }
 .lbl { font-size: 11px; font-weight: bold; color: #999; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
 .filter-row { display: flex; flex-wrap: wrap; gap: 7px; }
@@ -57,36 +49,26 @@ body { font-family: Arial, sans-serif; background: #f4f4f4; padding-bottom: 40px
 .filter-actions { display: flex; gap: 8px; margin-top: 10px; }
 .btn-sm { background: white; border: 1px solid #ccc; border-radius: 6px; padding: 4px 10px; font-size: 11px; color: #555; cursor: pointer; }
 .btn-sm:hover { border-color: #1b2d45; color: #1b2d45; }
-
 .quick-box { margin-bottom: 10px; }
 .quick-pills { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
 .qpill { background: white; border: 1px solid #ccc; border-radius: 20px; padding: 6px 14px; font-size: 12px; color: #444; cursor: pointer; }
 .qpill:hover { background: #1b2d45; color: white; border-color: #1b2d45; }
-
 .loading { text-align: center; padding: 40px 0; display: none; }
 .spinner { width: 32px; height: 32px; border: 3px solid #ddd; border-top-color: #1b2d45; border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 12px; }
 .loading p { font-size: 12px; color: #999; }
-
 .error-box { background: #fff3f3; border: 1px solid #f5c6c6; border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; display: none; font-size: 13px; color: #c00; }
 .btn-retry { margin-top: 8px; background: #1b2d45; color: white; border: none; border-radius: 6px; padding: 7px 14px; font-size: 12px; cursor: pointer; }
-
 .results-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 13px; color: #555; flex-wrap: wrap; gap: 6px; }
 .results-head strong { color: #1b2d45; }
 .btn-clear-r { background: white; border: 1px solid #ccc; border-radius: 6px; padding: 3px 9px; font-size: 11px; color: #888; cursor: pointer; }
-
-/* ALERTES ANSM */
 .ansm-alert { background: #fff3e0; border: 1px solid #ffb74d; border-left: 4px solid #e65100; border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; animation: fadeUp 0.2s ease; }
 .ansm-alert-title { font-size: 11px; font-weight: bold; color: #e65100; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
-.ansm-alert-item { font-size: 12.5px; color: #333; line-height: 1.6; margin-bottom: 4px; padding-left: 12px; position: relative; }
-.ansm-alert-item::before { content: “⚠”; position: absolute; left: 0; font-size: 10px; }
-
-/* OTC CONSEIL */
+.ansm-alert-item { font-size: 12.5px; color: #333; line-height: 1.6; margin-bottom: 4px; padding-left: 14px; position: relative; }
+.ansm-alert-item::before { content: "⚠"; position: absolute; left: 0; font-size: 10px; }
 .otc-box { background: #e8f5e9; border: 1px solid #a5d6a7; border-left: 4px solid #2e7d32; border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; animation: fadeUp 0.2s ease; }
 .otc-title { font-size: 11px; font-weight: bold; color: #2e7d32; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
 .otc-item { font-size: 12.5px; color: #333; line-height: 1.6; margin-bottom: 3px; padding-left: 14px; position: relative; }
-.otc-item::before { content: “✚”; position: absolute; left: 0; font-size: 10px; color: #2e7d32; }
-
-/* SAFETY RECAP TABLE */
+.otc-item::before { content: "✚"; position: absolute; left: 0; font-size: 10px; color: #2e7d32; }
 .safety-box { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; animation: fadeUp 0.2s ease; overflow-x: auto; }
 .safety-title { font-size: 11px; font-weight: bold; color: #999; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
 .safety-table { width: 100%; border-collapse: collapse; font-size: 12px; }
@@ -95,13 +77,8 @@ body { font-family: Arial, sans-serif; background: #f4f4f4; padding-bottom: 40px
 .safety-table tr:last-child td { border-bottom: none; }
 .safety-drug { font-weight: bold; color: #1b2d45; font-size: 12px; }
 .safety-line { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 10px; font-weight: bold; color: white; }
-.sl1 { background: #2e7d32; }
-.sl2 { background: #1565c0; }
-.ok { color: #2e7d32; font-size: 16px; font-weight: bold; }
-.warn { color: #f57c00; font-size: 16px; font-weight: bold; }
-.no { color: #c62828; font-size: 16px; font-weight: bold; }
-
-/* CARDS */
+.sl1 { background: #2e7d32; } .sl2 { background: #1565c0; }
+.ok { color: #2e7d32; font-size: 15px; font-weight: bold; } .warn { color: #f57c00; font-size: 15px; font-weight: bold; } .no { color: #c62828; font-size: 15px; font-weight: bold; }
 .card { background: white; border: 1px solid #ddd; border-left: 4px solid; border-radius: 8px; padding: 14px 16px; margin-bottom: 8px; cursor: pointer; transition: box-shadow 0.15s; animation: fadeUp 0.25s ease both; }
 .card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
 .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
@@ -133,17 +110,46 @@ body { font-family: Arial, sans-serif; background: #f4f4f4; padding-bottom: 40px
 .kp-list li { font-size: 12.5px; color: #333; line-height: 1.6; margin-bottom: 3px; }
 .src-block { padding-top: 10px; border-top: 1px solid #f0f0f0; }
 .src-lbl { font-size: 10px; font-weight: bold; color: #999; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 5px; }
-.src-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.src-link { font-size: 12px; font-weight: bold; text-decoration: none; border-bottom: 1px solid; }
-
-/* FICHE PATIENT */
+.src-links-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.src-link { font-size: 12px; font-weight: bold; text-decoration: none; border-bottom: 1px solid; padding-bottom: 1px; }
 .fiche-box { background: white; border: 2px solid #1b2d45; border-radius: 8px; padding: 16px; margin-bottom: 10px; animation: fadeUp 0.2s ease; }
 .fiche-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
 .fiche-title { font-size: 13px; font-weight: bold; color: #1b2d45; }
 .btn-copy { background: #1b2d45; color: white; border: none; border-radius: 6px; padding: 6px 12px; font-size: 11px; cursor: pointer; }
 .fiche-content { font-size: 13px; color: #333; line-height: 1.7; white-space: pre-wrap; }
 
-/* STUDY */
+/* DRUG CARD */
+.drug-card { background: white; border: 1px solid #ddd; border-left: 4px solid #1b2d45; border-radius: 8px; padding: 0; margin-bottom: 10px; animation: fadeUp 0.2s ease; overflow: hidden; }
+.drug-header { background: #f8f9fa; padding: 14px 16px; border-bottom: 1px solid #eee; }
+.drug-name { font-size: 18px; font-weight: bold; color: #1b2d45; margin-bottom: 3px; }
+.drug-commercial { font-size: 13px; color: #666; margin-bottom: 6px; }
+.drug-class { display: inline-block; background: #e3f2fd; color: #0d47a1; border: 1px solid #90caf9; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+.drug-body { padding: 14px 16px; }
+.drug-section { margin-bottom: 14px; }
+.drug-section:last-child { margin-bottom: 0; }
+.drug-section-title { font-size: 11px; font-weight: bold; color: #999; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 7px; padding-bottom: 4px; border-bottom: 1px solid #f0f0f0; }
+.drug-text { font-size: 13px; color: #333; line-height: 1.6; }
+.drug-list { padding-left: 16px; margin: 0; }
+.drug-list li { font-size: 12.5px; color: #333; line-height: 1.6; margin-bottom: 3px; }
+.posology-item { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 6px; font-size: 12.5px; }
+.posology-route { flex-shrink: 0; background: #f3e5f5; color: #4a148c; border: 1px solid #ce93d8; padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: bold; text-transform: uppercase; }
+.interaction-item { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 5px; }
+.inter-level { flex-shrink: 0; font-size: 10px; font-weight: bold; padding: 2px 7px; border-radius: 4px; color: white; white-space: nowrap; }
+.inter-ci { background: #c62828; }
+.inter-warn { background: #e65100; }
+.inter-caution { background: #f57c00; }
+.inter-text { font-size: 12.5px; color: #333; line-height: 1.5; }
+.safety-inline { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+.safety-item { display: flex; align-items: center; gap: 5px; font-size: 12px; }
+.safety-icon { font-size: 14px; font-weight: bold; }
+.drug-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #f0f0f0; }
+.drug-link { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: bold; text-decoration: none; padding: 5px 10px; border-radius: 6px; border: 1px solid; transition: all 0.15s; }
+.drug-link:hover { opacity: 0.8; }
+.link-bdpm { color: #0f4c81; border-color: #0f4c81; background: #e8f0fe; }
+.link-vidal { color: #8b1a1a; border-color: #8b1a1a; background: #fce8e8; }
+.link-theriaque { color: #b45309; border-color: #b45309; background: #fef3e2; }
+.link-ansm { color: #0e7c6e; border-color: #0e7c6e; background: #e0f4f1; }
+
 .study-card { background: white; border: 1px solid #ddd; border-left: 4px solid #0277bd; border-radius: 8px; padding: 14px 16px; margin-bottom: 8px; cursor: pointer; transition: box-shadow 0.15s; animation: fadeUp 0.25s ease both; }
 .study-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
 .study-body { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid #f0f0f0; }
@@ -153,17 +159,14 @@ body { font-family: Arial, sans-serif; background: #f4f4f4; padding-bottom: 40px
 .trial-badge { background: #e3f2fd; color: #0d47a1; }
 .molecule-badge { background: #f3e5f5; color: #4a148c; }
 .phase-badge { background: #e8f5e9; color: #1b5e20; border: 1px solid #a5d6a7; font-size: 10px; font-weight: bold; padding: 2px 6px; border-radius: 4px; }
-
 .empty { text-align: center; padding: 24px; font-size: 13px; color: #999; background: white; border: 1px solid #ddd; border-radius: 8px; }
 .disclaimer { margin-top: 12px; padding: 10px 14px; background: #fffbee; border: 1px solid #ffe082; border-radius: 8px; font-size: 11px; color: #7a5c00; line-height: 1.6; }
-
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 
 </head>
 <body>
-
 <div class="header">
   <h1>⚕️ Recommandations officine</h1>
   <p>HAS · ANSM · Thériaque · VIDAL · BDPM · Sociétés savantes · SPF</p>
@@ -172,7 +175,6 @@ body { font-family: Arial, sans-serif; background: #f4f4f4; padding-bottom: 40px
   <span><span class="dot"></span>API connectée</span>
   <button class="btn-link" onclick="changeKey()">Modifier la clé</button>
 </div>
-
 <div class="main">
   <div class="box" id="apiScreen">
     <h2>Connexion à l'API Anthropic</h2>
@@ -183,471 +185,437 @@ body { font-family: Arial, sans-serif; background: #f4f4f4; padding-bottom: 40px
     </div>
     <p class="note">🔒 Clé stockée uniquement dans ton navigateur</p>
   </div>
-
   <div id="appScreen" style="display:none">
     <div class="mode-tabs">
       <button class="mode-tab active" id="tabRecos" onclick="setMode('recos')">📋 Recos</button>
+      <button class="mode-tab" id="tabDrug" onclick="setMode('drug')">💊 Médicament</button>
       <button class="mode-tab" id="tabStudy" onclick="setMode('study')">🔬 Études</button>
     </div>
-
-```
-<div class="search-wrap" id="searchWrap">
-  <div class="search-row">
-    <span id="searchIcon">🔍</span>
-    <input class="search-input" id="searchInput" type="text" placeholder="Rechercher une pathologie…"
-      oninput="onInput()" onkeydown="onKey(event)" onfocus="onFocus()"/>
-    <button class="btn-x" id="btnX" onclick="clearSearch()" style="display:none">✕</button>
-    <button class="btn-search" id="btnSearch" onclick="doSearch()">Chercher</button>
+    <div class="search-wrap" id="searchWrap">
+      <div class="search-row">
+        <span id="searchIcon">🔍</span>
+        <input class="search-input" id="searchInput" type="text" placeholder="Rechercher une pathologie…"
+          oninput="onInput()" onkeydown="onKey(event)" onfocus="onFocus()"/>
+        <button class="btn-x" id="btnX" onclick="clearSearch()" style="display:none">✕</button>
+        <button class="btn-search" id="btnSearch" onclick="doSearch()">Chercher</button>
+      </div>
+      <div class="autocomplete" id="ac"></div>
+    </div>
+    <div class="filters-box" id="filtersBox">
+      <div class="lbl">Filtrer les sources</div>
+      <div class="filter-row" id="filterRow"></div>
+      <div class="filter-actions">
+        <button class="btn-sm" onclick="selectAll()">Tout sélectionner</button>
+        <button class="btn-sm" onclick="selectNone()">Tout désélectionner</button>
+      </div>
+    </div>
+    <div class="quick-box" id="homePanel">
+      <div class="lbl" id="homeLabel">Accès rapide</div>
+      <div class="quick-pills" id="quickPills"></div>
+    </div>
+    <div class="loading" id="loadingPanel">
+      <div class="spinner"></div>
+      <p id="loadingText">Interrogation des sources…</p>
+    </div>
+    <div class="error-box" id="errorBox">
+      <span id="errorMsg"></span>
+      <br><button class="btn-retry" onclick="retry()">↺ Réessayer</button>
+    </div>
+    <!-- RECOS PANEL -->
+    <div id="resultsPanel" style="display:none">
+      <div class="results-head">
+        <span>Résultats pour <strong id="resultTitle"></strong> — <span id="resultCount"></span></span>
+        <button class="btn-clear-r" onclick="clearResults()">✕ Effacer</button>
+      </div>
+      <div id="ansm-alerts"></div>
+      <div id="otc-section"></div>
+      <div id="safety-section"></div>
+      <div id="resultsList"></div>
+      <div id="fiche-section"></div>
+      <div class="disclaimer">⚠ Synthèse générée par IA. Vérifiez toujours les sources officielles avant toute application clinique.</div>
+    </div>
+    <!-- DRUG PANEL -->
+    <div id="drugPanel" style="display:none">
+      <div class="results-head">
+        <span>Fiche pour <strong id="drugTitle"></strong></span>
+        <button class="btn-clear-r" onclick="clearResults()">✕ Effacer</button>
+      </div>
+      <div id="drugContent"></div>
+      <div class="disclaimer">⚠ Informations générées par IA. Consultez toujours le RCP officiel (BDPM) avant dispensation.</div>
+    </div>
+    <!-- STUDY PANEL -->
+    <div id="studyPanel" style="display:none">
+      <div class="results-head">
+        <span>Études pour <strong id="studyTitle"></strong> — <span id="studyCount"></span></span>
+        <button class="btn-clear-r" onclick="clearResults()">✕ Effacer</button>
+      </div>
+      <div id="studyList"></div>
+      <div class="disclaimer">⚠ Statuts susceptibles d'évoluer. Vérifier sur ClinicalTrials.gov et EMA.</div>
+    </div>
   </div>
-  <div class="autocomplete" id="ac"></div>
 </div>
-
-<div class="filters-box" id="filtersBox">
-  <div class="lbl">Filtrer les sources</div>
-  <div class="filter-row" id="filterRow"></div>
-  <div class="filter-actions">
-    <button class="btn-sm" onclick="selectAll()">Tout sélectionner</button>
-    <button class="btn-sm" onclick="selectNone()">Tout désélectionner</button>
-  </div>
-</div>
-
-<div class="quick-box" id="homePanel">
-  <div class="lbl">Accès rapide</div>
-  <div class="quick-pills" id="quickPills"></div>
-</div>
-
-<div class="loading" id="loadingPanel">
-  <div class="spinner"></div>
-  <p id="loadingText">Interrogation des sources…</p>
-</div>
-
-<div class="error-box" id="errorBox">
-  <span id="errorMsg"></span>
-  <br><button class="btn-retry" onclick="retry()">↺ Réessayer</button>
-</div>
-
-<div id="resultsPanel" style="display:none">
-  <div class="results-head">
-    <span>Résultats pour <strong id="resultTitle"></strong> — <span id="resultCount"></span></span>
-    <button class="btn-clear-r" onclick="clearResults()">✕ Effacer</button>
-  </div>
-  <div id="ansm-alerts"></div>
-  <div id="otc-section"></div>
-  <div id="safety-section"></div>
-  <div id="resultsList"></div>
-  <div id="fiche-section"></div>
-  <div class="disclaimer">⚠ Synthèse générée par IA. Vérifiez toujours les sources officielles avant toute application clinique.</div>
-</div>
-
-<div id="studyPanel" style="display:none">
-  <div class="results-head">
-    <span>Études pour <strong id="studyTitle"></strong> — <span id="studyCount"></span></span>
-    <button class="btn-clear-r" onclick="clearResults()">✕ Effacer</button>
-  </div>
-  <div id="studyList"></div>
-  <div class="disclaimer">⚠ Statuts des essais susceptibles d'évoluer. Vérifier sur ClinicalTrials.gov et EMA.</div>
-</div>
-```
-
-  </div>
-</div>
-
 <script>
-var SOURCES = [
-  { id:"has",       label:"HAS",           color:"#1a4f8a", searchUrl:"https://www.has-sante.fr/jcms/fc_1249603/fr/recherche?text=" },
-  { id:"ansm",      label:"ANSM",          color:"#0e7c6e", searchUrl:"https://ansm.sante.fr/rechercher?query=" },
-  { id:"theriaque", label:"Thériaque",     color:"#b45309", searchUrl:"https://www.theriaque.org/apps/recherche/rch.php?NOM=" },
-  { id:"vidal",     label:"VIDAL",         color:"#8b1a1a", searchUrl:"https://www.vidal.fr/recherche/index/q:" },
-  { id:"bdpm",      label:"BDPM",          color:"#0f4c81", searchUrl:"https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche=" },
-  { id:"spf",       label:"SPF",           color:"#2d6a2d", searchUrl:"https://www.santepubliquefrance.fr/recherche/#search=" },
-  { id:"savantes",  label:"Soc. savantes", color:"#5a3580", searchUrl:"https://www.google.com/search?q=recommandations+societe+savante+france+" }
+var SOURCES=[
+  {id:"has",label:"HAS",color:"#1a4f8a",searchUrl:"https://www.has-sante.fr/jcms/fc_1249603/fr/recherche?text="},
+  {id:"ansm",label:"ANSM",color:"#0e7c6e",searchUrl:"https://ansm.sante.fr/rechercher?query="},
+  {id:"theriaque",label:"Thériaque",color:"#b45309",searchUrl:"https://www.theriaque.org/apps/recherche/rch.php?NOM="},
+  {id:"vidal",label:"VIDAL",color:"#8b1a1a",searchUrl:"https://www.vidal.fr/recherche/index/q:"},
+  {id:"bdpm",label:"BDPM",color:"#0f4c81",searchUrl:"https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche="},
+  {id:"spf",label:"SPF",color:"#2d6a2d",searchUrl:"https://www.santepubliquefrance.fr/recherche/#search="},
+  {id:"savantes",label:"Soc. savantes",color:"#5a3580",searchUrl:"https://www.google.com/search?q=recommandations+societe+savante+france+"}
 ];
+var ALL_PATHO=["Dyslipidémie","Hypertension artérielle","Diabète type 2","Diabète type 1","BPCO","Asthme","Insuffisance cardiaque","Fibrillation auriculaire","Dépression","Anxiété","Trouble bipolaire","Schizophrénie","Hypothyroïdie","Hyperthyroïdie","Gonarthrose","Lombalgie","Polyarthrite rhumatoïde","Rhinite allergique","Reflux gastro-oesophagien","Insomnie","Migraine","Epilepsie","Maladie de Parkinson","Alzheimer","Sclérose en plaques","Insuffisance rénale chronique","Cirrhose","Maladie de Crohn","Rectocolite hémorragique","Psoriasis","Eczéma atopique","Acné","Ostéoporose","Obésité","Syndrome métabolique","Goutte","Anémie ferriprive","Thrombose veineuse profonde","Angor stable","Cancer du sein","Cancer du poumon","Cancer colorectal","VIH","Hépatite B","Hépatite C","Otite","Sinusite","Angine","Bronchite","Pneumonie","Cystite","Endométriose","Mucoviscidose","Insuffisance veineuse","Syndrome du colon irritable","Douleur chronique","Arthrose","Spondylarthrite","Lupus","Glaucome","DMLA","Ménopause","Contraception","Constipation","Diarrhée","Nausées","Candidose","Herpès","Zona","Urticaire","Rosacée"];
+var ALL_DRUG=["Metformine","Atorvastatine","Rosuvastatine","Amlodipine","Ramipril","Bisoprolol","Metoprolol","Lisinopril","Valsartan","Losartan","Oméprazole","Pantoprazole","Esoméprazole","Lévothyroxine","Amoxicilline","Azithromycine","Ciprofloxacine","Ibuprofène","Paracétamol","Aspirine","Warfarine","Rivaroxaban","Apixaban","Dabigatran","Fluoxétine","Sertraline","Escitalopram","Paroxétine","Venlafaxine","Alprazolam","Lorazépam","Zolpidem","Zopiclone","Amlodipine","Furosémide","Spironolactone","Hydrochlorothiazide","Indapamide","Allopurinol","Colchicine","Prednisolone","Prednisone","Dexaméthasone","Salbutamol","Formotérol","Salmétérol","Béclométasone","Budésonide","Fluticasone","Tiotropium","Montelukast","Cetirizine","Loratadine","Lévocétirizine","Desloratadine","Fexofénadine","Insuline","Glipizide","Glibenclamide","Sitagliptine","Empagliflozine","Dapagliflozine","Canagliflozine","Liraglutide","Sémaglutide","Lénalidomide","Adalimumab","Étanercept","Infliximab","Rituximab","Trastuzumab","Tamoxifène","Létrozole","Anastrozole","Acide folique","Fer","Vitamine D","Calcium","Magnésium","Zinc","Mélatonine","Codéine","Tramadol","Morphine","Oxycodone","Gabapentine","Prégabaline","Carbamazépine","Valproate","Lévétiracétam","Lamotrigine","Donépézil","Mémantine","Lévodopa","Pramipexole","Rotigotine","Méthotrexate","Hydroxychloroquine","Sulfasalazine","Léflunomide"];
+var QUICK_PATHO=["Dyslipidémie","HTA","Diabète type 2","BPCO","Asthme","Insomnie","Dépression","Ostéoporose"];
+var QUICK_DRUG=["Metformine","Atorvastatine","Amoxicilline","Oméprazole","Paracétamol","Ibuprofène","Bisoprolol","Lévothyroxine"];
+var apiKey=localStorage.getItem("reco_key")||"";
+var activeFilters={},suggestions=[],activeIdx=-1,lastTerm="",currentMode="recos";
+SOURCES.forEach(function(s){activeFilters[s.id]=true;});
 
-var ALL = [
-  "Dyslipidémie","Hypertension artérielle","Diabète type 2","Diabète type 1",
-  "BPCO","Asthme","Insuffisance cardiaque","Fibrillation auriculaire",
-  "Dépression","Anxiété","Trouble bipolaire","Schizophrénie",
-  "Hypothyroïdie","Hyperthyroïdie","Gonarthrose","Lombalgie",
-  "Polyarthrite rhumatoïde","Rhinite allergique","Reflux gastro-oesophagien",
-  "Insomnie","Migraine","Epilepsie","Maladie de Parkinson","Alzheimer",
-  "Sclérose en plaques","Insuffisance rénale chronique","Cirrhose",
-  "Maladie de Crohn","Rectocolite hémorragique","Psoriasis",
-  "Eczéma atopique","Acné","Ostéoporose","Obésité","Syndrome métabolique",
-  "Goutte","Anémie ferriprive","Thrombose veineuse profonde",
-  "Angor stable","Cancer du sein","Cancer du poumon","Cancer colorectal",
-  "VIH","Hépatite B","Hépatite C","Otite","Sinusite","Angine",
-  "Bronchite","Pneumonie","Cystite","Endométriose","Mucoviscidose",
-  "Insuffisance veineuse","Syndrome du colon irritable","Douleur chronique",
-  "Arthrose","Spondylarthrite","Lupus","Glaucome","DMLA",
-  "Insuffisance cardiaque","Anémie","Rosacée","Urticaire","Psoriasis",
-  "Ménopause","Contraception","Acouphènes","Vertiges","Constipation",
-  "Diarrhée","Nausées","Candidose","Herpès","Zona"
-];
+function init(){
+var fr=document.getElementById(“filterRow”);
+SOURCES.forEach(function(s){
+var el=document.createElement(“div”);
+el.className=“fpill”;el.id=“fp-”+s.id;
+el.style.borderColor=s.color;el.style.background=s.color;el.style.color=”#fff”;
+el.innerHTML=’<span class="fcheck">✓</span>’+s.label;
+el.onclick=function(){toggleFilter(s.id);};
+fr.appendChild(el);
+});
+renderQuickPills(QUICK_PATHO,“patho”);
+if(apiKey) showApp();
+document.addEventListener(“mousedown”,function(e){if(!document.getElementById(“searchWrap”).contains(e.target))hideAC();});
+}
 
-var QUICK = ["Dyslipidémie","HTA","Diabète type 2","BPCO","Asthme","Insomnie","Dépression","Ostéoporose"];
-
-var apiKey = localStorage.getItem("reco_key") || "";
-var activeFilters = {};
-var suggestions = [], activeIdx = -1, lastTerm = "", currentMode = "recos";
-SOURCES.forEach(function(s){ activeFilters[s.id]=true; });
-
-function init() {
-  var fr = document.getElementById("filterRow");
-  SOURCES.forEach(function(s){
-    var el = document.createElement("div");
-    el.className="fpill"; el.id="fp-"+s.id;
-    el.style.borderColor=s.color; el.style.background=s.color; el.style.color="#fff";
-    el.innerHTML='<span class="fcheck">&#10003;</span>'+s.label;
-    el.onclick=function(){ toggleFilter(s.id); };
-    fr.appendChild(el);
-  });
-  var qp = document.getElementById("quickPills");
-  QUICK.forEach(function(p){
-    var b=document.createElement("button"); b.className="qpill"; b.textContent=p;
-    b.onclick=function(){ document.getElementById("searchInput").value=p; doSearch(p); };
-    qp.appendChild(b);
-  });
-  if (apiKey) showApp();
-  document.addEventListener("mousedown",function(e){ if(!document.getElementById("searchWrap").contains(e.target)) hideAC(); });
+function renderQuickPills(arr,type){
+var qp=document.getElementById(“quickPills”);qp.innerHTML=””;
+arr.forEach(function(p){
+var b=document.createElement(“button”);b.className=“qpill”;b.textContent=p;
+b.onclick=function(){document.getElementById(“searchInput”).value=p;doSearch(p);};
+qp.appendChild(b);
+});
 }
 
 function setMode(m){
-  currentMode=m;
-  document.getElementById("tabRecos").classList.toggle("active",m==="recos");
-  document.getElementById("tabStudy").classList.toggle("active",m==="study");
-  document.getElementById("filtersBox").style.display=m==="recos"?"block":"none";
-  document.getElementById("searchInput").placeholder=m==="recos"?"Rechercher une pathologie…":"Rechercher une pathologie ou molécule…";
-  clearResults();
+currentMode=m;
+[“recos”,“drug”,“study”].forEach(function(x){document.getElementById(“tab”+x.charAt(0).toUpperCase()+x.slice(1)).classList.toggle(“active”,x===m);});
+document.getElementById(“filtersBox”).style.display=m===“recos”?“block”:“none”;
+var ph={recos:“Rechercher une pathologie…”,drug:“Rechercher un médicament (DCI ou nom commercial)…”,study:“Rechercher une pathologie ou molécule…”};
+document.getElementById(“searchInput”).placeholder=ph[m]||“Rechercher…”;
+document.getElementById(“homeLabel”).textContent=m===“drug”?“Médicaments fréquents”:“Accès rapide”;
+renderQuickPills(m===“drug”?QUICK_DRUG:QUICK_PATHO,m);
+clearResults();
 }
 
 function toggleFilter(id){
-  var count=SOURCES.filter(function(s){return activeFilters[s.id];}).length;
-  if(activeFilters[id]&&count===1) return;
-  activeFilters[id]=!activeFilters[id]; renderFilter(id);
+var count=SOURCES.filter(function(s){return activeFilters[s.id];}).length;
+if(activeFilters[id]&&count===1)return;
+activeFilters[id]=!activeFilters[id];renderFilter(id);
 }
 function renderFilter(id){
-  var s=SOURCES.find(function(x){return x.id===id;});
-  var el=document.getElementById("fp-"+id);
-  if(activeFilters[id]){ el.style.background=s.color; el.style.color="#fff"; el.querySelector(".fcheck").innerHTML="&#10003;"; }
-  else { el.style.background="#fff"; el.style.color=s.color; el.querySelector(".fcheck").innerHTML=""; }
+var s=SOURCES.find(function(x){return x.id===id;});
+var el=document.getElementById(“fp-”+id);
+if(activeFilters[id]){el.style.background=s.color;el.style.color=”#fff”;el.querySelector(”.fcheck”).innerHTML=”✓”;}
+else{el.style.background=”#fff”;el.style.color=s.color;el.querySelector(”.fcheck”).innerHTML=””;}
 }
-function selectAll(){ SOURCES.forEach(function(s){activeFilters[s.id]=true;renderFilter(s.id);}); }
-function selectNone(){
-  SOURCES.forEach(function(s){activeFilters[s.id]=false;renderFilter(s.id);});
-  activeFilters[SOURCES[0].id]=true; renderFilter(SOURCES[0].id);
-}
+function selectAll(){SOURCES.forEach(function(s){activeFilters[s.id]=true;renderFilter(s.id);});}
+function selectNone(){SOURCES.forEach(function(s){activeFilters[s.id]=false;renderFilter(s.id);});activeFilters[SOURCES[0].id]=true;renderFilter(SOURCES[0].id);}
+
 function saveKey(){
-  var v=document.getElementById("apiKeyInput").value.trim();
-  if(!v.startsWith("sk-")){ alert("Clé invalide"); return; }
-  apiKey=v; localStorage.setItem("reco_key",v); showApp();
+var v=document.getElementById(“apiKeyInput”).value.trim();
+if(!v.startsWith(“sk-”)){alert(“Clé invalide”);return;}
+apiKey=v;localStorage.setItem(“reco_key”,v);showApp();
 }
 function showApp(){
-  document.getElementById("apiScreen").style.display="none";
-  document.getElementById("appScreen").style.display="block";
-  document.getElementById("apiBar").style.display="flex";
+document.getElementById(“apiScreen”).style.display=“none”;
+document.getElementById(“appScreen”).style.display=“block”;
+document.getElementById(“apiBar”).style.display=“flex”;
 }
 function changeKey(){
-  apiKey=""; localStorage.removeItem("reco_key");
-  document.getElementById("apiScreen").style.display="block";
-  document.getElementById("appScreen").style.display="none";
-  document.getElementById("apiBar").style.display="none";
-  document.getElementById("apiKeyInput").value="";
+apiKey=””;localStorage.removeItem(“reco_key”);
+document.getElementById(“apiScreen”).style.display=“block”;
+document.getElementById(“appScreen”).style.display=“none”;
+document.getElementById(“apiBar”).style.display=“none”;
+document.getElementById(“apiKeyInput”).value=””;
 }
-function norm(s){ return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,""); }
+
+function norm(s){return s.toLowerCase().normalize(“NFD”).replace(/[\u0300-\u036f]/g,””);}
 function onInput(){
-  var v=document.getElementById("searchInput").value;
-  document.getElementById("btnX").style.display=v?"block":"none";
-  if(v.length<2){ hideAC(); return; }
-  var q=norm(v);
-  suggestions=ALL.filter(function(p){return norm(p).indexOf(q)>=0;}).slice(0,7);
-  activeIdx=-1;
-  if(!suggestions.length){ hideAC(); return; }
-  var ac=document.getElementById("ac"); ac.innerHTML="";
-  suggestions.forEach(function(s,i){
-    var d=document.createElement("div"); d.className="ac-item"; d.textContent=s;
-    d.onmousedown=function(){pick(s);}; d.onmouseenter=function(){activeIdx=i;renderAC();};
-    ac.appendChild(d);
-  });
-  ac.style.display="block";
+var v=document.getElementById(“searchInput”).value;
+document.getElementById(“btnX”).style.display=v?“block”:“none”;
+if(v.length<2){hideAC();return;}
+var q=norm(v);
+var list=currentMode===“drug”?ALL_DRUG:ALL_PATHO;
+suggestions=list.filter(function(p){return norm(p).indexOf(q)>=0;}).slice(0,8);
+activeIdx=-1;
+if(!suggestions.length){hideAC();return;}
+var ac=document.getElementById(“ac”);ac.innerHTML=””;
+suggestions.forEach(function(s,i){
+var d=document.createElement(“div”);d.className=“ac-item”;d.textContent=s;
+d.onmousedown=function(){pick(s);};d.onmouseenter=function(){activeIdx=i;renderAC();};
+ac.appendChild(d);
+});
+ac.style.display=“block”;
 }
-function renderAC(){ document.querySelectorAll(".ac-item").forEach(function(el,i){el.classList.toggle("active",i===activeIdx);}); }
-function hideAC(){ document.getElementById("ac").style.display="none"; }
-function pick(val){ document.getElementById("searchInput").value=val; hideAC(); doSearch(val); }
-function onFocus(){ var v=document.getElementById("searchInput").value; if(v.length>=2) onInput(); }
+function renderAC(){document.querySelectorAll(”.ac-item”).forEach(function(el,i){el.classList.toggle(“active”,i===activeIdx);});}
+function hideAC(){document.getElementById(“ac”).style.display=“none”;}
+function pick(val){document.getElementById(“searchInput”).value=val;hideAC();doSearch(val);}
+function onFocus(){var v=document.getElementById(“searchInput”).value;if(v.length>=2)onInput();}
 function onKey(e){
-  if(document.getElementById("ac").style.display==="none"){ if(e.key==="Enter") doSearch(); return; }
-  if(e.key==="ArrowDown"){ activeIdx=Math.min(activeIdx+1,suggestions.length-1); renderAC(); e.preventDefault(); }
-  else if(e.key==="ArrowUp"){ activeIdx=Math.max(activeIdx-1,-1); renderAC(); e.preventDefault(); }
-  else if(e.key==="Enter"){ activeIdx>=0?pick(suggestions[activeIdx]):(hideAC(),doSearch()); }
-  else if(e.key==="Escape") hideAC();
+if(document.getElementById(“ac”).style.display===“none”){if(e.key===“Enter”)doSearch();return;}
+if(e.key===“ArrowDown”){activeIdx=Math.min(activeIdx+1,suggestions.length-1);renderAC();e.preventDefault();}
+else if(e.key===“ArrowUp”){activeIdx=Math.max(activeIdx-1,-1);renderAC();e.preventDefault();}
+else if(e.key===“Enter”){activeIdx>=0?pick(suggestions[activeIdx]):(hideAC(),doSearch());}
+else if(e.key===“Escape”)hideAC();
 }
-function clearSearch(){
-  document.getElementById("searchInput").value="";
-  document.getElementById("btnX").style.display="none";
-  hideAC(); clearResults();
-}
+function clearSearch(){document.getElementById(“searchInput”).value=””;document.getElementById(“btnX”).style.display=“none”;hideAC();clearResults();}
 
 async function doSearch(term){
-  term=term||document.getElementById("searchInput").value.trim();
-  if(!term) return;
-  lastTerm=term; hideAC();
-  document.getElementById("loadingPanel").style.display="block";
-  document.getElementById("loadingText").textContent=currentMode==="recos"?"Interrogation des sources…":"Recherche essais & molécules…";
-  document.getElementById("errorBox").style.display="none";
-  document.getElementById("resultsPanel").style.display="none";
-  document.getElementById("studyPanel").style.display="none";
-  document.getElementById("homePanel").style.display="none";
-  document.getElementById("btnSearch").disabled=true;
-  document.getElementById("searchIcon").innerHTML='<span style="display:inline-block;width:14px;height:14px;border:2px solid #ddd;border-top-color:#1b2d45;border-radius:50%;animation:spin 0.7s linear infinite"></span>';
-  try {
-    if(currentMode==="recos") await searchRecos(term);
-    else await searchStudy(term);
-  } catch(e){
-    document.getElementById("errorMsg").textContent="Erreur : "+e.message;
-    document.getElementById("errorBox").style.display="block";
-  } finally {
-    document.getElementById("loadingPanel").style.display="none";
-    document.getElementById("btnSearch").disabled=false;
-    document.getElementById("searchIcon").textContent="🔍";
-  }
+term=term||document.getElementById(“searchInput”).value.trim();
+if(!term)return;
+lastTerm=term;hideAC();
+document.getElementById(“loadingPanel”).style.display=“block”;
+var txt={recos:“Interrogation des sources…”,drug:“Recherche des informations médicamenteuses…”,study:“Recherche essais & molécules…”};
+document.getElementById(“loadingText”).textContent=txt[currentMode]||“Chargement…”;
+document.getElementById(“errorBox”).style.display=“none”;
+[“resultsPanel”,“drugPanel”,“studyPanel”].forEach(function(id){document.getElementById(id).style.display=“none”;});
+document.getElementById(“homePanel”).style.display=“none”;
+document.getElementById(“btnSearch”).disabled=true;
+document.getElementById(“searchIcon”).innerHTML=’<span style="display:inline-block;width:14px;height:14px;border:2px solid #ddd;border-top-color:#1b2d45;border-radius:50%;animation:spin 0.7s linear infinite"></span>’;
+try{
+if(currentMode===“recos”)await searchRecos(term);
+else if(currentMode===“drug”)await searchDrug(term);
+else await searchStudy(term);
+}catch(e){
+document.getElementById(“errorMsg”).textContent=“Erreur : “+e.message;
+document.getElementById(“errorBox”).style.display=“block”;
+}finally{
+document.getElementById(“loadingPanel”).style.display=“none”;
+document.getElementById(“btnSearch”).disabled=false;
+document.getElementById(“searchIcon”).textContent=“🔍”;
 }
-function retry(){ doSearch(lastTerm); }
+}
+function retry(){doSearch(lastTerm);}
+
+async function apiCall(system,userMsg,maxTokens){
+var res=await fetch(“https://api.anthropic.com/v1/messages”,{
+method:“POST”,
+headers:{“Content-Type”:“application/json”,“x-api-key”:apiKey,“anthropic-version”:“2023-06-01”,“anthropic-dangerous-direct-browser-access”:“true”},
+body:JSON.stringify({model:“claude-haiku-4-5-20251001”,max_tokens:maxTokens||2000,system:system,messages:[{role:“user”,content:userMsg}]})
+});
+if(!res.ok){var e=await res.json().catch(function(){return{};});throw new Error(e.error?e.error.message:“Erreur “+res.status);}
+var data=await res.json();
+return(data.content||[]).filter(function(b){return b.type===“text”;}).map(function(b){return b.text;}).join(””);
+}
 
 async function searchRecos(term){
-  var srcList=SOURCES.filter(function(s){return activeFilters[s.id];}).map(function(s){return s.label;}).join(", ");
-  var res=await fetch("https://api.anthropic.com/v1/messages",{
-    method:"POST",
-    headers:{"Content-Type":"application/json","x-api-key":apiKey,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
-    body:JSON.stringify({
-      model:"claude-haiku-4-5-20251001",
-      max_tokens:3000,
-      system:`Tu es un expert pharmacien. Réponds UNIQUEMENT avec un objet JSON valide (pas un tableau), sans texte ni markdown.
-Format:
-{
-  "ansmAlerts": ["alerte ANSM récente si existante, sinon tableau vide"],
-  "otcAdvice": ["conseil OTC ou hygiéno-diététique utile au comptoir"],
-  "safetyRecap": [
-    {"drug":"DCI","line":"1","grossesse":"ok|warn|no","ir":"ok|warn|no","ih":"ok|warn|no","note":"note courte si besoin"}
-  ],
-  "recos": [
-    {"sourceId":"has|ansm|theriaque|vidal|bdpm|spf|savantes","title":"titre","date":"annee","gradeEvidence":"A|B|C|AE","gradeUtility":"high|mid|low","summary":"resume 2-3 phrases oriente officine","treatmentLines":[{"line":"1ere ligne","drugs":"DCI"},{"line":"2eme ligne","drugs":"DCI"},{"line":"3eme ligne","drugs":"DCI si applicable"}],"keyPoints":["point1","point2","point3"],"url":"url directe ou vide"}
-  ],
-  "fichePatient": "texte simple destiné au patient en langage accessible, expliquant la maladie, les objectifs du traitement, les conseils pratiques et quand consulter. Environ 150 mots."
+var srcList=SOURCES.filter(function(s){return activeFilters[s.id];}).map(function(s){return s.label;}).join(”, “);
+var raw=await apiCall(
+“Tu es expert pharmacien. Réponds UNIQUEMENT avec un objet JSON valide, sans texte ni markdown.\nFormat:\n{"ansmAlerts":["alerte si existante"],"otcAdvice":["conseil OTC ou HDD"],"safetyRecap":[{"drug":"DCI","line":"1","grossesse":"ok|warn|no","ir":"ok|warn|no","ih":"ok|warn|no","note":"note courte"}],"recos":[{"sourceId":"has|ansm|theriaque|vidal|bdpm|spf|savantes","title":"titre","date":"annee","gradeEvidence":"A|B|C|AE","gradeUtility":"high|mid|low","summary":"resume 2-3 phrases","treatmentLines":[{"line":"1ere ligne","drugs":"DCI"},{"line":"2eme ligne","drugs":"DCI"},{"line":"3eme ligne","drugs":"DCI si applicable"}],"keyPoints":["p1","p2","p3"],"url":"url directe ou vide"}],"fichePatient":"texte patient 150 mots"}\ngradeEvidence: A=essais randomisés, B=intermédiaire, C=faible, AE=accord experts\ngradeUtility: high=dispensation courante, mid=conseil/détection, low=informatif\nURLs: HAS https://www.has-sante.fr/jcms/fc_1249603/fr/recherche?text=MOT, ANSM https://ansm.sante.fr/rechercher?query=MOT, Thériaque https://www.theriaque.org/apps/recherche/rch.php?NOM=MOT, BDPM https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche=MOT\nSi inconnu: recos=[]”,
+“Pathologie: “+term+”\nSources: “+srcList,3000
+);
+var parsed=extractObj(raw);
+if(!parsed)throw new Error(“Format invalide. Reessayez.”);
+renderAll(term,parsed);
 }
-Règles:
-- safetyRecap: ok=utilisable, warn=précautions/adaptation dose, no=contre-indiqué
-- Inclure uniquement 1ère et 2ème ligne dans safetyRecap
-- gradeEvidence: A=essais randomisés, B=preuve intermédiaire, C=faible, AE=accord experts
-- gradeUtility: high=dispensation courante, mid=conseil/détection, low=informatif
-- Trier recos: high avant mid avant low
-- URLs réelles: HAS https://www.has-sante.fr/jcms/fc_1249603/fr/recherche?text=MOT, ANSM https://ansm.sante.fr/rechercher?query=MOT
-- Si pathologie très rare ou inconnue: recos=[], safetyRecap=[], otcAdvice=[], ansmAlerts=[]`,
-      messages:[{role:"user",content:"Pathologie: "+term+"\nSources: "+srcList}]
-    })
-  });
-  if(!res.ok){ var e=await res.json().catch(function(){return{};}); throw new Error(e.error?e.error.message:"Erreur "+res.status); }
-  var data=await res.json();
-  var raw=(data.content||[]).filter(function(b){return b.type==="text";}).map(function(b){return b.text;}).join("");
-  var parsed=extractObj(raw);
-  if(!parsed||typeof parsed!=="object") throw new Error("Format invalide. Reessayez.");
-  renderAll(term, parsed);
+
+async function searchDrug(term){
+var raw=await apiCall(
+“Tu es expert pharmacien. Réponds UNIQUEMENT avec un objet JSON valide, sans texte ni markdown.\nFormat:\n{"dci":"DCI","commercial":["noms commerciaux"],"class":"classe pharmacologique","mechanism":"mécanisme d’action","indications":["indication1","indication2"],"posology":[{"route":"voie","dose":"posologie standard adulte","renal":"adaptation IR","hepatic":"adaptation IH"}],"contraindications":["CI1","CI2"],"interactions":[{"level":"CI|warn|caution","drug":"médicament","effect":"conséquence"}],"safety":{"grossesse":"ok|warn|no","grossesseNote":"détail","allaitement":"ok|warn|no","allaitementNote":"détail","ir":"ok|warn|no","irNote":"détail","ih":"ok|warn|no","ihNote":"détail","sujet_age":"ok|warn|no","sujet_ageNote":"détail"},"sideEffects":["effet1","effet2","effet3"],"monitoring":["surveillance1","surveillance2"],"patientAdvice":"conseils pratiques pour le patient en langage simple"}\nSi médicament inconnu retourner {"error":"inconnu"}”,
+“Médicament: “+term,2500
+);
+var parsed=extractObj(raw);
+if(!parsed||parsed.error)throw new Error(“Médicament non trouvé. Essayez avec la DCI ou le nom commercial exact.”);
+showDrug(term,parsed);
 }
 
 async function searchStudy(term){
-  var res=await fetch("https://api.anthropic.com/v1/messages",{
-    method:"POST",
-    headers:{"Content-Type":"application/json","x-api-key":apiKey,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
-    body:JSON.stringify({
-      model:"claude-haiku-4-5-20251001",
-      max_tokens:2000,
-      system:`Tu es expert en recherche clinique. Réponds UNIQUEMENT avec un tableau JSON valide, sans texte ni markdown.
-Deux types d'objets:
-1. Essai: {"type":"trial","title":"nom","phase":"Phase I|II|III|IV","status":"En cours|Terminé|Résultats disponibles","molecule":"DCI","mechanism":"mécanisme","objective":"objectif","results":"résultats ou vide","url":"lien ou vide"}
-2. Molécule: {"type":"molecule","title":"DCI (nom commercial)","status":"AMM|En évaluation EMA|ATU/AAP|Phase III","mechanism":"mécanisme","advantage":"avantage vs actuel","indication":"indication","url":"lien EMA/ANSM ou vide"}
-Si rien: []`,
-      messages:[{role:"user",content:"Pathologie: "+term+"\nFournis essais cliniques importants ET nouvelles molécules récentes ou en développement."}]
-    })
-  });
-  if(!res.ok){ var e=await res.json().catch(function(){return{};}); throw new Error(e.error?e.error.message:"Erreur "+res.status); }
-  var data=await res.json();
-  var raw=(data.content||[]).filter(function(b){return b.type==="text";}).map(function(b){return b.text;}).join("");
-  var parsed=extractJSON(raw);
-  if(!Array.isArray(parsed)) throw new Error("Format invalide. Reessayez.");
-  showStudy(term,parsed);
+var raw=await apiCall(
+“Tu es expert recherche clinique. Réponds UNIQUEMENT avec un tableau JSON, sans texte ni markdown.\n[{"type":"trial","title":"nom","phase":"Phase I|II|III|IV","status":"En cours|Terminé|Résultats disponibles","molecule":"DCI","mechanism":"mécanisme","objective":"objectif","results":"résultats ou vide","url":"lien ou vide"},{"type":"molecule","title":"DCI (nom commercial)","status":"AMM|En évaluation EMA|ATU/AAP|Phase III","mechanism":"mécanisme","advantage":"avantage vs actuel","indication":"indication","url":"lien EMA/ANSM ou vide"}]\nSi rien: []”,
+“Pathologie: “+term,2000
+);
+var parsed=extractJSON(raw);
+if(!Array.isArray(parsed))throw new Error(“Format invalide. Reessayez.”);
+showStudy(term,parsed);
 }
 
-function extractObj(text){
-  text=text.replace(/```json|```/gi,"");
-  for(var i=0;i<text.length;i++){
-    if(text[i]==="{"){
-      for(var j=text.length-1;j>i;j--){
-        if(text[j]==="}"){
-          try{var p=JSON.parse(text.slice(i,j+1));if(typeof p==="object"&&!Array.isArray(p)) return p;}catch(e){}
-        }
-      }
-    }
-  }
-  return null;
+function extractObj(t){
+t=t.replace(/`json|`/gi,””);
+for(var i=0;i<t.length;i++){
+if(t[i]===”{”){for(var j=t.length-1;j>i;j–){if(t[j]===”}”){try{var p=JSON.parse(t.slice(i,j+1));if(typeof p===“object”&&!Array.isArray(p))return p;}catch(e){}}}}
+}return null;
 }
-function extractJSON(text){
-  text=text.replace(/```json|```/gi,"");
-  for(var i=0;i<text.length;i++){
-    if(text[i]==="["){
-      for(var j=text.length-1;j>i;j--){
-        if(text[j]==="]"){try{var p=JSON.parse(text.slice(i,j+1));if(Array.isArray(p))return p;}catch(e){}}
-      }
-    }
-  }
-  return null;
+function extractJSON(t){
+t=t.replace(/`json|`/gi,””);
+for(var i=0;i<t.length;i++){
+if(t[i]===”[”){for(var j=t.length-1;j>i;j–){if(t[j]===”]”){try{var p=JSON.parse(t.slice(i,j+1));if(Array.isArray(p))return p;}catch(e){}}}}
+}return null;
+}
+function safeIcon(v){return v===“ok”?’<span class="ok">✓</span>’:v===“warn”?’<span class="warn">△</span>’:’<span class="no">✗</span>’;}
+
+function renderAll(term,d){
+document.getElementById(“resultTitle”).textContent=term;
+var alertsEl=document.getElementById(“ansm-alerts”);alertsEl.innerHTML=””;
+if(d.ansmAlerts&&d.ansmAlerts.length>0){
+var h=’<div class="ansm-alert"><div class="ansm-alert-title">⚠ Alertes ANSM</div>’;
+d.ansmAlerts.forEach(function(a){h+=’<div class="ansm-alert-item">’+a+’</div>’;});
+alertsEl.innerHTML=h+’</div>’;
+}
+var otcEl=document.getElementById(“otc-section”);otcEl.innerHTML=””;
+if(d.otcAdvice&&d.otcAdvice.length>0){
+var h=’<div class="otc-box"><div class="otc-title">✚ Conseils OTC & Hygiéno-diététiques</div>’;
+d.otcAdvice.forEach(function(a){h+=’<div class="otc-item">’+a+’</div>’;});
+otcEl.innerHTML=h+’</div>’;
+}
+var safeEl=document.getElementById(“safety-section”);safeEl.innerHTML=””;
+if(d.safetyRecap&&d.safetyRecap.length>0){
+var h=’<div class="safety-box"><div class="safety-title">Récapitulatif sécurité — 1ère & 2ème ligne</div><div style="overflow-x:auto"><table class="safety-table"><thead><tr><th>Médicament</th><th>Ligne</th><th>🤰 Grossesse</th><th>🫘 IR</th><th>🫀 IH</th><th>Note</th></tr></thead><tbody>’;
+d.safetyRecap.forEach(function(r){
+var lc=r.line===“1”?“sl1”:“sl2”;
+h+=’<tr><td><span class="safety-drug">’+r.drug+’</span></td><td><span class="safety-line '+lc+'">’+(r.line===“1”?“1ère”:“2ème”)+’</span></td><td>’+safeIcon(r.grossesse)+’</td><td>’+safeIcon(r.ir)+’</td><td>’+safeIcon(r.ih)+’</td><td style="font-size:11px;color:#666">’+(r.note||””)+’</td></tr>’;
+});
+safeEl.innerHTML=h+’</tbody></table></div></div>’;
+}
+var list=document.getElementById(“resultsList”);list.innerHTML=””;
+var recos=d.recos||[];
+var filtered=recos.filter(function(r){return activeFilters[r.sourceId];});
+var uO={high:0,mid:1,low:2},gO={A:0,B:1,C:2,AE:3};
+filtered.sort(function(a,b){var u=(uO[a.gradeUtility]||2)-(uO[b.gradeUtility]||2);return u!==0?u:(gO[a.gradeEvidence]||3)-(gO[b.gradeEvidence]||3);});
+document.getElementById(“resultCount”).textContent=filtered.length+” résultat”+(filtered.length>1?“s”:””);
+if(!filtered.length){list.innerHTML=’<div class="empty">Aucune recommandation trouvée.</div>’;}
+else{
+filtered.forEach(function(r,i){
+var s=SOURCES.find(function(x){return x.id===r.sourceId;})||SOURCES[0];
+var card=document.createElement(“div”);card.className=“card”;
+card.style.borderLeftColor=s.color;card.style.animationDelay=(i*0.05)+“s”;
+var linesHtml=””;
+if(r.treatmentLines&&r.treatmentLines.length>0){
+var items=r.treatmentLines.map(function(l){
+var cls=l.line.indexOf(“1”)>=0?“l1”:l.line.indexOf(“2”)>=0?“l2”:“l3”;
+return’<div class="line-item"><span class="line-badge '+cls+'">’+l.line+’</span><span class="line-text">’+l.drugs+’</span></div>’;
+}).join(””);
+linesHtml=’<div class="lines-block"><div class="lines-lbl">Traitements recommandés</div>’+items+’</div>’;
+}
+var kps=(r.keyPoints||[]).map(function(p){return”<li>”+p+”</li>”;}).join(””);
+var geMap={A:“grade-A”,B:“grade-B”,C:“grade-C”,AE:“grade-AE”};
+var geLabel={A:“Grade A”,B:“Grade B”,C:“Grade C”,AE:“Accord experts”};
+var guMap={high:“util-high”,mid:“util-mid”,low:“util-low”};
+var guLabel={high:“⭐⭐⭐ Très utile”,mid:“⭐⭐ Utile”,low:“⭐ Informatif”};
+var gradeHtml=’<div class="grade-row">’+(r.gradeEvidence?’<span class=“grade-badge ‘+(geMap[r.gradeEvidence]||“grade-AE”)+’”>’+(geLabel[r.gradeEvidence]||r.gradeEvidence)+’</span>’:’’)+(r.gradeUtility?’<span class=“grade-badge ‘+(guMap[r.gradeUtility]||“util-low”)+’”>’+(guLabel[r.gradeUtility]||r.gradeUtility)+’</span>’:’’)+’</div>’;
+// Liens améliorés
+var termEnc=encodeURIComponent(term);
+var srcLinks=’<div class="src-links-row">’;
+if(r.url&&r.url.length>10){
+srcLinks+=’<a class="src-link" href="'+r.url+'" target="_blank" rel="noopener" style="color:'+s.color+';border-bottom-color:'+s.color+'80" onclick="event.stopPropagation()">📄 Document original ↗</a>’;
+}
+srcLinks+=’<a class="src-link" href="'+s.searchUrl+termEnc+'" target="_blank" rel="noopener" style="color:'+s.color+';border-bottom-color:'+s.color+'80" onclick="event.stopPropagation()">🔍 ‘+s.label+’ ↗</a>’;
+if(r.sourceId!==“has”){ srcLinks+=’<a class="src-link" href="https://www.has-sante.fr/jcms/fc_1249603/fr/recherche?text='+termEnc+'" target="_blank" rel="noopener" style="color:#1a4f8a;border-bottom-color:#1a4f8a80" onclick="event.stopPropagation()">🔍 HAS ↗</a>’; }
+srcLinks+=’</div>’;
+card.innerHTML=’<div class="card-top"><div style="flex:1"><div class="card-meta"><span class="badge" style="background:'+s.color+'20;color:'+s.color+'">’+s.label+’</span>’+(r.date?’<span class="card-date">’+r.date+’</span>’:’’)+gradeHtml+’</div><div class="card-title">’+r.title+’</div></div><span class="card-toggle">▼</span></div><div class="card-body">’+linesHtml+’<p class="card-summary">’+r.summary+’</p>’+(kps?’<div class="kp-lbl">Points clés officine</div><ul class="kp-list">’+kps+’</ul>’:’’)+’<div class="src-block"><div class="src-lbl">Sources</div>’+srcLinks+’</div></div>’;
+card.addEventListener(“click”,function(){card.classList.toggle(“open”);card.querySelector(”.card-toggle”).innerHTML=card.classList.contains(“open”)?”▲”:”▼”;});
+list.appendChild(card);
+});
+}
+var ficheEl=document.getElementById(“fiche-section”);ficheEl.innerHTML=””;
+if(d.fichePatient){
+ficheEl.innerHTML=’<div class="fiche-box"><div class="fiche-header"><span class="fiche-title">📄 Fiche patient — ‘+term+’</span><button class="btn-copy" onclick="copyFiche()">Copier</button></div><div class="fiche-content" id="ficheContent">’+d.fichePatient+’</div></div>’;
+}
+document.getElementById(“resultsPanel”).style.display=“block”;
 }
 
-function safeIcon(v){ return v==="ok"?'<span class="ok">✓</span>':v==="warn"?'<span class="warn">△</span>':'<span class="no">✗</span>'; }
-
-function renderAll(term, d){
-  document.getElementById("resultTitle").textContent=term;
-
-  // ANSM alerts
-  var alertsEl=document.getElementById("ansm-alerts"); alertsEl.innerHTML="";
-  if(d.ansmAlerts&&d.ansmAlerts.length>0){
-    var html='<div class="ansm-alert"><div class="ansm-alert-title">⚠ Alertes ANSM</div>';
-    d.ansmAlerts.forEach(function(a){ html+='<div class="ansm-alert-item">'+a+'</div>'; });
-    alertsEl.innerHTML=html+'</div>';
-  }
-
-  // OTC
-  var otcEl=document.getElementById("otc-section"); otcEl.innerHTML="";
-  if(d.otcAdvice&&d.otcAdvice.length>0){
-    var html='<div class="otc-box"><div class="otc-title">✚ Conseils OTC & Hygiéno-diététiques</div>';
-    d.otcAdvice.forEach(function(a){ html+='<div class="otc-item">'+a+'</div>'; });
-    otcEl.innerHTML=html+'</div>';
-  }
-
-  // Safety recap
-  var safeEl=document.getElementById("safety-section"); safeEl.innerHTML="";
-  if(d.safetyRecap&&d.safetyRecap.length>0){
-    var html='<div class="safety-box"><div class="safety-title">Récapitulatif sécurité — 1ère & 2ème ligne</div><div style="overflow-x:auto"><table class="safety-table"><thead><tr><th>Médicament</th><th>Ligne</th><th title="Grossesse">🤰</th><th title="Insuffisance rénale">🫘 IR</th><th title="Insuffisance hépatique">🫀 IH</th><th>Note</th></tr></thead><tbody>';
-    d.safetyRecap.forEach(function(r){
-      var lineCls=r.line==="1"?"sl1":"sl2";
-      html+='<tr><td><span class="safety-drug">'+r.drug+'</span></td><td><span class="safety-line '+lineCls+'">'+(r.line==="1"?"1ère":"2ème")+'</span></td><td>'+safeIcon(r.grossesse)+'</td><td>'+safeIcon(r.ir)+'</td><td>'+safeIcon(r.ih)+'</td><td style="font-size:11px;color:#666">'+(r.note||"")+'</td></tr>';
-    });
-    safeEl.innerHTML=html+'</tbody></table></div></div>';
-  }
-
-  // Recos
-  var list=document.getElementById("resultsList"); list.innerHTML="";
-  var recos=d.recos||[];
-  var filtered=recos.filter(function(r){return activeFilters[r.sourceId];});
-  var utilOrder={high:0,mid:1,low:2}, gradeOrder={A:0,B:1,C:2,AE:3};
-  filtered.sort(function(a,b){
-    var u=(utilOrder[a.gradeUtility]||2)-(utilOrder[b.gradeUtility]||2);
-    return u!==0?u:(gradeOrder[a.gradeEvidence]||3)-(gradeOrder[b.gradeEvidence]||3);
-  });
-  document.getElementById("resultCount").textContent=filtered.length+" résultat"+(filtered.length>1?"s":"");
-  if(!filtered.length){ list.innerHTML='<div class="empty">Aucune recommandation trouvée pour les sources sélectionnées.</div>'; }
-  else {
-    filtered.forEach(function(r,i){
-      var s=SOURCES.find(function(x){return x.id===r.sourceId;})||SOURCES[0];
-      var card=document.createElement("div"); card.className="card";
-      card.style.borderLeftColor=s.color; card.style.animationDelay=(i*0.05)+"s";
-      var linesHtml="";
-      if(r.treatmentLines&&r.treatmentLines.length>0){
-        var items=r.treatmentLines.map(function(l){
-          var cls=l.line.indexOf("1")>=0?"l1":l.line.indexOf("2")>=0?"l2":"l3";
-          return'<div class="line-item"><span class="line-badge '+cls+'">'+l.line+'</span><span class="line-text">'+l.drugs+'</span></div>';
-        }).join("");
-        linesHtml='<div class="lines-block"><div class="lines-lbl">Traitements recommandés</div>'+items+'</div>';
-      }
-      var kps=(r.keyPoints||[]).map(function(p){return"<li>"+p+"</li>";}).join("");
-      var termEnc=encodeURIComponent(term);
-      var linkHref=r.url&&r.url.length>10?r.url:s.searchUrl+termEnc;
-      var linkText=r.url&&r.url.length>10?"Accéder au document ↗":"Rechercher sur "+s.label+" ↗";
-      var geMap={A:"grade-A",B:"grade-B",C:"grade-C",AE:"grade-AE"};
-      var geLabel={A:"Grade A — Preuve forte",B:"Grade B — Preuve intermédiaire",C:"Grade C — Preuve faible",AE:"Accord experts"};
-      var guMap={high:"util-high",mid:"util-mid",low:"util-low"};
-      var guLabel={high:"⭐⭐⭐ Très utile",mid:"⭐⭐ Utile",low:"⭐ Informatif"};
-      var gradeHtml='<div class="grade-row">'+(r.gradeEvidence?'<span class="grade-badge '+(geMap[r.gradeEvidence]||"grade-AE")+'">'+(geLabel[r.gradeEvidence]||r.gradeEvidence)+'</span>':'')+(r.gradeUtility?'<span class="grade-badge '+(guMap[r.gradeUtility]||"util-low")+'">'+(guLabel[r.gradeUtility]||r.gradeUtility)+'</span>':'')+'</div>';
-      card.innerHTML=
-        '<div class="card-top"><div style="flex:1">'+
-        '<div class="card-meta"><span class="badge" style="background:'+s.color+'20;color:'+s.color+'">'+s.label+'</span>'+(r.date?'<span class="card-date">'+r.date+'</span>':'')+gradeHtml+'</div>'+
-        '<div class="card-title">'+r.title+'</div></div><span class="card-toggle">&#9660;</span></div>'+
-        '<div class="card-body">'+linesHtml+
-        '<p class="card-summary">'+r.summary+'</p>'+
-        (kps?'<div class="kp-lbl">Points clés officine</div><ul class="kp-list">'+kps+'</ul>':'')+
-        '<div class="src-block"><div class="src-lbl">Source</div><div class="src-row">'+
-        '<span class="badge" style="background:'+s.color+'20;color:'+s.color+'">'+s.label+'</span>'+
-        '<a class="src-link" href="'+linkHref+'" target="_blank" rel="noopener" style="color:'+s.color+';border-bottom-color:'+s.color+'80" onclick="event.stopPropagation()">'+linkText+'</a>'+
-        '</div></div></div>';
-      card.addEventListener("click",function(){
-        card.classList.toggle("open");
-        card.querySelector(".card-toggle").innerHTML=card.classList.contains("open")?"&#9650;":"&#9660;";
-      });
-      list.appendChild(card);
-    });
-  }
-
-  // Fiche patient
-  var ficheEl=document.getElementById("fiche-section"); ficheEl.innerHTML="";
-  if(d.fichePatient){
-    ficheEl.innerHTML='<div class="fiche-box">'+
-      '<div class="fiche-header"><span class="fiche-title">📄 Fiche patient — '+term+'</span>'+
-      '<button class="btn-copy" onclick="copyFiche()">Copier</button></div>'+
-      '<div class="fiche-content" id="ficheContent">'+d.fichePatient+'</div></div>';
-  }
-
-  document.getElementById("resultsPanel").style.display="block";
+function showDrug(term,d){
+document.getElementById(“drugTitle”).textContent=d.dci||(d.commercial&&d.commercial[0])||term;
+var commercial=d.commercial&&d.commercial.length?d.commercial.join(”, “):”—”;
+var dciEnc=encodeURIComponent(d.dci||term);
+var commercialEnc=encodeURIComponent(d.commercial&&d.commercial[0]||term);
+// Posologie
+var posHtml=””;
+if(d.posology&&d.posology.length>0){
+posHtml=d.posology.map(function(p){
+return’<div class="posology-item"><span class="posology-route">’+(p.route||“oral”)+’</span><div><div class="drug-text">’+p.dose+’</div>’+(p.renal?’<div style="font-size:11px;color:#555;margin-top:2px">🫘 IR: ‘+p.renal+’</div>’:’’)+(p.hepatic?’<div style="font-size:11px;color:#555;margin-top:2px">🫀 IH: ‘+p.hepatic+’</div>’:’’)+’</div></div>’;
+}).join(””);
+}
+// Interactions
+var interHtml=””;
+if(d.interactions&&d.interactions.length>0){
+var lMap={CI:“inter-ci”,warn:“inter-warn”,caution:“inter-caution”};
+var lLabel={CI:“CI”,warn:“Précaution”,caution:“Prudence”};
+interHtml=d.interactions.map(function(it){
+return’<div class="interaction-item"><span class=“inter-level ‘+(lMap[it.level]||“inter-caution”)+’”>’+(lLabel[it.level]||it.level)+’</span><span class="inter-text"><strong>’+it.drug+’</strong> — ‘+it.effect+’</span></div>’;
+}).join(””);
+}
+// Safety
+var sf=d.safety||{};
+var safeHtml=’<div class="safety-inline">’+
+‘<div class="safety-item"><span class=“safety-icon ‘+(sf.grossesse===“ok”?“ok”:sf.grossesse===“warn”?“warn”:“no”)+’”>’+safeIcon(sf.grossesse)+’</span><span style="font-size:12px">🤰 Grossesse’+(sf.grossesseNote?’ — ‘+sf.grossesseNote:’’)+’</span></div>’+
+‘<div class="safety-item"><span class=“safety-icon ‘+(sf.allaitement===“ok”?“ok”:sf.allaitement===“warn”?“warn”:“no”)+’”>’+safeIcon(sf.allaitement)+’</span><span style="font-size:12px">🍼 Allaitement’+(sf.allaitementNote?’ — ‘+sf.allaitementNote:’’)+’</span></div>’+
+‘<div class="safety-item">’+safeIcon(sf.ir)+’<span style="font-size:12px">🫘 IR’+(sf.irNote?’ — ‘+sf.irNote:’’)+’</span></div>’+
+‘<div class="safety-item">’+safeIcon(sf.ih)+’<span style="font-size:12px">🫀 IH’+(sf.ihNote?’ — ‘+sf.ihNote:’’)+’</span></div>’+
+‘<div class="safety-item">’+safeIcon(sf.sujet_age)+’<span style="font-size:12px">👴 Sujet âgé’+(sf.sujet_ageNote?’ — ‘+sf.sujet_ageNote:’’)+’</span></div>’+
+‘</div>’;
+// Liens améliorés BDPM prioritaire
+var linksHtml=’<div class="drug-links">’+
+‘<a class="drug-link link-bdpm" href="https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche='+dciEnc+'" target="_blank" rel="noopener">📋 BDPM (RCP officiel)</a>’+
+‘<a class="drug-link link-vidal" href="https://www.vidal.fr/recherche/index/q:'+dciEnc+'" target="_blank" rel="noopener">📖 VIDAL</a>’+
+‘<a class="drug-link link-theriaque" href="https://www.theriaque.org/apps/recherche/rch.php?NOM='+dciEnc+'" target="_blank" rel="noopener">🔬 Thériaque</a>’+
+‘<a class="drug-link link-ansm" href="https://ansm.sante.fr/rechercher?query='+dciEnc+'" target="_blank" rel="noopener">⚠ ANSM</a>’+
+‘</div>’;
+var html=’<div class="drug-card">’+
+‘<div class="drug-header">’+
+‘<div class="drug-name">’+d.dci+’</div>’+
+‘<div class="drug-commercial">’+commercial+’</div>’+
+‘<span class="drug-class">’+d.class+’</span>’+
+‘</div>’+
+‘<div class="drug-body">’+
+‘<div class="drug-section"><div class="drug-section-title">Mécanisme d'action</div><p class="drug-text">’+d.mechanism+’</p></div>’+
+(d.indications&&d.indications.length?’<div class="drug-section"><div class="drug-section-title">Indications</div><ul class="drug-list">’+d.indications.map(function(x){return”<li>”+x+”</li>”;}).join(””)+’</ul></div>’:’’)+
+(posHtml?’<div class="drug-section"><div class="drug-section-title">Posologie & Formes</div>’+posHtml+’</div>’:’’)+
+‘<div class="drug-section"><div class="drug-section-title">Sécurité d'emploi</div>’+safeHtml+’</div>’+
+(d.contraindications&&d.contraindications.length?’<div class="drug-section"><div class="drug-section-title">Contre-indications</div><ul class="drug-list">’+d.contraindications.map(function(x){return”<li>”+x+”</li>”;}).join(””)+’</ul></div>’:’’)+
+(interHtml?’<div class="drug-section"><div class="drug-section-title">Interactions médicamenteuses</div>’+interHtml+’</div>’:’’)+
+(d.sideEffects&&d.sideEffects.length?’<div class="drug-section"><div class="drug-section-title">Effets indésirables principaux</div><ul class="drug-list">’+d.sideEffects.map(function(x){return”<li>”+x+”</li>”;}).join(””)+’</ul></div>’:’’)+
+(d.monitoring&&d.monitoring.length?’<div class="drug-section"><div class="drug-section-title">Surveillance</div><ul class="drug-list">’+d.monitoring.map(function(x){return”<li>”+x+”</li>”;}).join(””)+’</ul></div>’:’’)+
+(d.patientAdvice?’<div class="drug-section"><div class="drug-section-title">Conseils au patient</div><p class="drug-text">’+d.patientAdvice+’</p></div>’:’’)+
+linksHtml+
+‘</div></div>’;
+document.getElementById(“drugContent”).innerHTML=html;
+document.getElementById(“drugPanel”).style.display=“block”;
 }
 
 function copyFiche(){
-  var el=document.getElementById("ficheContent");
-  if(!el) return;
-  if(navigator.clipboard){ navigator.clipboard.writeText(el.textContent); }
-  else { var r=document.createRange(); r.selectNode(el); window.getSelection().removeAllRanges(); window.getSelection().addRange(r); document.execCommand("copy"); window.getSelection().removeAllRanges(); }
-  alert("Fiche copiée !");
+var el=document.getElementById(“ficheContent”);
+if(!el)return;
+if(navigator.clipboard){navigator.clipboard.writeText(el.textContent);}
+else{var r=document.createRange();r.selectNode(el);window.getSelection().removeAllRanges();window.getSelection().addRange(r);document.execCommand(“copy”);window.getSelection().removeAllRanges();}
+alert(“Fiche copiée !”);
 }
 
 function clearResults(){
-  document.getElementById("resultsPanel").style.display="none";
-  document.getElementById("studyPanel").style.display="none";
-  document.getElementById("homePanel").style.display="block";
-  document.getElementById("ansm-alerts").innerHTML="";
-  document.getElementById("otc-section").innerHTML="";
-  document.getElementById("safety-section").innerHTML="";
-  document.getElementById("fiche-section").innerHTML="";
+[“resultsPanel”,“drugPanel”,“studyPanel”].forEach(function(id){document.getElementById(id).style.display=“none”;});
+document.getElementById(“homePanel”).style.display=“block”;
+[“ansm-alerts”,“otc-section”,“safety-section”,“fiche-section”].forEach(function(id){document.getElementById(id).innerHTML=””;});
 }
 
 function showStudy(term,data){
-  document.getElementById("studyTitle").textContent=term;
-  document.getElementById("studyCount").textContent=data.length+" entrée"+(data.length>1?"s":"");
-  var list=document.getElementById("studyList"); list.innerHTML="";
-  if(!data.length){ list.innerHTML='<div class="empty">Aucun essai clinique ni molécule trouvés.</div>'; return; }
-  data.forEach(function(r,i){
-    var card=document.createElement("div"); card.className="study-card";
-    card.style.animationDelay=(i*0.05)+"s";
-    var isTrial=r.type==="trial";
-    var typeCls=isTrial?"trial-badge":"molecule-badge";
-    var typeLabel=isTrial?"Essai clinique":"Nouvelle molécule";
-    var statusColor=r.status&&r.status.indexOf("cours")>=0?"#2e7d32":r.status&&r.status.indexOf("AMM")>=0?"#1565c0":"#555";
-    var phaseHtml=isTrial&&r.phase?'<span class="phase-badge">'+r.phase+'</span>':"";
-    var bodyHtml="";
-    if(isTrial){
-      bodyHtml=(r.mechanism?'<p class="study-detail"><strong>Mécanisme :</strong> '+r.mechanism+'</p>':'')+(r.objective?'<p class="study-detail"><strong>Objectif :</strong> '+r.objective+'</p>':'')+(r.results?'<p class="study-detail"><strong>Résultats :</strong> '+r.results+'</p>':"");
-    } else {
-      bodyHtml=(r.mechanism?'<p class="study-detail"><strong>Mécanisme :</strong> '+r.mechanism+'</p>':'')+(r.indication?'<p class="study-detail"><strong>Indication :</strong> '+r.indication+'</p>':'')+(r.advantage?'<p class="study-detail"><strong>Avantage :</strong> '+r.advantage+'</p>':"");
-    }
-    var linkHref=r.url&&r.url.length>10?r.url:(isTrial?"https://clinicaltrials.gov/search?cond="+encodeURIComponent(term):"https://www.ema.europa.eu/en/search/search?search_api_views_fulltext="+encodeURIComponent(term));
-    var linkText=r.url&&r.url.length>10?"Consulter la source ↗":(isTrial?"Rechercher sur ClinicalTrials ↗":"Rechercher sur EMA ↗");
-    card.innerHTML=
-      '<div class="card-top"><div style="flex:1">'+
-      '<div class="card-meta"><span class="badge '+typeCls+'">'+typeLabel+'</span>'+phaseHtml+(r.status?'<span style="font-size:10px;font-weight:bold;color:'+statusColor+'">'+r.status+'</span>':'')+'</div>'+
-      '<div class="card-title">'+r.title+'</div></div><span class="card-toggle">&#9660;</span></div>'+
-      '<div class="study-body">'+bodyHtml+'<div style="margin-top:8px"><a href="'+linkHref+'" target="_blank" rel="noopener" style="font-size:12px;font-weight:bold;color:#0277bd;text-decoration:none;border-bottom:1px solid #0277bd80" onclick="event.stopPropagation()">'+linkText+'</a></div></div>';
-    card.addEventListener("click",function(){
-      card.classList.toggle("open");
-      card.querySelector(".card-toggle").innerHTML=card.classList.contains("open")?"&#9650;":"&#9660;";
-    });
-    list.appendChild(card);
-  });
-  document.getElementById("studyPanel").style.display="block";
+document.getElementById(“studyTitle”).textContent=term;
+document.getElementById(“studyCount”).textContent=data.length+” entrée”+(data.length>1?“s”:””);
+var list=document.getElementById(“studyList”);list.innerHTML=””;
+if(!data.length){list.innerHTML=’<div class="empty">Aucun essai clinique ni molécule trouvés.</div>’;return;}
+data.forEach(function(r,i){
+var card=document.createElement(“div”);card.className=“study-card”;card.style.animationDelay=(i*0.05)+“s”;
+var isTrial=r.type===“trial”;
+var statusColor=r.status&&r.status.indexOf(“cours”)>=0?”#2e7d32”:r.status&&r.status.indexOf(“AMM”)>=0?”#1565c0”:”#555”;
+var bodyHtml=isTrial?
+(r.mechanism?’<p class="study-detail"><strong>Mécanisme :</strong> ‘+r.mechanism+’</p>’:’’)+(r.objective?’<p class="study-detail"><strong>Objectif :</strong> ‘+r.objective+’</p>’:’’)+(r.results?’<p class="study-detail"><strong>Résultats :</strong> ‘+r.results+’</p>’:””):
+(r.mechanism?’<p class="study-detail"><strong>Mécanisme :</strong> ‘+r.mechanism+’</p>’:’’)+(r.indication?’<p class="study-detail"><strong>Indication :</strong> ‘+r.indication+’</p>’:’’)+(r.advantage?’<p class="study-detail"><strong>Avantage :</strong> ‘+r.advantage+’</p>’:””);
+var termEnc=encodeURIComponent(term);
+var linkHref=r.url&&r.url.length>10?r.url:(isTrial?“https://clinicaltrials.gov/search?cond=”+termEnc:“https://www.ema.europa.eu/en/search/search?search_api_views_fulltext=”+termEnc);
+var linkText=r.url&&r.url.length>10?“Consulter la source ↗”:(isTrial?“Rechercher sur ClinicalTrials ↗”:“Rechercher sur EMA ↗”);
+card.innerHTML=’<div class="card-top"><div style="flex:1"><div class="card-meta"><span class=“badge ‘+(isTrial?“trial-badge”:“molecule-badge”)+’”>’+(isTrial?“Essai clinique”:“Nouvelle molécule”)+’</span>’+(isTrial&&r.phase?’<span class="phase-badge">’+r.phase+’</span>’:’’)+(r.status?’<span style="font-size:10px;font-weight:bold;color:'+statusColor+'">’+r.status+’</span>’:’’)+’</div><div class="card-title">’+r.title+’</div></div><span class="card-toggle">▼</span></div><div class="study-body">’+bodyHtml+’<div style="margin-top:8px"><a href="'+linkHref+'" target="_blank" rel="noopener" style="font-size:12px;font-weight:bold;color:#0277bd;text-decoration:none;border-bottom:1px solid #0277bd80" onclick="event.stopPropagation()">’+linkText+’</a></div></div>’;
+card.addEventListener(“click”,function(){card.classList.toggle(“open”);card.querySelector(”.card-toggle”).innerHTML=card.classList.contains(“open”)?”▲”:”▼”;});
+list.appendChild(card);
+});
+document.getElementById(“studyPanel”).style.display=“block”;
 }
 
 init();
