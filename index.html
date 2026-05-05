@@ -328,128 +328,128 @@ vertical-align: middle;
 <!-- HEADER -->
 
 <div class="header">
-<div class="header-inner">
-<div class="header-eyebrow">⚕ Pharmacien d'officine</div>
-<h1>Recommandations officielles</h1>
-<p class="header-sub">HAS · ANSM · Sociétés savantes · Santé Publique France</p>
-</div>
+  <div class="header-inner">
+    <div class="header-eyebrow">⚕ Pharmacien d'officine</div>
+    <h1>Recommandations officielles</h1>
+    <p class="header-sub">HAS · ANSM · Sociétés savantes · Santé Publique France</p>
+  </div>
 </div>
 
 <!-- API BAR -->
 
 <div class="api-bar" id="apiBar">
-<div class="api-bar-status">
-<div class="dot-green"></div>
-<span>API connectée</span>
-</div>
-<button class="btn-link" onclick="changeKey()">Modifier la clé</button>
+  <div class="api-bar-status">
+    <div class="dot-green"></div>
+    <span>API connectée</span>
+  </div>
+  <button class="btn-link" onclick="changeKey()">Modifier la clé</button>
 </div>
 
 <!-- MAIN -->
 
 <div class="main">
 
-<!-- API SCREEN -->
+  <!-- API SCREEN -->
 
-<div class="card api-screen" id="apiScreen">
-<h2>Connexion à l'API Anthropic</h2>
-<p>Obtiens ta clé sur <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys → Create Key. Elle sera stockée uniquement dans ton navigateur.</p>
-<div class="api-input-group">
-<input class="api-input" id="apiKeyInput" type="password" placeholder="sk-ant-api03-…" autocomplete="off"/>
-<button class="btn-confirm" onclick="saveApiKey()">Valider</button>
-</div>
-<p class="api-note">🔒 Stockée localement — jamais transmise à des tiers.</p>
-</div>
+  <div class="card api-screen" id="apiScreen">
+    <h2>Connexion à l'API Anthropic</h2>
+    <p>Obtiens ta clé sur <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys → Create Key. Elle sera stockée uniquement dans ton navigateur.</p>
+    <div class="api-input-group">
+      <input class="api-input" id="apiKeyInput" type="password" placeholder="sk-ant-api03-…" autocomplete="off"/>
+      <button class="btn-confirm" onclick="saveApiKey()">Valider</button>
+    </div>
+    <p class="api-note">🔒 Stockée localement — jamais transmise à des tiers.</p>
+  </div>
 
-<!-- SEARCH SCREEN -->
+  <!-- SEARCH SCREEN -->
 
-<div id="searchScreen" style="display:none">
+  <div id="searchScreen" style="display:none">
 
 ```
 <!-- Search -->
 <div class="search-wrap" id="searchWrap">
-<div class="search-box" id="searchBox">
-<span class="search-icon" id="searchIcon">🔍</span>
-<input class="search-input" id="searchInput" type="text"
-placeholder="Rechercher une pathologie…"
-oninput="onInput()" onkeydown="onKey(event)" onfocus="onFocus()"/>
-<button class="btn-icon" id="btnClear" onclick="clearSearch()" style="display:none">✕</button>
-<button class="btn-search" id="btnSearch" onclick="doSearch()">Chercher</button>
-</div>
-<div class="autocomplete" id="autocomplete"></div>
+  <div class="search-box" id="searchBox">
+    <span class="search-icon" id="searchIcon">🔍</span>
+    <input class="search-input" id="searchInput" type="text"
+      placeholder="Rechercher une pathologie…"
+      oninput="onInput()" onkeydown="onKey(event)" onfocus="onFocus()"/>
+    <button class="btn-icon" id="btnClear" onclick="clearSearch()" style="display:none">✕</button>
+    <button class="btn-search" id="btnSearch" onclick="doSearch()">Chercher</button>
+  </div>
+  <div class="autocomplete" id="autocomplete"></div>
 </div>
 
 <!-- Filters -->
 <div class="filters" id="filtersBox">
-<div class="filters-top">
-<span class="label-sm">Sources</span>
-<div class="filters-actions">
-<button class="btn-sm" onclick="selectAll()">Tout</button>
-<button class="btn-sm" onclick="selectNone()">Aucun</button>
-</div>
-</div>
-<div class="filter-pills" id="filterPills"></div>
+  <div class="filters-top">
+    <span class="label-sm">Sources</span>
+    <div class="filters-actions">
+      <button class="btn-sm" onclick="selectAll()">Tout</button>
+      <button class="btn-sm" onclick="selectNone()">Aucun</button>
+    </div>
+  </div>
+  <div class="filter-pills" id="filterPills"></div>
 </div>
 
 <!-- Quick access -->
 <div class="quick" id="homePanel">
-<span class="label-sm">Accès rapide</span>
-<div class="quick-pills" id="quickPills"></div>
+  <span class="label-sm">Accès rapide</span>
+  <div class="quick-pills" id="quickPills"></div>
 </div>
 
 <!-- Loading -->
 <div class="loading" id="loadingPanel">
-<div class="spinner"></div>
-<p class="loading-text">Interrogation des sources…</p>
+  <div class="spinner"></div>
+  <p class="loading-text">Interrogation des sources…</p>
 </div>
 
 <!-- Error -->
 <div class="error-box" id="errorBox">
-<p class="error-text" id="errorMsg"></p>
-<button class="btn-retry" onclick="retry()">↺ Réessayer</button>
+  <p class="error-text" id="errorMsg"></p>
+  <button class="btn-retry" onclick="retry()">↺ Réessayer</button>
 </div>
 
 <!-- Results -->
 <div id="resultsPanel" style="display:none">
-<div class="results-head">
-<div class="results-label">Résultats pour <strong id="resultTitle"></strong></div>
-<div class="results-right">
-<span class="results-count" id="resultCount"></span>
-<button class="btn-clear-res" onclick="clearResults()">✕ Effacer</button>
-</div>
-</div>
-<div id="resultsList"></div>
-<div class="disclaimer">⚠ Synthèse IA. Vérifiez toujours les sources officielles avant application clinique.</div>
+  <div class="results-head">
+    <div class="results-label">Résultats pour <strong id="resultTitle"></strong></div>
+    <div class="results-right">
+      <span class="results-count" id="resultCount"></span>
+      <button class="btn-clear-res" onclick="clearResults()">✕ Effacer</button>
+    </div>
+  </div>
+  <div id="resultsList"></div>
+  <div class="disclaimer">⚠ Synthèse IA. Vérifiez toujours les sources officielles avant application clinique.</div>
 </div>
 ```
 
-</div>
+  </div>
 </div>
 
 <script>
 const SOURCES = [
-{ id:"has", label:"HAS", color:"#1d4ed8", searchUrl:"https://www.has-sante.fr/jcms/fc_1249603/fr/recherche?text=" },
-{ id:"ansm", label:"ANSM", color:"#0f766e", searchUrl:"https://ansm.sante.fr/rechercher?query=" },
-{ id:"spf", label:"SPF", color:"#15803d", searchUrl:"https://www.santepubliquefrance.fr/recherche/#search=" },
-{ id:"vidal", label:"VIDAL", color:"#b91c1c", searchUrl:"https://www.vidal.fr/recherche/index/q:" },
-{ id:"savantes", label:"Soc. savantes", color:"#7c3aed", searchUrl:"https://www.google.com/search?q=recommandations+soci%C3%A9t%C3%A9+savante+" },
+  { id:"has",      label:"HAS",                  color:"#1d4ed8", searchUrl:"https://www.has-sante.fr/jcms/fc_1249603/fr/recherche?text=" },
+  { id:"ansm",     label:"ANSM",                 color:"#0f766e", searchUrl:"https://ansm.sante.fr/rechercher?query=" },
+  { id:"spf",      label:"SPF",                  color:"#15803d", searchUrl:"https://www.santepubliquefrance.fr/recherche/#search=" },
+  { id:"vidal",    label:"VIDAL",                color:"#b91c1c", searchUrl:"https://www.vidal.fr/recherche/index/q:" },
+  { id:"savantes", label:"Soc. savantes",        color:"#7c3aed", searchUrl:"https://www.google.com/search?q=recommandations+soci%C3%A9t%C3%A9+savante+" },
 ];
 
 const ALL_PATHOLOGIES = [
-"Dyslipidémie","Hypertension artérielle","Diabète type 2","Diabète type 1",
-"BPCO","Asthme","Insuffisance cardiaque","Fibrillation auriculaire",
-"Dépression","Anxiété","Trouble bipolaire","Schizophrénie",
-"Hypothyroïdie","Hyperthyroïdie","Gonarthrose","Lombalgie",
-"Polyarthrite rhumatoïde","Rhinite allergique","Reflux gastro-œsophagien",
-"Insomnie","Migraine","Épilepsie","Maladie de Parkinson","Alzheimer",
-"Sclérose en plaques","Insuffisance rénale chronique","Cirrhose",
-"Maladie de Crohn","Rectocolite hémorragique","Psoriasis",
-"Eczéma atopique","Acné","Ostéoporose","Obésité","Syndrome métabolique",
-"Goutte","Anémie ferriprive","Thrombose veineuse profonde",
-"Angor stable","Cancer du sein","Cancer du poumon","Cancer colorectal",
-"VIH","Hépatite B","Hépatite C","Otite","Sinusite","Angine",
-"Bronchite","Pneumonie","Cystite","Endométriose","Mucoviscidose",
-"Drépanocytose","Hémophilie","Leucémie","Lymphome","Myélome multiple",
+  "Dyslipidémie","Hypertension artérielle","Diabète type 2","Diabète type 1",
+  "BPCO","Asthme","Insuffisance cardiaque","Fibrillation auriculaire",
+  "Dépression","Anxiété","Trouble bipolaire","Schizophrénie",
+  "Hypothyroïdie","Hyperthyroïdie","Gonarthrose","Lombalgie",
+  "Polyarthrite rhumatoïde","Rhinite allergique","Reflux gastro-œsophagien",
+  "Insomnie","Migraine","Épilepsie","Maladie de Parkinson","Alzheimer",
+  "Sclérose en plaques","Insuffisance rénale chronique","Cirrhose",
+  "Maladie de Crohn","Rectocolite hémorragique","Psoriasis",
+  "Eczéma atopique","Acné","Ostéoporose","Obésité","Syndrome métabolique",
+  "Goutte","Anémie ferriprive","Thrombose veineuse profonde",
+  "Angor stable","Cancer du sein","Cancer du poumon","Cancer colorectal",
+  "VIH","Hépatite B","Hépatite C","Otite","Sinusite","Angine",
+  "Bronchite","Pneumonie","Cystite","Endométriose","Mucoviscidose",
+  "Drépanocytose","Hémophilie","Leucémie","Lymphome","Myélome multiple",
 ];
 
 const QUICK = ["Dyslipidémie","Hypertension artérielle","Diabète type 2","BPCO","Asthme","Insomnie","Dépression","Ostéoporose"];
@@ -459,188 +459,188 @@ let suggestions = [], activeIdx = -1, lastTerm = "";
 let activeFilters = new Set(SOURCES.map(s => s.id));
 
 function init() {
-// Filter pills
-const fp = document.getElementById("filterPills");
-SOURCES.forEach(s => {
-const el = document.createElement("div");
-el.className = "fpill active";
-el.id = "fp-" + s.id;
-el.style.cssText = `border-color:${s.color};background:${s.color};color:#fff`;
-el.innerHTML = `<span class="fcheck">✓</span>${s.label}`;
-el.onclick = () => toggleFilter(s.id);
-fp.appendChild(el);
-});
+  // Filter pills
+  const fp = document.getElementById("filterPills");
+  SOURCES.forEach(s => {
+    const el = document.createElement("div");
+    el.className = "fpill active";
+    el.id = "fp-" + s.id;
+    el.style.cssText = `border-color:${s.color};background:${s.color};color:#fff`;
+    el.innerHTML = `<span class="fcheck">✓</span>${s.label}`;
+    el.onclick = () => toggleFilter(s.id);
+    fp.appendChild(el);
+  });
 
-// Quick pills
-const qp = document.getElementById("quickPills");
-QUICK.forEach(p => {
-const btn = document.createElement("button");
-btn.className = "qpill"; btn.textContent = p;
-btn.onclick = () => { document.getElementById("searchInput").value = p; doSearch(p); };
-qp.appendChild(btn);
-});
+  // Quick pills
+  const qp = document.getElementById("quickPills");
+  QUICK.forEach(p => {
+    const btn = document.createElement("button");
+    btn.className = "qpill"; btn.textContent = p;
+    btn.onclick = () => { document.getElementById("searchInput").value = p; doSearch(p); };
+    qp.appendChild(btn);
+  });
 
-if (apiKey) showApp();
+  if (apiKey) showApp();
 
-document.addEventListener("mousedown", e => {
-if (!document.getElementById("searchWrap").contains(e.target)) hideAC();
-});
+  document.addEventListener("mousedown", e => {
+    if (!document.getElementById("searchWrap").contains(e.target)) hideAC();
+  });
 }
 
 // Filters
 function toggleFilter(id) {
-if (activeFilters.has(id) && activeFilters.size === 1) return;
-activeFilters.has(id) ? activeFilters.delete(id) : activeFilters.add(id);
-renderFilter(id);
+  if (activeFilters.has(id) && activeFilters.size === 1) return;
+  activeFilters.has(id) ? activeFilters.delete(id) : activeFilters.add(id);
+  renderFilter(id);
 }
 function renderFilter(id) {
-const s = SOURCES.find(x => x.id === id);
-const el = document.getElementById("fp-" + id);
-const on = activeFilters.has(id);
-el.classList.toggle("active", on);
-el.style.background = on ? s.color : "#fff";
-el.style.color = on ? "#fff" : s.color;
-el.style.borderColor = s.color;
-el.querySelector(".fcheck").textContent = on ? "✓" : "";
+  const s = SOURCES.find(x => x.id === id);
+  const el = document.getElementById("fp-" + id);
+  const on = activeFilters.has(id);
+  el.classList.toggle("active", on);
+  el.style.background = on ? s.color : "#fff";
+  el.style.color = on ? "#fff" : s.color;
+  el.style.borderColor = s.color;
+  el.querySelector(".fcheck").textContent = on ? "✓" : "";
 }
 function selectAll() { SOURCES.forEach(s => { activeFilters.add(s.id); renderFilter(s.id); }); }
 function selectNone() {
-SOURCES.forEach(s => { activeFilters.delete(s.id); renderFilter(s.id); });
-activeFilters.add(SOURCES[0].id); renderFilter(SOURCES[0].id);
+  SOURCES.forEach(s => { activeFilters.delete(s.id); renderFilter(s.id); });
+  activeFilters.add(SOURCES[0].id); renderFilter(SOURCES[0].id);
 }
 
 // API key
 function saveApiKey() {
-const v = document.getElementById("apiKeyInput").value.trim();
-if (!v.startsWith("sk-")) { alert("Clé invalide — doit commencer par sk-ant-…"); return; }
-apiKey = v; localStorage.setItem("reco_api_key", v); showApp();
+  const v = document.getElementById("apiKeyInput").value.trim();
+  if (!v.startsWith("sk-")) { alert("Clé invalide — doit commencer par sk-ant-…"); return; }
+  apiKey = v; localStorage.setItem("reco_api_key", v); showApp();
 }
 function showApp() {
-document.getElementById("apiScreen").style.display = "none";
-document.getElementById("searchScreen").style.display = "block";
-document.getElementById("apiBar").style.display = "flex";
+  document.getElementById("apiScreen").style.display = "none";
+  document.getElementById("searchScreen").style.display = "block";
+  document.getElementById("apiBar").style.display = "flex";
 }
 function changeKey() {
-apiKey = ""; localStorage.removeItem("reco_api_key");
-document.getElementById("apiScreen").style.display = "block";
-document.getElementById("searchScreen").style.display = "none";
-document.getElementById("apiBar").style.display = "none";
-document.getElementById("apiKeyInput").value = "";
+  apiKey = ""; localStorage.removeItem("reco_api_key");
+  document.getElementById("apiScreen").style.display = "block";
+  document.getElementById("searchScreen").style.display = "none";
+  document.getElementById("apiBar").style.display = "none";
+  document.getElementById("apiKeyInput").value = "";
 }
 
 // Search input
 function onInput() {
-const v = document.getElementById("searchInput").value;
-document.getElementById("btnClear").style.display = v ? "block" : "none";
-updateAC(v);
+  const v = document.getElementById("searchInput").value;
+  document.getElementById("btnClear").style.display = v ? "block" : "none";
+  updateAC(v);
 }
 function onFocus() {
-document.getElementById("searchBox").classList.add("focused");
-const v = document.getElementById("searchInput").value;
-if (v.length >= 2) updateAC(v);
+  document.getElementById("searchBox").classList.add("focused");
+  const v = document.getElementById("searchInput").value;
+  if (v.length >= 2) updateAC(v);
 }
 function updateAC(val) {
-if (val.length < 2) { hideAC(); return; }
-const q = val.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
-suggestions = ALL_PATHOLOGIES.filter(p =>
-p.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").includes(q)
-).slice(0,7);
-activeIdx = -1;
-const ac = document.getElementById("autocomplete");
-if (!suggestions.length) { ac.style.display = "none"; return; }
-ac.innerHTML = "";
-suggestions.forEach((s,i) => {
-const d = document.createElement("div");
-d.className = "ac-item";
-d.innerHTML = `<span class="ac-icon">⚕</span>${s}`;
-d.onmousedown = () => pick(s);
-d.onmouseenter = () => { activeIdx=i; renderAC(); };
-ac.appendChild(d);
-});
-ac.style.display = "block";
+  if (val.length < 2) { hideAC(); return; }
+  const q = val.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+  suggestions = ALL_PATHOLOGIES.filter(p =>
+    p.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").includes(q)
+  ).slice(0,7);
+  activeIdx = -1;
+  const ac = document.getElementById("autocomplete");
+  if (!suggestions.length) { ac.style.display = "none"; return; }
+  ac.innerHTML = "";
+  suggestions.forEach((s,i) => {
+    const d = document.createElement("div");
+    d.className = "ac-item";
+    d.innerHTML = `<span class="ac-icon">⚕</span>${s}`;
+    d.onmousedown = () => pick(s);
+    d.onmouseenter = () => { activeIdx=i; renderAC(); };
+    ac.appendChild(d);
+  });
+  ac.style.display = "block";
 }
 function renderAC() {
-document.querySelectorAll(".ac-item").forEach((el,i) => el.classList.toggle("active", i===activeIdx));
+  document.querySelectorAll(".ac-item").forEach((el,i) => el.classList.toggle("active", i===activeIdx));
 }
 function hideAC() {
-document.getElementById("autocomplete").style.display = "none";
-document.getElementById("searchBox").classList.remove("focused");
+  document.getElementById("autocomplete").style.display = "none";
+  document.getElementById("searchBox").classList.remove("focused");
 }
 function pick(val) { document.getElementById("searchInput").value=val; hideAC(); doSearch(val); }
 function onKey(e) {
-const ac = document.getElementById("autocomplete");
-if (ac.style.display==="none") { if(e.key==="Enter") doSearch(); return; }
-if (e.key==="ArrowDown") { activeIdx=Math.min(activeIdx+1,suggestions.length-1); renderAC(); e.preventDefault(); }
-else if (e.key==="ArrowUp") { activeIdx=Math.max(activeIdx-1,-1); renderAC(); e.preventDefault(); }
-else if (e.key==="Enter") { activeIdx>=0 ? pick(suggestions[activeIdx]) : (hideAC(),doSearch()); }
-else if (e.key==="Escape") hideAC();
+  const ac = document.getElementById("autocomplete");
+  if (ac.style.display==="none") { if(e.key==="Enter") doSearch(); return; }
+  if (e.key==="ArrowDown") { activeIdx=Math.min(activeIdx+1,suggestions.length-1); renderAC(); e.preventDefault(); }
+  else if (e.key==="ArrowUp") { activeIdx=Math.max(activeIdx-1,-1); renderAC(); e.preventDefault(); }
+  else if (e.key==="Enter") { activeIdx>=0 ? pick(suggestions[activeIdx]) : (hideAC(),doSearch()); }
+  else if (e.key==="Escape") hideAC();
 }
 function clearSearch() {
-document.getElementById("searchInput").value="";
-document.getElementById("btnClear").style.display="none";
-hideAC(); clearResults();
-document.getElementById("searchInput").focus();
+  document.getElementById("searchInput").value="";
+  document.getElementById("btnClear").style.display="none";
+  hideAC(); clearResults();
+  document.getElementById("searchInput").focus();
 }
 
 // Search
 async function doSearch(term) {
-term = term || document.getElementById("searchInput").value.trim();
-if (!term) return;
-lastTerm = term; hideAC();
-setLoad(true); hideErr(); hide("resultsPanel"); hideHome();
+  term = term || document.getElementById("searchInput").value.trim();
+  if (!term) return;
+  lastTerm = term; hideAC();
+  setLoad(true); hideErr(); hide("resultsPanel"); hideHome();
 
-const srcList = SOURCES.filter(s=>activeFilters.has(s.id)).map(s=>s.label).join(", ");
+  const srcList = SOURCES.filter(s=>activeFilters.has(s.id)).map(s=>s.label).join(", ");
 
-try {
-const res = await fetch("https://api.anthropic.com/v1/messages", {
-method:"POST",
-headers:{
-"Content-Type":"application/json",
-"x-api-key":apiKey,
-"anthropic-version":"2023-06-01",
-"anthropic-dangerous-direct-browser-access":"true"
-},
-body:JSON.stringify({
-model:"claude-sonnet-4-5",
-max_tokens:1000,
-system:`Tu es un expert en recommandations officielles françaises pour pharmaciens d'officine.
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "x-api-key":apiKey,
+        "anthropic-version":"2023-06-01",
+        "anthropic-dangerous-direct-browser-access":"true"
+      },
+      body:JSON.stringify({
+        model:"claude-sonnet-4-5-20251001",
+        max_tokens:1000,
+        system:`Tu es un expert en recommandations officielles françaises pour pharmaciens d'officine.
 Réponds UNIQUEMENT avec un tableau JSON. Pas de texte, pas de markdown.
 Format : [{"sourceId":"has|ansm|spf|vidal|savantes","title":"...","date":"...","summary":"2-3 phrases orientées officine","keyPoints":["...","...","..."],"url":"url directe ou vide"}]
 Priorité HAS, puis sociétés savantes adaptées. Orienté : conseil, détection, observance, dispensation. Uniquement recommandations réelles. Si inconnu : []`,
-messages:[{role:"user",content:`Pathologie : ${term}\nSources : ${srcList}`}]
-})
-});
-if (!res.ok) { const e=await res.json().catch(()=>{}); throw new Error(e?.error?.message||`Erreur ${res.status}`); }
-const data = await res.json();
-const raw = (data.content||[]).filter(b=>b.type==="text").map(b=>b.text).join("");
-const parsed = extractJSON(raw);
-if (!Array.isArray(parsed)) throw new Error("Format invalide. Réessayez.");
-showResults(term, parsed.filter(r=>activeFilters.has(r.sourceId)));
-} catch(e) {
-showErr(e.message);
-} finally {
-setLoad(false);
-}
+        messages:[{role:"user",content:`Pathologie : ${term}\nSources : ${srcList}`}]
+      })
+    });
+    if (!res.ok) { const e=await res.json().catch(()=>{}); throw new Error(e?.error?.message||`Erreur ${res.status}`); }
+    const data = await res.json();
+    const raw = (data.content||[]).filter(b=>b.type==="text").map(b=>b.text).join("");
+    const parsed = extractJSON(raw);
+    if (!Array.isArray(parsed)) throw new Error("Format invalide. Réessayez.");
+    showResults(term, parsed.filter(r=>activeFilters.has(r.sourceId)));
+  } catch(e) {
+    showErr(e.message);
+  } finally {
+    setLoad(false);
+  }
 }
 function retry() { doSearch(lastTerm); }
 
 function extractJSON(text) {
-text = text.replace(/```json|```/gi,"");
-for (let i=0;i<text.length;i++) {
-if (text[i]==="[") {
-for (let j=text.length-1;j>i;j--) {
-if (text[j]==="]") { try{const p=JSON.parse(text.slice(i,j+1));if(Array.isArray(p))return p;}catch{} }
-}
-}
-}
-return null;
+  text = text.replace(/```json|```/gi,"");
+  for (let i=0;i<text.length;i++) {
+    if (text[i]==="[") {
+      for (let j=text.length-1;j>i;j--) {
+        if (text[j]==="]") { try{const p=JSON.parse(text.slice(i,j+1));if(Array.isArray(p))return p;}catch{} }
+      }
+    }
+  }
+  return null;
 }
 
 // UI helpers
 function setLoad(on) {
-document.getElementById("loadingPanel").style.display = on?"block":"none";
-document.getElementById("searchIcon").innerHTML = on?'<span class="spin-sm"></span>':'🔍';
-document.getElementById("btnSearch").disabled = on;
+  document.getElementById("loadingPanel").style.display = on?"block":"none";
+  document.getElementById("searchIcon").innerHTML = on?'<span class="spin-sm"></span>':'🔍';
+  document.getElementById("btnSearch").disabled = on;
 }
 function hideHome() { document.getElementById("homePanel").style.display="none"; }
 function showHome() { document.getElementById("homePanel").style.display="block"; }
@@ -650,58 +650,58 @@ function hide(id) { document.getElementById(id).style.display="none"; }
 function clearResults() { hide("resultsPanel"); showHome(); }
 
 function showResults(term, data) {
-document.getElementById("resultTitle").textContent = term;
-document.getElementById("resultCount").textContent = data.length+" résultat"+(data.length>1?"s":"");
-const list = document.getElementById("resultsList");
-list.innerHTML = "";
+  document.getElementById("resultTitle").textContent = term;
+  document.getElementById("resultCount").textContent = data.length+" résultat"+(data.length>1?"s":"");
+  const list = document.getElementById("resultsList");
+  list.innerHTML = "";
 
-if (!data.length) {
-list.innerHTML = '<div class="card empty">Aucune recommandation trouvée pour les sources sélectionnées.</div>';
-} else {
-data.forEach((r,i) => {
-const s = SOURCES.find(x=>x.id===r.sourceId)||SOURCES[0];
-const card = document.createElement("div");
-card.className = "rcard";
-card.style.borderLeftColor = s.color;
-card.style.animationDelay = (i*0.05)+"s";
+  if (!data.length) {
+    list.innerHTML = '<div class="card empty">Aucune recommandation trouvée pour les sources sélectionnées.</div>';
+  } else {
+    data.forEach((r,i) => {
+      const s = SOURCES.find(x=>x.id===r.sourceId)||SOURCES[0];
+      const card = document.createElement("div");
+      card.className = "rcard";
+      card.style.borderLeftColor = s.color;
+      card.style.animationDelay = (i*0.05)+"s";
 
-const kps = (r.keyPoints||[]).map(p=>`<li>${p}</li>`).join("");
-const linkHref = r.url || (s.searchUrl + encodeURIComponent(term));
-const linkText = r.url ? r.url.replace(/^https?:\/\//,"") : `Rechercher sur ${s.label} ↗`;
+      const kps = (r.keyPoints||[]).map(p=>`<li>${p}</li>`).join("");
+      const linkHref = r.url || (s.searchUrl + encodeURIComponent(term));
+      const linkText = r.url ? r.url.replace(/^https?:\/\//,"") : `Rechercher sur ${s.label} ↗`;
 
-card.innerHTML = `
-<div class="rcard-top">
-<div class="rcard-left">
-<div class="rcard-meta">
-<span class="rbadge" style="background:${s.color}18;color:${s.color}">${s.label}</span>
-${r.date?`<span class="rdate">${r.date}</span>`:""}
-</div>
-<div class="rcard-title">${r.title}</div>
-</div>
-<span class="rcard-toggle">▼</span>
-</div>
-<div class="rcard-body">
-<p class="rcard-summary">${r.summary}</p>
-${kps?`<div class="kp-label">Points clés officine</div><ul class="kp-list">${kps}</ul>`:""}
-<div class="src-link-block">
-<div class="src-link-label">Source</div>
-<div class="src-link-row">
-<span class="src-link-badge" style="background:${s.color}18;color:${s.color}">${s.label}</span>
-<a class="src-link-a" href="${linkHref}" target="_blank" rel="noopener"
-style="color:${s.color};border-bottom-color:${s.color}40"
-onclick="event.stopPropagation()">${linkText}</a>
-</div>
-</div>
-</div>`;
+      card.innerHTML = `
+        <div class="rcard-top">
+          <div class="rcard-left">
+            <div class="rcard-meta">
+              <span class="rbadge" style="background:${s.color}18;color:${s.color}">${s.label}</span>
+              ${r.date?`<span class="rdate">${r.date}</span>`:""}
+            </div>
+            <div class="rcard-title">${r.title}</div>
+          </div>
+          <span class="rcard-toggle">▼</span>
+        </div>
+        <div class="rcard-body">
+          <p class="rcard-summary">${r.summary}</p>
+          ${kps?`<div class="kp-label">Points clés officine</div><ul class="kp-list">${kps}</ul>`:""}
+          <div class="src-link-block">
+            <div class="src-link-label">Source</div>
+            <div class="src-link-row">
+              <span class="src-link-badge" style="background:${s.color}18;color:${s.color}">${s.label}</span>
+              <a class="src-link-a" href="${linkHref}" target="_blank" rel="noopener"
+                style="color:${s.color};border-bottom-color:${s.color}40"
+                onclick="event.stopPropagation()">${linkText}</a>
+            </div>
+          </div>
+        </div>`;
 
-card.addEventListener("click", () => {
-card.classList.toggle("open");
-card.querySelector(".rcard-toggle").textContent = card.classList.contains("open")?"▲":"▼";
-});
-list.appendChild(card);
-});
-}
-document.getElementById("resultsPanel").style.display = "block";
+      card.addEventListener("click", () => {
+        card.classList.toggle("open");
+        card.querySelector(".rcard-toggle").textContent = card.classList.contains("open")?"▲":"▼";
+      });
+      list.appendChild(card);
+    });
+  }
+  document.getElementById("resultsPanel").style.display = "block";
 }
 
 init();
