@@ -1,286 +1,452 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Recos Officine</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-
 <style>
-:root {
-  --bg:#f0f2f5;
-  --surface:#fff;
-  --border:#e4e7ec;
-  --text:#111;
-  --muted:#6b7280;
-  --navy:#1e3a5f;
-  --radius:12px;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #f4f4f4; padding-bottom: 40px; }
 
-*{box-sizing:border-box;margin:0;padding:0}
+.header { background: #1b2d45; color: white; padding: 20px 16px; }
+.header h1 { font-size: 20px; margin-bottom: 4px; }
+.header p { font-size: 12px; color: #aac4d8; }
 
-body{
-  font-family:Inter;
-  background:var(--bg);
-}
+.api-bar { background: #243a57; color: #aac4d8; font-size: 11px; padding: 7px 16px; display: none; justify-content: space-between; align-items: center; }
+.dot { width: 7px; height: 7px; background: #4caf92; border-radius: 50%; display: inline-block; margin-right: 5px; }
+.btn-link { background: none; border: none; color: #aac4d8; font-size: 11px; cursor: pointer; text-decoration: underline; }
 
-.header{
-  background:var(--navy);
-  padding:20px;
-  color:white;
-}
+.main { max-width: 700px; margin: 0 auto; padding: 16px; }
 
-.main{
-  max-width:800px;
-  margin:auto;
-  padding:16px;
-}
+.box { background: white; border-radius: 8px; border: 1px solid #ddd; padding: 20px; margin-bottom: 12px; }
+.box h2 { font-size: 16px; margin-bottom: 8px; color: #1b2d45; }
+.box p { font-size: 13px; color: #555; line-height: 1.6; margin-bottom: 14px; }
+.box a { color: #0066cc; }
+.row { display: flex; gap: 8px; }
+.inp { flex: 1; border: 1px solid #ccc; border-radius: 6px; padding: 10px 12px; font-size: 13px; outline: none; }
+.inp:focus { border-color: #1b2d45; }
+.btn { background: #1b2d45; color: white; border: none; border-radius: 6px; padding: 10px 16px; font-size: 13px; font-weight: bold; cursor: pointer; white-space: nowrap; }
+.btn:hover { background: #243a57; }
+.btn:disabled { background: #aaa; cursor: not-allowed; }
+.note { font-size: 11px; color: #999; margin-top: 8px; }
 
-/* CARD */
-.card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:16px;
-  margin-bottom:12px;
-}
+.search-wrap { position: relative; margin-bottom: 10px; }
+.search-row { display: flex; gap: 8px; background: white; border: 1px solid #ccc; border-radius: 8px; padding: 4px 4px 4px 12px; align-items: center; }
+.search-input { flex: 1; border: none; outline: none; font-size: 14px; padding: 10px 0; background: transparent; }
+.btn-x { background: none; border: none; color: #aaa; font-size: 15px; cursor: pointer; padding: 0 4px; }
+.btn-search { background: #1b2d45; color: white; border: none; border-radius: 6px; padding: 9px 14px; font-size: 13px; font-weight: bold; cursor: pointer; }
+.btn-search:disabled { background: #aaa; cursor: not-allowed; }
 
-/* INPUT */
-.search{
-  display:flex;
-  gap:8px;
-}
+.autocomplete { display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: white; border: 1px solid #1b2d45; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.12); z-index: 100; overflow: hidden; }
+.ac-item { padding: 10px 14px; font-size: 13px; cursor: pointer; color: #333; border-bottom: 1px solid #f0f0f0; }
+.ac-item:last-child { border-bottom: none; }
+.ac-item:hover, .ac-item.active { background: #eef4ff; color: #1b2d45; font-weight: bold; }
 
-input{
-  flex:1;
-  padding:12px;
-  border-radius:8px;
-  border:1px solid var(--border);
-}
+.filters-box { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; }
+.label { font-size: 11px; font-weight: bold; color: #999; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+.filter-row { display: flex; flex-wrap: wrap; gap: 7px; }
+.fpill { display: inline-flex; align-items: center; gap: 5px; padding: 6px 12px; border-radius: 20px; border: 2px solid; font-size: 12px; font-weight: bold; cursor: pointer; user-select: none; transition: all 0.15s; }
+.fcheck { font-size: 10px; width: 12px; text-align: center; }
+.filter-actions { display: flex; gap: 8px; margin-top: 10px; }
+.btn-sm { background: white; border: 1px solid #ccc; border-radius: 6px; padding: 4px 10px; font-size: 11px; color: #555; cursor: pointer; }
+.btn-sm:hover { border-color: #1b2d45; color: #1b2d45; }
 
-/* BUTTON */
-button{
-  background:var(--navy);
-  color:white;
-  border:none;
-  padding:10px 14px;
-  border-radius:8px;
-  cursor:pointer;
-}
+.quick-box { margin-bottom: 10px; }
+.quick-pills { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
+.qpill { background: white; border: 1px solid #ccc; border-radius: 20px; padding: 6px 14px; font-size: 12px; color: #444; cursor: pointer; }
+.qpill:hover { background: #1b2d45; color: white; border-color: #1b2d45; }
 
-/* AUTOCOMPLETE */
-.ac{
-  position:absolute;
-  background:white;
-  border:1px solid var(--border);
-  width:100%;
-  display:none;
-  z-index:10;
-}
+.loading { text-align: center; padding: 40px 0; display: none; }
+.spinner { width: 32px; height: 32px; border: 3px solid #ddd; border-top-color: #1b2d45; border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 12px; }
+.loading p { font-size: 12px; color: #999; }
 
-.ac div{
-  padding:10px;
-  cursor:pointer;
-}
+.error-box { background: #fff3f3; border: 1px solid #f5c6c6; border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; display: none; font-size: 13px; color: #c00; }
+.btn-retry { margin-top: 8px; background: #1b2d45; color: white; border: none; border-radius: 6px; padding: 7px 14px; font-size: 12px; cursor: pointer; }
 
-.ac div:hover{
-  background:#f3f4f6;
-}
+.results-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 13px; color: #555; }
+.results-head strong { color: #1b2d45; }
+.btn-clear-r { background: white; border: 1px solid #ccc; border-radius: 6px; padding: 3px 9px; font-size: 11px; color: #888; cursor: pointer; }
 
-/* FILTERS */
-.filters{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-}
+.card { background: white; border: 1px solid #ddd; border-left: 4px solid; border-radius: 8px; padding: 14px 16px; margin-bottom: 8px; cursor: pointer; transition: box-shadow 0.15s; animation: fadeUp 0.25s ease both; }
+.card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.card-meta { display: flex; gap: 6px; align-items: center; margin-bottom: 5px; flex-wrap: wrap; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.05em; }
+.card-date { font-size: 10px; color: #aaa; }
+.card-title { font-size: 14px; font-weight: bold; color: #1a1a1a; line-height: 1.4; }
+.card-toggle { color: #bbb; font-size: 13px; flex-shrink: 0; margin-top: 2px; }
+.card-body { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid #f0f0f0; }
+.card.open .card-body { display: block; }
+.card-summary { font-size: 13px; color: #444; line-height: 1.65; margin-bottom: 10px; }
+.kp-label { font-size: 10px; font-weight: bold; color: #999; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 5px; }
+.kp-list { padding-left: 16px; margin: 0 0 10px; }
+.kp-list li { font-size: 12.5px; color: #333; line-height: 1.6; margin-bottom: 3px; }
+.src-block { padding-top: 10px; border-top: 1px solid #f0f0f0; }
+.src-label { font-size: 10px; font-weight: bold; color: #999; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+.src-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.src-badge { font-size: 10px; font-weight: bold; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; }
+.src-link { font-size: 12px; font-weight: bold; text-decoration: none; border-bottom: 1px solid; }
 
-.tag{
-  padding:6px 10px;
-  border:1px solid var(--border);
-  border-radius:20px;
-  cursor:pointer;
-  font-size:12px;
-}
+.empty { text-align: center; padding: 24px; font-size: 13px; color: #999; background: white; border: 1px solid #ddd; border-radius: 8px; }
+.disclaimer { margin-top: 12px; padding: 10px 14px; background: #fffbee; border: 1px solid #ffe082; border-radius: 8px; font-size: 11px; color: #7a5c00; line-height: 1.6; }
 
-.tag.active{
-  background:var(--navy);
-  color:white;
-}
-
-/* RESULT */
-.result{
-  border-left:4px solid var(--navy);
-  padding:12px;
-  margin-top:10px;
-  background:white;
-  cursor:pointer;
-}
-
-.hidden{display:none}
-
-.small{font-size:12px;color:var(--muted)}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 </style>
-</head>
 
+</head>
 <body>
 
 <div class="header">
-  <h2>Recommandations officine</h2>
+  <h1>⚕️ Recommandations officielles</h1>
+  <p>HAS · ANSM · Sociétés savantes · Santé Publique France</p>
+</div>
+
+<div class="api-bar" id="apiBar">
+  <span><span class="dot"></span>API connectée</span>
+  <button class="btn-link" onclick="changeKey()">Modifier la clé</button>
 </div>
 
 <div class="main">
 
-<!-- API -->
-<div class="card" id="apiCard">
-  <h3>Clé API Anthropic</h3>
-  <input id="apiKey" placeholder="sk-ant-..." />
-  <button onclick="saveKey()">Valider</button>
-  <div class="small">stockée localement</div>
-</div>
-
-<!-- SEARCH -->
-<div class="card">
-
-  <div class="search">
-    <input id="input" placeholder="Pathologie..." oninput="ac()">
-    <button onclick="search()">OK</button>
+  <div class="box" id="apiScreen">
+    <h2>Connexion à l'API Anthropic</h2>
+    <p>Obtiens ta clé sur <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys → Create Key</p>
+    <div class="row">
+      <input class="inp" id="apiKeyInput" type="password" placeholder="sk-ant-api03-..." autocomplete="off"/>
+      <button class="btn" onclick="saveKey()">Valider</button>
+    </div>
+    <p class="note">🔒 Clé stockée uniquement dans ton navigateur</p>
   </div>
 
-  <div class="ac" id="ac"></div>
+  <div id="appScreen" style="display:none">
 
-  <div class="filters" id="filters"></div>
-
+```
+<div class="search-wrap" id="searchWrap">
+  <div class="search-row" id="searchRow">
+    <span id="searchIcon">🔍</span>
+    <input class="search-input" id="searchInput" type="text"
+      placeholder="Rechercher une pathologie…"
+      oninput="onInput()" onkeydown="onKey(event)" onfocus="onFocus()"/>
+    <button class="btn-x" id="btnX" onclick="clearSearch()" style="display:none">✕</button>
+    <button class="btn-search" id="btnSearch" onclick="doSearch()">Chercher</button>
+  </div>
+  <div class="autocomplete" id="ac"></div>
 </div>
 
-<div id="results"></div>
+<div class="filters-box">
+  <div class="label">Filtrer les sources</div>
+  <div class="filter-row" id="filterRow"></div>
+  <div class="filter-actions">
+    <button class="btn-sm" onclick="selectAll()">Tout sélectionner</button>
+    <button class="btn-sm" onclick="selectNone()">Tout désélectionner</button>
+  </div>
+</div>
 
+<div class="quick-box" id="homePanel">
+  <div class="label">Accès rapide</div>
+  <div class="quick-pills" id="quickPills"></div>
+</div>
+
+<div class="loading" id="loadingPanel">
+  <div class="spinner"></div>
+  <p>Interrogation des sources officielles…</p>
+</div>
+
+<div class="error-box" id="errorBox">
+  <span id="errorMsg"></span>
+  <br><button class="btn-retry" onclick="retry()">↺ Réessayer</button>
+</div>
+
+<div id="resultsPanel" style="display:none">
+  <div class="results-head">
+    <span>Résultats pour <strong id="resultTitle"></strong> — <span id="resultCount"></span></span>
+    <button class="btn-clear-r" onclick="clearResults()">✕ Effacer</button>
+  </div>
+  <div id="resultsList"></div>
+  <div class="disclaimer">⚠ Synthèse générée par IA. Vérifiez toujours les sources officielles avant toute application clinique.</div>
+</div>
+```
+
+  </div>
 </div>
 
 <script>
-
-let apiKey = localStorage.getItem("api") || "";
-let controller = null;
-let active = new Set();
-
-const sources = [
-  {id:"has",label:"HAS"},
-  {id:"ansm",label:"ANSM"},
-  {id:"spf",label:"SPF"},
-  {id:"vidal",label:"VIDAL"}
+var SOURCES = [
+  { id:"has",      label:"HAS",                  color:"#1a4f8a", searchUrl:"https://www.has-sante.fr/jcms/fc_1249603/fr/recherche?text=" },
+  { id:"ansm",     label:"ANSM",                 color:"#0e7c6e", searchUrl:"https://ansm.sante.fr/rechercher?query=" },
+  { id:"spf",      label:"SPF",                  color:"#2d6a2d", searchUrl:"https://www.santepubliquefrance.fr/recherche/#search=" },
+  { id:"vidal",    label:"VIDAL",                color:"#8b1a1a", searchUrl:"https://www.vidal.fr/recherche/index/q:" },
+  { id:"savantes", label:"Soc. savantes",        color:"#5a3580", searchUrl:"https://www.google.com/search?q=recommandations+soci%C3%A9t%C3%A9+savante+" }
 ];
 
-const pathos = [
- "Diabète type 2","Hypertension artérielle","Asthme","BPCO",
- "Dépression","Migraine","Insomnie","Reflux gastro-œsophagien"
+var ALL = [
+  "Dyslipidémie","Hypertension artérielle","Diabète type 2","Diabète type 1",
+  "BPCO","Asthme","Insuffisance cardiaque","Fibrillation auriculaire",
+  "Dépression","Anxiété","Trouble bipolaire","Schizophrénie",
+  "Hypothyroïdie","Hyperthyroïdie","Gonarthrose","Lombalgie",
+  "Polyarthrite rhumatoïde","Rhinite allergique","Reflux gastro-oesophagien",
+  "Insomnie","Migraine","Epilepsie","Maladie de Parkinson","Alzheimer",
+  "Sclérose en plaques","Insuffisance rénale chronique","Cirrhose",
+  "Maladie de Crohn","Rectocolite hémorragique","Psoriasis",
+  "Eczéma atopique","Acné","Ostéoporose","Obésité","Syndrome métabolique",
+  "Goutte","Anémie ferriprive","Thrombose veineuse profonde",
+  "Angor stable","Cancer du sein","Cancer du poumon","Cancer colorectal",
+  "VIH","Hépatite B","Hépatite C","Otite","Sinusite","Angine",
+  "Bronchite","Pneumonie","Cystite","Endométriose","Mucoviscidose"
 ];
+
+var QUICK = ["Dyslipidémie","Hypertension artérielle","Diabète type 2","BPCO","Asthme","Insomnie","Dépression","Ostéoporose"];
+
+var apiKey = localStorage.getItem("reco_key") || "";
+var activeFilters = {};
+var suggestions = [];
+var activeIdx = -1;
+var lastTerm = "";
+
+SOURCES.forEach(function(s){ activeFilters[s.id] = true; });
+
+function init() {
+  var fr = document.getElementById("filterRow");
+  SOURCES.forEach(function(s) {
+    var el = document.createElement("div");
+    el.className = "fpill";
+    el.id = "fp-" + s.id;
+    el.style.borderColor = s.color;
+    el.style.background = s.color;
+    el.style.color = "#fff";
+    el.innerHTML = '<span class="fcheck">&#10003;</span>' + s.label;
+    el.onclick = function(){ toggleFilter(s.id); };
+    fr.appendChild(el);
+  });
+
+  var qp = document.getElementById("quickPills");
+  QUICK.forEach(function(p) {
+    var b = document.createElement("button");
+    b.className = "qpill"; b.textContent = p;
+    b.onclick = function(){ document.getElementById("searchInput").value = p; doSearch(p); };
+    qp.appendChild(b);
+  });
+
+  if (apiKey) showApp();
+
+  document.addEventListener("mousedown", function(e) {
+    if (!document.getElementById("searchWrap").contains(e.target)) hideAC();
+  });
+}
+
+function toggleFilter(id) {
+  var count = SOURCES.filter(function(s){ return activeFilters[s.id]; }).length;
+  if (activeFilters[id] && count === 1) return;
+  activeFilters[id] = !activeFilters[id];
+  renderFilter(id);
+}
+function renderFilter(id) {
+  var s = SOURCES.find(function(x){ return x.id === id; });
+  var el = document.getElementById("fp-" + id);
+  if (activeFilters[id]) {
+    el.style.background = s.color; el.style.color = "#fff";
+    el.querySelector(".fcheck").innerHTML = "&#10003;";
+  } else {
+    el.style.background = "#fff"; el.style.color = s.color;
+    el.querySelector(".fcheck").innerHTML = "";
+  }
+}
+function selectAll() { SOURCES.forEach(function(s){ activeFilters[s.id]=true; renderFilter(s.id); }); }
+function selectNone() {
+  SOURCES.forEach(function(s){ activeFilters[s.id]=false; renderFilter(s.id); });
+  activeFilters[SOURCES[0].id]=true; renderFilter(SOURCES[0].id);
+}
+
+function saveKey() {
+  var v = document.getElementById("apiKeyInput").value.trim();
+  if (!v.startsWith("sk-")) { alert("Clé invalide — doit commencer par sk-ant-..."); return; }
+  apiKey = v; localStorage.setItem("reco_key", v); showApp();
+}
+function showApp() {
+  document.getElementById("apiScreen").style.display = "none";
+  document.getElementById("appScreen").style.display = "block";
+  document.getElementById("apiBar").style.display = "flex";
+}
+function changeKey() {
+  apiKey = ""; localStorage.removeItem("reco_key");
+  document.getElementById("apiScreen").style.display = "block";
+  document.getElementById("appScreen").style.display = "none";
+  document.getElementById("apiBar").style.display = "none";
+  document.getElementById("apiKeyInput").value = "";
+}
+
+function norm(s) { return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,""); }
+function onInput() {
+  var v = document.getElementById("searchInput").value;
+  document.getElementById("btnX").style.display = v ? "block" : "none";
+  if (v.length < 2) { hideAC(); return; }
+  var q = norm(v);
+  suggestions = ALL.filter(function(p){ return norm(p).indexOf(q) >= 0; }).slice(0,7);
+  activeIdx = -1;
+  if (!suggestions.length) { hideAC(); return; }
+  var ac = document.getElementById("ac");
+  ac.innerHTML = "";
+  suggestions.forEach(function(s,i) {
+    var d = document.createElement("div");
+    d.className = "ac-item"; d.textContent = s;
+    d.onmousedown = function(){ pick(s); };
+    d.onmouseenter = function(){ activeIdx=i; renderAC(); };
+    ac.appendChild(d);
+  });
+  ac.style.display = "block";
+}
+function renderAC() {
+  var items = document.querySelectorAll(".ac-item");
+  items.forEach(function(el,i){ el.classList.toggle("active", i===activeIdx); });
+}
+function hideAC() { document.getElementById("ac").style.display = "none"; }
+function pick(val) { document.getElementById("searchInput").value=val; hideAC(); doSearch(val); }
+function onFocus() { var v=document.getElementById("searchInput").value; if(v.length>=2) onInput(); }
+function onKey(e) {
+  if (document.getElementById("ac").style.display==="none") { if(e.key==="Enter") doSearch(); return; }
+  if (e.key==="ArrowDown") { activeIdx=Math.min(activeIdx+1,suggestions.length-1); renderAC(); e.preventDefault(); }
+  else if (e.key==="ArrowUp") { activeIdx=Math.max(activeIdx-1,-1); renderAC(); e.preventDefault(); }
+  else if (e.key==="Enter") { activeIdx>=0 ? pick(suggestions[activeIdx]) : (hideAC(),doSearch()); }
+  else if (e.key==="Escape") hideAC();
+}
+function clearSearch() {
+  document.getElementById("searchInput").value="";
+  document.getElementById("btnX").style.display="none";
+  hideAC(); clearResults();
+}
+
+async function doSearch(term) {
+  term = term || document.getElementById("searchInput").value.trim();
+  if (!term) return;
+  lastTerm = term; hideAC();
+  document.getElementById("loadingPanel").style.display = "block";
+  document.getElementById("errorBox").style.display = "none";
+  document.getElementById("resultsPanel").style.display = "none";
+  document.getElementById("homePanel").style.display = "none";
+  document.getElementById("btnSearch").disabled = true;
+  document.getElementById("searchIcon").innerHTML = '<span style="display:inline-block;width:14px;height:14px;border:2px solid #ddd;border-top-color:#1b2d45;border-radius:50%;animation:spin 0.7s linear infinite"></span>';
+
+  var srcList = SOURCES.filter(function(s){ return activeFilters[s.id]; }).map(function(s){ return s.label; }).join(", ");
+
+  try {
+    var res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": apiKey,
+        "anthropic-version": "2023-06-01",
+        "anthropic-dangerous-direct-browser-access": "true"
+      },
+      body: JSON.stringify({
+        model: "claude-haiku-4-5-20251001",
+        max_tokens: 1500,
+        system: "Tu es un expert en recommandations officielles françaises pour pharmaciens d'officine. Reponds UNIQUEMENT avec un tableau JSON valide, sans texte avant ou apres, sans balises markdown. Format: [{\"sourceId\":\"has|ansm|spf|vidal|savantes\",\"title\":\"titre\",\"date\":\"annee\",\"summary\":\"resume 2-3 phrases oriente officine\",\"keyPoints\":[\"point1\",\"point2\",\"point3\"],\"url\":\"url directe ou chaine vide\"}]. Priorite HAS, puis societes savantes pertinentes. Si pathologie inconnue retourner [].",
+        messages: [{ role: "user", content: "Pathologie: " + term + "\nSources: " + srcList }]
+      })
+    });
+
+    if (!res.ok) {
+      var err = await res.json().catch(function(){ return {}; });
+      throw new Error(err.error ? err.error.message : "Erreur " + res.status);
+    }
+
+    var data = await res.json();
+    var raw = (data.content || []).filter(function(b){ return b.type==="text"; }).map(function(b){ return b.text; }).join("");
+    var parsed = extractJSON(raw);
+    if (!Array.isArray(parsed)) throw new Error("Format invalide. Reessayez.");
+
+    var filtered = parsed.filter(function(r){ return activeFilters[r.sourceId]; });
+    showResults(term, filtered);
+
+  } catch(e) {
+    document.getElementById("errorMsg").textContent = "Erreur : " + e.message;
+    document.getElementById("errorBox").style.display = "block";
+  } finally {
+    document.getElementById("loadingPanel").style.display = "none";
+    document.getElementById("btnSearch").disabled = false;
+    document.getElementById("searchIcon").textContent = "🔍";
+  }
+}
+
+function retry() { doSearch(lastTerm); }
+
+function extractJSON(text) {
+  text = text.replace(/```json|```/gi, "");
+  for (var i=0; i<text.length; i++) {
+    if (text[i]==="[") {
+      for (var j=text.length-1; j>i; j--) {
+        if (text[j]==="]") {
+          try { var p=JSON.parse(text.slice(i,j+1)); if(Array.isArray(p)) return p; } catch(e){}
+        }
+      }
+    }
+  }
+  return null;
+}
+
+function clearResults() {
+  document.getElementById("resultsPanel").style.display = "none";
+  document.getElementById("homePanel").style.display = "block";
+}
+
+function showResults(term, data) {
+  document.getElementById("resultTitle").textContent = term;
+  document.getElementById("resultCount").textContent = data.length + " résultat" + (data.length>1?"s":"");
+  var list = document.getElementById("resultsList");
+  list.innerHTML = "";
+
+  if (!data.length) {
+    list.innerHTML = '<div class="empty">Aucune recommandation trouvée pour les sources sélectionnées.</div>';
+  } else {
+    data.forEach(function(r, i) {
+      var s = SOURCES.find(function(x){ return x.id===r.sourceId; }) || SOURCES[0];
+      var card = document.createElement("div");
+      card.className = "card";
+      card.style.borderLeftColor = s.color;
+      card.style.animationDelay = (i*0.05) + "s";
+
+      var kps = (r.keyPoints||[]).map(function(p){ return "<li>"+p+"</li>"; }).join("");
+      var linkHref = r.url || (s.searchUrl + encodeURIComponent(term));
+      var linkText = r.url ? "Accéder au document ↗" : "Rechercher sur " + s.label + " ↗";
+
+      card.innerHTML =
+        '<div class="card-top">' +
+          '<div style="flex:1">' +
+            '<div class="card-meta">' +
+              '<span class="badge" style="background:'+s.color+'20;color:'+s.color+'">'+s.label+'</span>' +
+              (r.date ? '<span class="card-date">'+r.date+'</span>' : '') +
+            '</div>' +
+            '<div class="card-title">'+r.title+'</div>' +
+          '</div>' +
+          '<span class="card-toggle">&#9660;</span>' +
+        '</div>' +
+        '<div class="card-body">' +
+          '<p class="card-summary">'+r.summary+'</p>' +
+          (kps ? '<div class="kp-label">Points clés officine</div><ul class="kp-list">'+kps+'</ul>' : '') +
+          '<div class="src-block">' +
+            '<div class="src-label">Source</div>' +
+            '<div class="src-row">' +
+              '<span class="src-badge" style="background:'+s.color+'20;color:'+s.color+'">'+s.label+'</span>' +
+              '<a class="src-link" href="'+linkHref+'" target="_blank" rel="noopener" style="color:'+s.color+';border-bottom-color:'+s.color+'80" onclick="event.stopPropagation()">'+linkText+'</a>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+
+      card.addEventListener("click", function() {
+        card.classList.toggle("open");
+        card.querySelector(".card-toggle").innerHTML = card.classList.contains("open") ? "&#9650;" : "&#9660;";
+      });
+
+      list.appendChild(card);
+    });
+  }
+
+  document.getElementById("resultsPanel").style.display = "block";
+}
 
 init();
-
-function init(){
-  if(apiKey){
-    document.getElementById("apiCard").style.display="none";
-  }
-
-  sources.forEach(s=>{
-    active.add(s.id);
-    const d=document.createElement("div");
-    d.className="tag active";
-    d.textContent=s.label;
-    d.onclick=()=>toggle(s.id,d);
-    document.getElementById("filters").appendChild(d);
-  });
-}
-
-function toggle(id,el){
-  if(active.has(id)){
-    active.delete(id);
-    el.classList.remove("active");
-  }else{
-    active.add(id);
-    el.classList.add("active");
-  }
-}
-
-function saveKey(){
-  apiKey=document.getElementById("apiKey").value;
-  localStorage.setItem("api",apiKey);
-  document.getElementById("apiCard").style.display="none";
-}
-
-function ac(){
-  const v=document.getElementById("input").value.toLowerCase();
-  const box=document.getElementById("ac");
-
-  if(v.length<2){
-    box.style.display="none";
-    return;
-  }
-
-  const r=pathos.filter(x=>x.toLowerCase().includes(v));
-
-  box.innerHTML=r.map(x=>`<div onclick="pick('${x}')">${x}</div>`).join("");
-  box.style.display="block";
-}
-
-function pick(v){
-  document.getElementById("input").value=v;
-  document.getElementById("ac").style.display="none";
-  search();
-}
-
-async function search(){
-
-  const q=document.getElementById("input").value;
-  if(!q) return;
-
-  if(controller) controller.abort();
-  controller=new AbortController();
-
-  document.getElementById("results").innerHTML="Chargement...";
-
-  const res=await fetch("https://api.anthropic.com/v1/messages",{
-    method:"POST",
-    signal:controller.signal,
-    headers:{
-      "x-api-key":apiKey,
-      "anthropic-version":"2023-06-01",
-      "content-type":"application/json"
-    },
-    body:JSON.stringify({
-      model:"claude-sonnet-4-5-20250929",
-      max_tokens:1200,
-      system:"Répond uniquement JSON array",
-      messages:[{role:"user",content:`${q} sources:${[...active].join(",")}`}]
-    })
-  });
-
-  const data=await res.json();
-
-  let txt=data.content?.[0]?.text||"[]";
-
-  let json=[];
-  try{json=JSON.parse(txt.replace(/```/g,""))}catch{}
-
-  render(json);
-}
-
-function render(data){
-  const el=document.getElementById("results");
-
-  if(!data.length){
-    el.innerHTML="Aucun résultat";
-    return;
-  }
-
-  el.innerHTML=data.map(r=>`
-    <div class="result" onclick="this.classList.toggle('open')">
-      <b>${r.title}</b>
-      <div class="hidden">${r.summary||""}</div>
-    </div>
-  `).join("");
-}
-
 </script>
 
 </body>
