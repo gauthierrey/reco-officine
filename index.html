@@ -406,7 +406,7 @@ var QUICK_PEDI=["Otite","Angine","Fièvre","Bronchiolite","Asthme","Gastroentér
 
 var apiKey=localStorage.getItem(“reco_key”)||””;
 var activeFilters={},suggestions=[],activeIdx=-1,lastTerm=””,currentMode=“recos”;
-var history=JSON.parse(localStorage.getItem(“reco_history”)||”[]”);
+var searchHistory=JSON.parse(localStorage.getItem(“reco_history”)||”[]”);
 var favorites=JSON.parse(localStorage.getItem(“reco_favorites”)||”{}”);
 // favorites = {recos:{term:true}, drug:{term:true}, pedi:{term:true}}
 var drugSlots=[];
@@ -451,9 +451,9 @@ fp.appendChild(p);
 function renderHistPills(){
 var sec=document.getElementById(“histSection”);
 var hp=document.getElementById(“histPills”);hp.innerHTML=””;
-if(!history.length){sec.style.display=“none”;return;}
+if(!searchHistory.length){sec.style.display=“none”;return;}
 sec.style.display=“block”;
-history.slice(0,8).forEach(function(h){
+searchHistory.slice(0,8).forEach(function(h){
 var p=document.createElement(“span”);p.className=“hist-pill”;
 p.innerHTML=’<span class="hist-icon">🕐</span>’+h;
 p.onclick=function(){document.getElementById(“searchInput”).value=h;doSearch(h);};
@@ -461,9 +461,9 @@ hp.appendChild(p);
 });
 }
 function addToHistory(term){
-history=history.filter(function(h){return h!==term;});
-history.unshift(term);
-if(history.length>20)history=history.slice(0,20);
+searchHistory=searchHistory.filter(function(h){return h!==term;});
+searchHistory.unshift(term);
+if(searchHistory.length>20)searchHistory=searchHistory.slice(0,20);
 localStorage.setItem(“reco_history”,JSON.stringify(history));
 renderHistPills();
 }
