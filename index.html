@@ -4,27 +4,68 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Test2</title>
+<title>Test3</title>
 </head>
 <body>
-<h2>Test localStorage</h2>
-<input id="k" type="password" placeholder="Colle ta cle" style="width:280px;padding:8px;font-size:14px;display:block;margin-bottom:8px"/>
-<button onclick="test()" style="padding:8px 16px;font-size:14px">Valider</button>
-<div id="out" style="margin-top:12px;font-size:13px"></div>
+<div id="apiScreen">
+  <input id="apiKeyInput" type="password" placeholder="Colle ta cle" style="width:280px;padding:8px;font-size:14px;display:block;margin-bottom:8px"/>
+  <button onclick="saveKey()" style="padding:8px 16px;font-size:14px">Valider</button>
+</div>
+<div id="appScreen" style="display:none">
+  <p style="color:green;font-size:16px">SUCCES - App affichee !</p>
+  <p id="keyDisplay"></p>
+</div>
+<div id="apiBar" style="display:none;background:#243a57;color:white;padding:8px">API connectee</div>
+<div id="log" style="margin-top:12px;font-size:12px;color:#555;font-family:monospace"></div>
+
 <script>
-function test() {
-  var out = document.getElementById("out");
-  var v = document.getElementById("k").value;
-  out.innerHTML = "Valeur lue: " + v.length + " caracteres<br>";
-  try {
-    localStorage.setItem("test_key", v);
-    out.innerHTML += "localStorage OK<br>";
-  } catch(e) {
-    out.innerHTML += "localStorage ERREUR: " + e.message + "<br>";
+var APP = { apiKey: "" };
+
+function log(msg) {
+  document.getElementById("log").innerHTML += msg + "<br>";
+}
+
+try {
+  var saved = localStorage.getItem("rk");
+  log("localStorage rk: " + (saved ? saved.substring(0,10)+"..." : "vide"));
+  if (saved) {
+    APP.apiKey = saved;
+    log("Cle trouvee, appel showApp...");
+    showApp();
   }
-  out.innerHTML += "Cle: " + v.substring(0,15) + "...<br>";
-  out.innerHTML += "<strong style='color:green'>Bouton fonctionne !</strong>";
+} catch(e) {
+  log("Erreur init: " + e.message);
+}
+
+function saveKey() {
+  log("saveKey appele");
+  try {
+    var v = document.getElementById("apiKeyInput").value.trim();
+    log("Valeur: " + v.length + " chars");
+    if (v.length < 10) { alert("Trop court"); return; }
+    APP.apiKey = v;
+    log("apiKey set");
+    localStorage.setItem("rk", v);
+    log("localStorage set");
+    showApp();
+  } catch(e) {
+    log("ERREUR saveKey: " + e.message);
+  }
+}
+
+function showApp() {
+  log("showApp appele");
+  try {
+    document.getElementById("apiScreen").style.display = "none";
+    document.getElementById("appScreen").style.display = "block";
+    document.getElementById("apiBar").style.display = "block";
+    document.getElementById("keyDisplay").textContent = "Cle: " + APP.apiKey.substring(0,15) + "...";
+    log("showApp OK");
+  } catch(e) {
+    log("ERREUR showApp: " + e.message);
+  }
 }
 </script>
+
 </body>
 </html>
