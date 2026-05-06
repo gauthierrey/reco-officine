@@ -599,7 +599,7 @@ function selectAll(){SOURCES.forEach(function(s){activeFilters[s.id]=true;render
 function selectNone(){SOURCES.forEach(function(s){activeFilters[s.id]=false;renderFilter(s.id);});activeFilters[SOURCES[0].id]=true;renderFilter(SOURCES[0].id);}
 function saveKey(){
 var v=document.getElementById(“apiKeyInput”).value.trim();
-if(!v.startsWith(“sk-”)){alert(“Clé invalide”);return;}
+if(v.length<10){alert(“Clé invalide — vérifie que tu as bien tout copié”);return;}
 apiKey=v;localStorage.setItem(“reco_key”,v);showApp();
 }
 function showApp(){document.getElementById(“apiScreen”).style.display=“none”;document.getElementById(“appScreen”).style.display=“block”;document.getElementById(“apiBar”).style.display=“flex”;}
