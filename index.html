@@ -26,6 +26,16 @@ body { font-family: Arial, sans-serif; background: #f4f4f4; padding-bottom: 40px
 .btn:hover { background: #243a57; }
 .btn:disabled { background: #aaa; cursor: not-allowed; }
 .note { font-size: 11px; color: #999; margin-top: 8px; }
+
+/* SOURCE LEGEND */
+.source-legend { background: #fff8e1; border: 1px solid #ffe082; border-radius: 8px; padding: 12px 14px; margin-bottom: 12px; font-size: 12px; color: #555; line-height: 1.6; }
+.source-legend strong { color: #1b2d45; }
+.legend-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 6px; }
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; }
+.tag-ia { background: #e3f2fd; color: #0d47a1; border: 1px solid #90caf9; padding: 1px 6px; border-radius: 3px; font-size: 10px; font-weight: bold; }
+.tag-source { background: #e8f5e9; color: #1b5e20; border: 1px solid #a5d6a7; padding: 1px 6px; border-radius: 3px; font-size: 10px; font-weight: bold; }
+.tag-verify { background: #fff3e0; color: #e65100; border: 1px solid #ffcc02; padding: 1px 6px; border-radius: 3px; font-size: 10px; font-weight: bold; }
+
 .mode-tabs { display: flex; margin-bottom: 10px; background: white; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; }
 .mode-tab { flex: 1; padding: 11px 4px; font-size: 12px; font-weight: bold; cursor: pointer; border: none; background: white; color: #666; text-align: center; transition: all 0.15s; border-right: 1px solid #ddd; }
 .mode-tab:last-child { border-right: none; }
@@ -61,24 +71,36 @@ body { font-family: Arial, sans-serif; background: #f4f4f4; padding-bottom: 40px
 .results-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 13px; color: #555; flex-wrap: wrap; gap: 6px; }
 .results-head strong { color: #1b2d45; }
 .btn-clear-r { background: white; border: 1px solid #ccc; border-radius: 6px; padding: 3px 9px; font-size: 11px; color: #888; cursor: pointer; }
+
+/* SOURCING INLINE */
+.data-block { margin-bottom: 10px; }
+.data-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 5px; }
+.data-tag { flex-shrink: 0; font-size: 9px; font-weight: bold; padding: 2px 5px; border-radius: 3px; margin-top: 2px; }
+.data-content { font-size: 12.5px; color: #333; line-height: 1.55; flex: 1; }
+.verify-link { font-size: 10px; font-weight: bold; text-decoration: none; color: #0277bd; border-bottom: 1px solid #0277bd50; margin-left: 6px; white-space: nowrap; }
+.section-title { font-size: 10px; font-weight: bold; color: #999; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 7px; padding-bottom: 4px; border-bottom: 1px solid #f0f0f0; }
+
+/* ALERTS */
 .ansm-alert { background: #fff3e0; border: 1px solid #ffb74d; border-left: 4px solid #e65100; border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; animation: fadeUp 0.2s ease; }
 .ansm-alert-title { font-size: 11px; font-weight: bold; color: #e65100; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
-.ansm-alert-item { font-size: 12.5px; color: #333; line-height: 1.6; margin-bottom: 4px; padding-left: 14px; position: relative; }
-.ansm-alert-item::before { content: "⚠"; position: absolute; left: 0; font-size: 10px; }
 .otc-box { background: #e8f5e9; border: 1px solid #a5d6a7; border-left: 4px solid #2e7d32; border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; animation: fadeUp 0.2s ease; }
 .otc-title { font-size: 11px; font-weight: bold; color: #2e7d32; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
-.otc-item { font-size: 12.5px; color: #333; line-height: 1.6; margin-bottom: 3px; padding-left: 14px; position: relative; }
-.otc-item::before { content: "✚"; position: absolute; left: 0; font-size: 10px; color: #2e7d32; }
+
+/* SAFETY TABLE */
 .safety-box { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; animation: fadeUp 0.2s ease; overflow-x: auto; }
 .safety-title { font-size: 11px; font-weight: bold; color: #999; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
 .safety-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-.safety-table th { background: #f8f9fa; padding: 7px 10px; text-align: left; font-size: 11px; font-weight: bold; color: #555; border-bottom: 2px solid #ddd; white-space: nowrap; }
-.safety-table td { padding: 7px 10px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+.safety-table th { background: #f8f9fa; padding: 7px 8px; text-align: left; font-size: 11px; font-weight: bold; color: #555; border-bottom: 2px solid #ddd; white-space: nowrap; }
+.safety-table td { padding: 7px 8px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
 .safety-table tr:last-child td { border-bottom: none; }
 .safety-drug { font-weight: bold; color: #1b2d45; font-size: 12px; }
 .safety-line { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 10px; font-weight: bold; color: white; }
 .sl1 { background: #2e7d32; } .sl2 { background: #1565c0; }
-.ok { color: #2e7d32; font-size: 15px; font-weight: bold; } .warn { color: #f57c00; font-size: 15px; font-weight: bold; } .no { color: #c62828; font-size: 15px; font-weight: bold; }
+.ok { color: #2e7d32; font-size: 14px; font-weight: bold; }
+.warn { color: #f57c00; font-size: 14px; font-weight: bold; }
+.no { color: #c62828; font-size: 14px; font-weight: bold; }
+
+/* CARDS */
 .card { background: white; border: 1px solid #ddd; border-left: 4px solid; border-radius: 8px; padding: 14px 16px; margin-bottom: 8px; cursor: pointer; transition: box-shadow 0.15s; animation: fadeUp 0.25s ease both; }
 .card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
 .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
@@ -102,53 +124,52 @@ body { font-family: Arial, sans-serif; background: #f4f4f4; padding-bottom: 40px
 .lines-lbl { font-size: 10px; font-weight: bold; color: #999; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
 .line-item { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 5px; }
 .line-badge { flex-shrink: 0; font-size: 10px; font-weight: bold; padding: 2px 8px; border-radius: 4px; color: white; white-space: nowrap; }
-.l1 { background: #2e7d32; } .l2 { background: #1565c0; } .l3 { background: #6a1b9a; }
+.l1{background:#2e7d32;} .l2{background:#1565c0;} .l3{background:#6a1b9a;}
 .line-text { font-size: 12.5px; color: #333; line-height: 1.5; }
-.card-summary { font-size: 13px; color: #444; line-height: 1.65; margin-bottom: 10px; }
-.kp-lbl { font-size: 10px; font-weight: bold; color: #999; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 5px; }
-.kp-list { padding-left: 16px; margin: 0 0 10px; }
-.kp-list li { font-size: 12.5px; color: #333; line-height: 1.6; margin-bottom: 3px; }
-.src-block { padding-top: 10px; border-top: 1px solid #f0f0f0; }
-.src-lbl { font-size: 10px; font-weight: bold; color: #999; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 5px; }
-.src-links-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.src-link { font-size: 12px; font-weight: bold; text-decoration: none; border-bottom: 1px solid; padding-bottom: 1px; }
+.src-block { padding-top: 10px; border-top: 1px solid #f0f0f0; margin-top: 10px; }
+.src-lbl { font-size: 10px; font-weight: bold; color: #999; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+.src-links-row { display: flex; flex-wrap: wrap; gap: 7px; }
+.src-link-btn { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: bold; text-decoration: none; padding: 4px 9px; border-radius: 5px; border: 1px solid; transition: opacity 0.15s; }
+.src-link-btn:hover { opacity: 0.75; }
+
+/* DRUG */
+.drug-card { background: white; border: 1px solid #ddd; border-left: 4px solid #1b2d45; border-radius: 8px; overflow: hidden; margin-bottom: 10px; animation: fadeUp 0.2s ease; }
+.drug-header { background: #f8f9fa; padding: 14px 16px; border-bottom: 1px solid #eee; }
+.drug-name { font-size: 18px; font-weight: bold; color: #1b2d45; margin-bottom: 2px; }
+.drug-commercial { font-size: 13px; color: #666; margin-bottom: 6px; }
+.drug-class-badge { display: inline-block; background: #e3f2fd; color: #0d47a1; border: 1px solid #90caf9; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+.drug-body { padding: 14px 16px; }
+.drug-section { margin-bottom: 14px; }
+.drug-section:last-child { margin-bottom: 0; }
+.drug-section-title { font-size: 10px; font-weight: bold; color: #999; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; padding-bottom: 4px; border-bottom: 1px solid #f0f0f0; }
+.drug-text { font-size: 13px; color: #333; line-height: 1.6; }
+.drug-list { padding-left: 16px; margin: 0; }
+.drug-list li { font-size: 12.5px; color: #333; line-height: 1.6; margin-bottom: 3px; }
+.posology-item { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
+.posology-route { flex-shrink: 0; background: #f3e5f5; color: #4a148c; border: 1px solid #ce93d8; padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: bold; text-transform: uppercase; }
+.interaction-item { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 5px; }
+.inter-level { flex-shrink: 0; font-size: 10px; font-weight: bold; padding: 2px 7px; border-radius: 4px; color: white; white-space: nowrap; }
+.inter-ci{background:#c62828;} .inter-warn{background:#e65100;} .inter-caution{background:#f57c00;}
+.inter-text { font-size: 12.5px; color: #333; line-height: 1.5; }
+.safety-inline { display: flex; gap: 10px; flex-wrap: wrap; }
+.safety-item { display: flex; align-items: center; gap: 5px; font-size: 12px; }
+.drug-links { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; padding-top: 12px; border-top: 1px solid #f0f0f0; }
+.drug-link { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: bold; text-decoration: none; padding: 6px 11px; border-radius: 6px; border: 1px solid; }
+.drug-link:hover { opacity: 0.8; }
+.link-bdpm{color:#0f4c81;border-color:#0f4c81;background:#e8f0fe;}
+.link-vidal{color:#8b1a1a;border-color:#8b1a1a;background:#fce8e8;}
+.link-theriaque{color:#b45309;border-color:#b45309;background:#fef3e2;}
+.link-ansm{color:#0e7c6e;border-color:#0e7c6e;background:#e0f4f1;}
+
+/* IA WARNING BANNER */
+.ia-banner { background: #e3f2fd; border: 1px solid #90caf9; border-radius: 6px; padding: 8px 12px; margin-bottom: 10px; font-size: 11px; color: #0d47a1; line-height: 1.5; display: flex; gap: 6px; align-items: flex-start; }
+.ia-banner-icon { flex-shrink: 0; font-size: 13px; }
+
 .fiche-box { background: white; border: 2px solid #1b2d45; border-radius: 8px; padding: 16px; margin-bottom: 10px; animation: fadeUp 0.2s ease; }
 .fiche-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
 .fiche-title { font-size: 13px; font-weight: bold; color: #1b2d45; }
 .btn-copy { background: #1b2d45; color: white; border: none; border-radius: 6px; padding: 6px 12px; font-size: 11px; cursor: pointer; }
 .fiche-content { font-size: 13px; color: #333; line-height: 1.7; white-space: pre-wrap; }
-
-/* DRUG CARD */
-.drug-card { background: white; border: 1px solid #ddd; border-left: 4px solid #1b2d45; border-radius: 8px; padding: 0; margin-bottom: 10px; animation: fadeUp 0.2s ease; overflow: hidden; }
-.drug-header { background: #f8f9fa; padding: 14px 16px; border-bottom: 1px solid #eee; }
-.drug-name { font-size: 18px; font-weight: bold; color: #1b2d45; margin-bottom: 3px; }
-.drug-commercial { font-size: 13px; color: #666; margin-bottom: 6px; }
-.drug-class { display: inline-block; background: #e3f2fd; color: #0d47a1; border: 1px solid #90caf9; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
-.drug-body { padding: 14px 16px; }
-.drug-section { margin-bottom: 14px; }
-.drug-section:last-child { margin-bottom: 0; }
-.drug-section-title { font-size: 11px; font-weight: bold; color: #999; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 7px; padding-bottom: 4px; border-bottom: 1px solid #f0f0f0; }
-.drug-text { font-size: 13px; color: #333; line-height: 1.6; }
-.drug-list { padding-left: 16px; margin: 0; }
-.drug-list li { font-size: 12.5px; color: #333; line-height: 1.6; margin-bottom: 3px; }
-.posology-item { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 6px; font-size: 12.5px; }
-.posology-route { flex-shrink: 0; background: #f3e5f5; color: #4a148c; border: 1px solid #ce93d8; padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: bold; text-transform: uppercase; }
-.interaction-item { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 5px; }
-.inter-level { flex-shrink: 0; font-size: 10px; font-weight: bold; padding: 2px 7px; border-radius: 4px; color: white; white-space: nowrap; }
-.inter-ci { background: #c62828; }
-.inter-warn { background: #e65100; }
-.inter-caution { background: #f57c00; }
-.inter-text { font-size: 12.5px; color: #333; line-height: 1.5; }
-.safety-inline { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
-.safety-item { display: flex; align-items: center; gap: 5px; font-size: 12px; }
-.safety-icon { font-size: 14px; font-weight: bold; }
-.drug-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #f0f0f0; }
-.drug-link { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: bold; text-decoration: none; padding: 5px 10px; border-radius: 6px; border: 1px solid; transition: all 0.15s; }
-.drug-link:hover { opacity: 0.8; }
-.link-bdpm { color: #0f4c81; border-color: #0f4c81; background: #e8f0fe; }
-.link-vidal { color: #8b1a1a; border-color: #8b1a1a; background: #fce8e8; }
-.link-theriaque { color: #b45309; border-color: #b45309; background: #fef3e2; }
-.link-ansm { color: #0e7c6e; border-color: #0e7c6e; background: #e0f4f1; }
 
 .study-card { background: white; border: 1px solid #ddd; border-left: 4px solid #0277bd; border-radius: 8px; padding: 14px 16px; margin-bottom: 8px; cursor: pointer; transition: box-shadow 0.15s; animation: fadeUp 0.25s ease both; }
 .study-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
@@ -156,9 +177,8 @@ body { font-family: Arial, sans-serif; background: #f4f4f4; padding-bottom: 40px
 .study-card.open .study-body { display: block; }
 .study-detail { font-size: 12.5px; color: #444; line-height: 1.65; margin-bottom: 6px; }
 .study-detail strong { color: #1b2d45; }
-.trial-badge { background: #e3f2fd; color: #0d47a1; }
-.molecule-badge { background: #f3e5f5; color: #4a148c; }
-.phase-badge { background: #e8f5e9; color: #1b5e20; border: 1px solid #a5d6a7; font-size: 10px; font-weight: bold; padding: 2px 6px; border-radius: 4px; }
+.trial-badge{background:#e3f2fd;color:#0d47a1;} .molecule-badge{background:#f3e5f5;color:#4a148c;}
+.phase-badge{background:#e8f5e9;color:#1b5e20;border:1px solid #a5d6a7;font-size:10px;font-weight:bold;padding:2px 6px;border-radius:4px;}
 .empty { text-align: center; padding: 24px; font-size: 13px; color: #999; background: white; border: 1px solid #ddd; border-radius: 8px; }
 .disclaimer { margin-top: 12px; padding: 10px 14px; background: #fffbee; border: 1px solid #ffe082; border-radius: 8px; font-size: 11px; color: #7a5c00; line-height: 1.6; }
 @keyframes spin { to { transform: rotate(360deg); } }
@@ -186,72 +206,89 @@ body { font-family: Arial, sans-serif; background: #f4f4f4; padding-bottom: 40px
     <p class="note">🔒 Clé stockée uniquement dans ton navigateur</p>
   </div>
   <div id="appScreen" style="display:none">
-    <div class="mode-tabs">
-      <button class="mode-tab active" id="tabRecos" onclick="setMode('recos')">📋 Recos</button>
-      <button class="mode-tab" id="tabDrug" onclick="setMode('drug')">💊 Médicament</button>
-      <button class="mode-tab" id="tabStudy" onclick="setMode('study')">🔬 Études</button>
-    </div>
-    <div class="search-wrap" id="searchWrap">
-      <div class="search-row">
-        <span id="searchIcon">🔍</span>
-        <input class="search-input" id="searchInput" type="text" placeholder="Rechercher une pathologie…"
-          oninput="onInput()" onkeydown="onKey(event)" onfocus="onFocus()"/>
-        <button class="btn-x" id="btnX" onclick="clearSearch()" style="display:none">✕</button>
-        <button class="btn-search" id="btnSearch" onclick="doSearch()">Chercher</button>
-      </div>
-      <div class="autocomplete" id="ac"></div>
-    </div>
-    <div class="filters-box" id="filtersBox">
-      <div class="lbl">Filtrer les sources</div>
-      <div class="filter-row" id="filterRow"></div>
-      <div class="filter-actions">
-        <button class="btn-sm" onclick="selectAll()">Tout sélectionner</button>
-        <button class="btn-sm" onclick="selectNone()">Tout désélectionner</button>
-      </div>
-    </div>
-    <div class="quick-box" id="homePanel">
-      <div class="lbl" id="homeLabel">Accès rapide</div>
-      <div class="quick-pills" id="quickPills"></div>
-    </div>
-    <div class="loading" id="loadingPanel">
-      <div class="spinner"></div>
-      <p id="loadingText">Interrogation des sources…</p>
-    </div>
-    <div class="error-box" id="errorBox">
-      <span id="errorMsg"></span>
-      <br><button class="btn-retry" onclick="retry()">↺ Réessayer</button>
-    </div>
-    <!-- RECOS PANEL -->
-    <div id="resultsPanel" style="display:none">
-      <div class="results-head">
-        <span>Résultats pour <strong id="resultTitle"></strong> — <span id="resultCount"></span></span>
-        <button class="btn-clear-r" onclick="clearResults()">✕ Effacer</button>
-      </div>
-      <div id="ansm-alerts"></div>
-      <div id="otc-section"></div>
-      <div id="safety-section"></div>
-      <div id="resultsList"></div>
-      <div id="fiche-section"></div>
-      <div class="disclaimer">⚠ Synthèse générée par IA. Vérifiez toujours les sources officielles avant toute application clinique.</div>
-    </div>
-    <!-- DRUG PANEL -->
-    <div id="drugPanel" style="display:none">
-      <div class="results-head">
-        <span>Fiche pour <strong id="drugTitle"></strong></span>
-        <button class="btn-clear-r" onclick="clearResults()">✕ Effacer</button>
-      </div>
-      <div id="drugContent"></div>
-      <div class="disclaimer">⚠ Informations générées par IA. Consultez toujours le RCP officiel (BDPM) avant dispensation.</div>
-    </div>
-    <!-- STUDY PANEL -->
-    <div id="studyPanel" style="display:none">
-      <div class="results-head">
-        <span>Études pour <strong id="studyTitle"></strong> — <span id="studyCount"></span></span>
-        <button class="btn-clear-r" onclick="clearResults()">✕ Effacer</button>
-      </div>
-      <div id="studyList"></div>
-      <div class="disclaimer">⚠ Statuts susceptibles d'évoluer. Vérifier sur ClinicalTrials.gov et EMA.</div>
-    </div>
+
+```
+<!-- LÉGENDE SOURCING -->
+<div class="source-legend">
+  <strong>Comment lire les sources :</strong>
+  <div class="legend-row">
+    <div class="legend-item"><span class="tag-source">SOURCE</span> Donnée issue d'une reco officielle identifiée</div>
+    <div class="legend-item"><span class="tag-ia">IA</span> Synthèse générée — à vérifier</div>
+    <div class="legend-item"><span class="tag-verify">VÉRIFIER</span> Lien direct vers le document officiel</div>
+  </div>
+</div>
+
+<div class="mode-tabs">
+  <button class="mode-tab active" id="tabRecos" onclick="setMode('recos')">📋 Recos</button>
+  <button class="mode-tab" id="tabDrug" onclick="setMode('drug')">💊 Médicament</button>
+  <button class="mode-tab" id="tabStudy" onclick="setMode('study')">🔬 Études</button>
+</div>
+<div class="search-wrap" id="searchWrap">
+  <div class="search-row">
+    <span id="searchIcon">🔍</span>
+    <input class="search-input" id="searchInput" type="text" placeholder="Rechercher une pathologie…"
+      oninput="onInput()" onkeydown="onKey(event)" onfocus="onFocus()"/>
+    <button class="btn-x" id="btnX" onclick="clearSearch()" style="display:none">✕</button>
+    <button class="btn-search" id="btnSearch" onclick="doSearch()">Chercher</button>
+  </div>
+  <div class="autocomplete" id="ac"></div>
+</div>
+<div class="filters-box" id="filtersBox">
+  <div class="lbl">Filtrer les sources</div>
+  <div class="filter-row" id="filterRow"></div>
+  <div class="filter-actions">
+    <button class="btn-sm" onclick="selectAll()">Tout sélectionner</button>
+    <button class="btn-sm" onclick="selectNone()">Tout désélectionner</button>
+  </div>
+</div>
+<div class="quick-box" id="homePanel">
+  <div class="lbl" id="homeLabel">Accès rapide</div>
+  <div class="quick-pills" id="quickPills"></div>
+</div>
+<div class="loading" id="loadingPanel">
+  <div class="spinner"></div>
+  <p id="loadingText">Interrogation des sources…</p>
+</div>
+<div class="error-box" id="errorBox">
+  <span id="errorMsg"></span>
+  <br><button class="btn-retry" onclick="retry()">↺ Réessayer</button>
+</div>
+
+<!-- RECOS -->
+<div id="resultsPanel" style="display:none">
+  <div class="results-head">
+    <span>Résultats pour <strong id="resultTitle"></strong> — <span id="resultCount"></span></span>
+    <button class="btn-clear-r" onclick="clearResults()">✕ Effacer</button>
+  </div>
+  <div id="ansm-alerts"></div>
+  <div id="otc-section"></div>
+  <div id="safety-section"></div>
+  <div id="resultsList"></div>
+  <div id="fiche-section"></div>
+  <div class="disclaimer">⚠ Les données marquées <strong>IA</strong> sont des synthèses générées — toujours vérifier via les liens <strong>VÉRIFIER</strong> avant application clinique.</div>
+</div>
+
+<!-- DRUG -->
+<div id="drugPanel" style="display:none">
+  <div class="results-head">
+    <span>Fiche pour <strong id="drugTitle"></strong></span>
+    <button class="btn-clear-r" onclick="clearResults()">✕ Effacer</button>
+  </div>
+  <div id="drugContent"></div>
+  <div class="disclaimer">⚠ Données marquées <strong>IA</strong> à vérifier via le RCP officiel BDPM avant toute dispensation.</div>
+</div>
+
+<!-- STUDY -->
+<div id="studyPanel" style="display:none">
+  <div class="results-head">
+    <span>Études pour <strong id="studyTitle"></strong> — <span id="studyCount"></span></span>
+    <button class="btn-clear-r" onclick="clearResults()">✕ Effacer</button>
+  </div>
+  <div id="studyList"></div>
+  <div class="disclaimer">⚠ Statuts susceptibles d'évoluer. Vérifier sur ClinicalTrials.gov et EMA.</div>
+</div>
+```
+
   </div>
 </div>
 <script>
@@ -265,7 +302,7 @@ var SOURCES=[
   {id:"savantes",label:"Soc. savantes",color:"#5a3580",searchUrl:"https://www.google.com/search?q=recommandations+societe+savante+france+"}
 ];
 var ALL_PATHO=["Dyslipidémie","Hypertension artérielle","Diabète type 2","Diabète type 1","BPCO","Asthme","Insuffisance cardiaque","Fibrillation auriculaire","Dépression","Anxiété","Trouble bipolaire","Schizophrénie","Hypothyroïdie","Hyperthyroïdie","Gonarthrose","Lombalgie","Polyarthrite rhumatoïde","Rhinite allergique","Reflux gastro-oesophagien","Insomnie","Migraine","Epilepsie","Maladie de Parkinson","Alzheimer","Sclérose en plaques","Insuffisance rénale chronique","Cirrhose","Maladie de Crohn","Rectocolite hémorragique","Psoriasis","Eczéma atopique","Acné","Ostéoporose","Obésité","Syndrome métabolique","Goutte","Anémie ferriprive","Thrombose veineuse profonde","Angor stable","Cancer du sein","Cancer du poumon","Cancer colorectal","VIH","Hépatite B","Hépatite C","Otite","Sinusite","Angine","Bronchite","Pneumonie","Cystite","Endométriose","Mucoviscidose","Insuffisance veineuse","Syndrome du colon irritable","Douleur chronique","Arthrose","Spondylarthrite","Lupus","Glaucome","DMLA","Ménopause","Contraception","Constipation","Diarrhée","Nausées","Candidose","Herpès","Zona","Urticaire","Rosacée"];
-var ALL_DRUG=["Metformine","Atorvastatine","Rosuvastatine","Amlodipine","Ramipril","Bisoprolol","Metoprolol","Lisinopril","Valsartan","Losartan","Oméprazole","Pantoprazole","Esoméprazole","Lévothyroxine","Amoxicilline","Azithromycine","Ciprofloxacine","Ibuprofène","Paracétamol","Aspirine","Warfarine","Rivaroxaban","Apixaban","Dabigatran","Fluoxétine","Sertraline","Escitalopram","Paroxétine","Venlafaxine","Alprazolam","Lorazépam","Zolpidem","Zopiclone","Amlodipine","Furosémide","Spironolactone","Hydrochlorothiazide","Indapamide","Allopurinol","Colchicine","Prednisolone","Prednisone","Dexaméthasone","Salbutamol","Formotérol","Salmétérol","Béclométasone","Budésonide","Fluticasone","Tiotropium","Montelukast","Cetirizine","Loratadine","Lévocétirizine","Desloratadine","Fexofénadine","Insuline","Glipizide","Glibenclamide","Sitagliptine","Empagliflozine","Dapagliflozine","Canagliflozine","Liraglutide","Sémaglutide","Lénalidomide","Adalimumab","Étanercept","Infliximab","Rituximab","Trastuzumab","Tamoxifène","Létrozole","Anastrozole","Acide folique","Fer","Vitamine D","Calcium","Magnésium","Zinc","Mélatonine","Codéine","Tramadol","Morphine","Oxycodone","Gabapentine","Prégabaline","Carbamazépine","Valproate","Lévétiracétam","Lamotrigine","Donépézil","Mémantine","Lévodopa","Pramipexole","Rotigotine","Méthotrexate","Hydroxychloroquine","Sulfasalazine","Léflunomide"];
+var ALL_DRUG=["Metformine","Atorvastatine","Rosuvastatine","Amlodipine","Ramipril","Bisoprolol","Metoprolol","Lisinopril","Valsartan","Losartan","Oméprazole","Pantoprazole","Esoméprazole","Lévothyroxine","Amoxicilline","Azithromycine","Ciprofloxacine","Ibuprofène","Paracétamol","Aspirine","Warfarine","Rivaroxaban","Apixaban","Dabigatran","Fluoxétine","Sertraline","Escitalopram","Paroxétine","Venlafaxine","Alprazolam","Lorazépam","Zolpidem","Zopiclone","Furosémide","Spironolactone","Hydrochlorothiazide","Indapamide","Allopurinol","Colchicine","Prednisolone","Salbutamol","Formotérol","Béclométasone","Budésonide","Fluticasone","Tiotropium","Montelukast","Cetirizine","Loratadine","Lévocétirizine","Insuline","Glipizide","Sitagliptine","Empagliflozine","Dapagliflozine","Liraglutide","Sémaglutide","Adalimumab","Étanercept","Infliximab","Tamoxifène","Létrozole","Acide folique","Vitamine D","Calcium","Mélatonine","Tramadol","Morphine","Gabapentine","Prégabaline","Carbamazépine","Valproate","Lévétiracétam","Lamotrigine","Donépézil","Mémantine","Lévodopa","Méthotrexate","Hydroxychloroquine","Sulfasalazine","Léflunomide","Rivaroxaban","Amoxicilline-acide clavulanique","Doxycycline","Clarithromycine"];
 var QUICK_PATHO=["Dyslipidémie","HTA","Diabète type 2","BPCO","Asthme","Insomnie","Dépression","Ostéoporose"];
 var QUICK_DRUG=["Metformine","Atorvastatine","Amoxicilline","Oméprazole","Paracétamol","Ibuprofène","Bisoprolol","Lévothyroxine"];
 var apiKey=localStorage.getItem("reco_key")||"";
@@ -275,85 +312,64 @@ SOURCES.forEach(function(s){activeFilters[s.id]=true;});
 function init(){
 var fr=document.getElementById(“filterRow”);
 SOURCES.forEach(function(s){
-var el=document.createElement(“div”);
-el.className=“fpill”;el.id=“fp-”+s.id;
+var el=document.createElement(“div”);el.className=“fpill”;el.id=“fp-”+s.id;
 el.style.borderColor=s.color;el.style.background=s.color;el.style.color=”#fff”;
 el.innerHTML=’<span class="fcheck">✓</span>’+s.label;
-el.onclick=function(){toggleFilter(s.id);};
-fr.appendChild(el);
+el.onclick=function(){toggleFilter(s.id);};fr.appendChild(el);
 });
-renderQuickPills(QUICK_PATHO,“patho”);
-if(apiKey) showApp();
+renderQuickPills(QUICK_PATHO);
+if(apiKey)showApp();
 document.addEventListener(“mousedown”,function(e){if(!document.getElementById(“searchWrap”).contains(e.target))hideAC();});
 }
-
-function renderQuickPills(arr,type){
+function renderQuickPills(arr){
 var qp=document.getElementById(“quickPills”);qp.innerHTML=””;
 arr.forEach(function(p){
 var b=document.createElement(“button”);b.className=“qpill”;b.textContent=p;
-b.onclick=function(){document.getElementById(“searchInput”).value=p;doSearch(p);};
-qp.appendChild(b);
+b.onclick=function(){document.getElementById(“searchInput”).value=p;doSearch(p);};qp.appendChild(b);
 });
 }
-
 function setMode(m){
 currentMode=m;
 [“recos”,“drug”,“study”].forEach(function(x){document.getElementById(“tab”+x.charAt(0).toUpperCase()+x.slice(1)).classList.toggle(“active”,x===m);});
 document.getElementById(“filtersBox”).style.display=m===“recos”?“block”:“none”;
 var ph={recos:“Rechercher une pathologie…”,drug:“Rechercher un médicament (DCI ou nom commercial)…”,study:“Rechercher une pathologie ou molécule…”};
-document.getElementById(“searchInput”).placeholder=ph[m]||“Rechercher…”;
+document.getElementById(“searchInput”).placeholder=ph[m];
 document.getElementById(“homeLabel”).textContent=m===“drug”?“Médicaments fréquents”:“Accès rapide”;
-renderQuickPills(m===“drug”?QUICK_DRUG:QUICK_PATHO,m);
+renderQuickPills(m===“drug”?QUICK_DRUG:QUICK_PATHO);
 clearResults();
 }
-
 function toggleFilter(id){
 var count=SOURCES.filter(function(s){return activeFilters[s.id];}).length;
 if(activeFilters[id]&&count===1)return;
 activeFilters[id]=!activeFilters[id];renderFilter(id);
 }
 function renderFilter(id){
-var s=SOURCES.find(function(x){return x.id===id;});
-var el=document.getElementById(“fp-”+id);
+var s=SOURCES.find(function(x){return x.id===id;});var el=document.getElementById(“fp-”+id);
 if(activeFilters[id]){el.style.background=s.color;el.style.color=”#fff”;el.querySelector(”.fcheck”).innerHTML=”✓”;}
 else{el.style.background=”#fff”;el.style.color=s.color;el.querySelector(”.fcheck”).innerHTML=””;}
 }
 function selectAll(){SOURCES.forEach(function(s){activeFilters[s.id]=true;renderFilter(s.id);});}
 function selectNone(){SOURCES.forEach(function(s){activeFilters[s.id]=false;renderFilter(s.id);});activeFilters[SOURCES[0].id]=true;renderFilter(SOURCES[0].id);}
-
 function saveKey(){
 var v=document.getElementById(“apiKeyInput”).value.trim();
 if(!v.startsWith(“sk-”)){alert(“Clé invalide”);return;}
 apiKey=v;localStorage.setItem(“reco_key”,v);showApp();
 }
-function showApp(){
-document.getElementById(“apiScreen”).style.display=“none”;
-document.getElementById(“appScreen”).style.display=“block”;
-document.getElementById(“apiBar”).style.display=“flex”;
-}
-function changeKey(){
-apiKey=””;localStorage.removeItem(“reco_key”);
-document.getElementById(“apiScreen”).style.display=“block”;
-document.getElementById(“appScreen”).style.display=“none”;
-document.getElementById(“apiBar”).style.display=“none”;
-document.getElementById(“apiKeyInput”).value=””;
-}
-
+function showApp(){document.getElementById(“apiScreen”).style.display=“none”;document.getElementById(“appScreen”).style.display=“block”;document.getElementById(“apiBar”).style.display=“flex”;}
+function changeKey(){apiKey=””;localStorage.removeItem(“reco_key”);document.getElementById(“apiScreen”).style.display=“block”;document.getElementById(“appScreen”).style.display=“none”;document.getElementById(“apiBar”).style.display=“none”;document.getElementById(“apiKeyInput”).value=””;}
 function norm(s){return s.toLowerCase().normalize(“NFD”).replace(/[\u0300-\u036f]/g,””);}
 function onInput(){
 var v=document.getElementById(“searchInput”).value;
 document.getElementById(“btnX”).style.display=v?“block”:“none”;
 if(v.length<2){hideAC();return;}
-var q=norm(v);
-var list=currentMode===“drug”?ALL_DRUG:ALL_PATHO;
+var q=norm(v);var list=currentMode===“drug”?ALL_DRUG:ALL_PATHO;
 suggestions=list.filter(function(p){return norm(p).indexOf(q)>=0;}).slice(0,8);
 activeIdx=-1;
 if(!suggestions.length){hideAC();return;}
 var ac=document.getElementById(“ac”);ac.innerHTML=””;
 suggestions.forEach(function(s,i){
 var d=document.createElement(“div”);d.className=“ac-item”;d.textContent=s;
-d.onmousedown=function(){pick(s);};d.onmouseenter=function(){activeIdx=i;renderAC();};
-ac.appendChild(d);
+d.onmousedown=function(){pick(s);};d.onmouseenter=function(){activeIdx=i;renderAC();};ac.appendChild(d);
 });
 ac.style.display=“block”;
 }
@@ -375,8 +391,7 @@ term=term||document.getElementById(“searchInput”).value.trim();
 if(!term)return;
 lastTerm=term;hideAC();
 document.getElementById(“loadingPanel”).style.display=“block”;
-var txt={recos:“Interrogation des sources…”,drug:“Recherche des informations médicamenteuses…”,study:“Recherche essais & molécules…”};
-document.getElementById(“loadingText”).textContent=txt[currentMode]||“Chargement…”;
+document.getElementById(“loadingText”).textContent=currentMode===“drug”?“Recherche médicamenteuse…”:currentMode===“study”?“Recherche essais & molécules…”:“Interrogation des sources…”;
 document.getElementById(“errorBox”).style.display=“none”;
 [“resultsPanel”,“drugPanel”,“studyPanel”].forEach(function(id){document.getElementById(id).style.display=“none”;});
 document.getElementById(“homePanel”).style.display=“none”;
@@ -401,39 +416,71 @@ async function apiCall(system,userMsg,maxTokens){
 var res=await fetch(“https://api.anthropic.com/v1/messages”,{
 method:“POST”,
 headers:{“Content-Type”:“application/json”,“x-api-key”:apiKey,“anthropic-version”:“2023-06-01”,“anthropic-dangerous-direct-browser-access”:“true”},
-body:JSON.stringify({model:“claude-haiku-4-5-20251001”,max_tokens:maxTokens||2000,system:system,messages:[{role:“user”,content:userMsg}]})
+body:JSON.stringify({model:“claude-haiku-4-5-20251001”,max_tokens:maxTokens||2500,system:system,messages:[{role:“user”,content:userMsg}]})
 });
 if(!res.ok){var e=await res.json().catch(function(){return{};});throw new Error(e.error?e.error.message:“Erreur “+res.status);}
 var data=await res.json();
 return(data.content||[]).filter(function(b){return b.type===“text”;}).map(function(b){return b.text;}).join(””);
 }
 
+var RECOS_SYSTEM=`Tu es expert pharmacien. Réponds UNIQUEMENT avec un objet JSON valide, sans texte ni markdown.
+Format exact:
+{
+“ansmAlerts”: [{“text”:“texte alerte”,“verifyUrl”:“https://ansm.sante.fr/rechercher?query=MOT”,“isIA”:false}],
+“otcAdvice”: [{“text”:“conseil”,“sourceLabel”:“HAS|ANSM|SPF|IA”,“isIA”:true}],
+“safetyRecap”: [{“drug”:“DCI”,“line”:“1”,“grossesse”:“ok|warn|no”,“ir”:“ok|warn|no”,“ih”:“ok|warn|no”,“note”:“note”,“verifyUrl”:“https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche=DCI”}],
+“recos”: [{
+“sourceId”:“has|ansm|theriaque|vidal|bdpm|spf|savantes”,
+“title”:“titre exact du document officiel”,
+“date”:“annee”,
+“docRef”:“référence ou numéro du document si connu”,
+“gradeEvidence”:“A|B|C|AE”,
+“gradeUtility”:“high|mid|low”,
+“summary”:{“text”:“résumé”,“isIA”:true},
+“treatmentLines”:[{“line”:“1ere ligne”,“drugs”:“DCI”,“isIA”:false,“sourceLabel”:“HAS 20XX”}],
+“keyPoints”:[{“text”:“point”,“isIA”:true}],
+“url”:“url directe vers le document ou vide”,
+“verifyUrls”:{
+“has”:“https://www.has-sante.fr/jcms/fc_1249603/fr/recherche?text=MOT”,
+“ansm”:“https://ansm.sante.fr/rechercher?query=MOT”,
+“bdpm”:“https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche=MOT”,
+“theriaque”:“https://www.theriaque.org/apps/recherche/rch.php?NOM=MOT”,
+“vidal”:“https://www.vidal.fr/recherche/index/q:MOT”,
+“clinicaltrials”:“https://clinicaltrials.gov/search?cond=MOT”
+}
+}],
+“fichePatient”:“texte patient simple 150 mots”
+}
+Règles:
+
+- isIA:true = synthèse générée par IA, à vérifier
+- isIA:false = donnée directement issue d’une recommandation officielle identifiable
+- Pour treatmentLines: isIA=false si les médicaments viennent d’une reco HAS/ANSM connue, mettre sourceLabel=“HAS XXXX” ou “ANSM XXXX”
+- Remplacer MOT par le terme de la pathologie dans toutes les URLs
+- url directe: uniquement si tu connais l’URL exacte du document avec certitude, sinon laisser vide
+- gradeEvidence: A=essais randomisés, B=intermédiaire, C=faible, AE=accord experts
+- Si pathologie inconnue: recos=[]`;
+
+var DRUG_SYSTEM=`Tu es expert pharmacien. Réponds UNIQUEMENT avec un objet JSON valide, sans texte ni markdown. Format: { "dci":"DCI", "commercial":["noms commerciaux"], "class":"classe", "mechanism":{"text":"mécanisme","isIA":false}, "indications":[{"text":"indication","isIA":false,"sourceLabel":"RCP BDPM"}], "posology":[{"route":"voie","dose":"posologie","renal":"adaptation IR","hepatic":"adaptation IH","isIA":false,"sourceLabel":"RCP BDPM"}], "contraindications":[{"text":"CI","isIA":false,"sourceLabel":"RCP BDPM"}], "interactions":[{"level":"CI|warn|caution","drug":"médicament","effect":"conséquence","isIA":false,"sourceLabel":"Thériaque|BDPM"}], "safety":{ "grossesse":"ok|warn|no","grossesseNote":"détail","grossesseSource":"RCP|CRAT|IA", "allaitement":"ok|warn|no","allaitementNote":"détail","allaitementSource":"RCP|CRAT|IA", "ir":"ok|warn|no","irNote":"détail","irSource":"RCP|IA", "ih":"ok|warn|no","ihNote":"détail","ihSource":"RCP|IA", "sujet_age":"ok|warn|no","sujet_ageNote":"détail","sujet_ageSource":"RCP|IA" }, "sideEffects":[{"text":"effet","frequency":"très fréquent|fréquent|peu fréquent","isIA":false,"sourceLabel":"RCP BDPM"}], "monitoring":[{"text":"surveillance","isIA":true}], "patientAdvice":{"text":"conseils patient","isIA":true} } isIA:false = données du RCP officiel. isIA:true = synthèse IA à vérifier. Si inconnu: {"error":"inconnu"}`;
+
+var STUDY_SYSTEM=`Tu es expert recherche clinique. Réponds UNIQUEMENT avec un tableau JSON, sans texte ni markdown. [{"type":"trial","title":"nom","phase":"Phase I|II|III|IV","status":"En cours|Terminé|Résultats disponibles","molecule":"DCI","mechanism":"mécanisme","objective":"objectif","results":"résultats ou vide","isIA":true,"url":"lien ClinicalTrials si connu ou vide"},{"type":"molecule","title":"DCI (nom commercial)","status":"AMM|En évaluation EMA|ATU/AAP|Phase III","mechanism":"mécanisme","advantage":"avantage vs actuel","indication":"indication","isIA":true,"url":"lien EMA/ANSM si connu ou vide"}] Si rien: []`;
+
 async function searchRecos(term){
 var srcList=SOURCES.filter(function(s){return activeFilters[s.id];}).map(function(s){return s.label;}).join(”, “);
-var raw=await apiCall(
-“Tu es expert pharmacien. Réponds UNIQUEMENT avec un objet JSON valide, sans texte ni markdown.\nFormat:\n{"ansmAlerts":["alerte si existante"],"otcAdvice":["conseil OTC ou HDD"],"safetyRecap":[{"drug":"DCI","line":"1","grossesse":"ok|warn|no","ir":"ok|warn|no","ih":"ok|warn|no","note":"note courte"}],"recos":[{"sourceId":"has|ansm|theriaque|vidal|bdpm|spf|savantes","title":"titre","date":"annee","gradeEvidence":"A|B|C|AE","gradeUtility":"high|mid|low","summary":"resume 2-3 phrases","treatmentLines":[{"line":"1ere ligne","drugs":"DCI"},{"line":"2eme ligne","drugs":"DCI"},{"line":"3eme ligne","drugs":"DCI si applicable"}],"keyPoints":["p1","p2","p3"],"url":"url directe ou vide"}],"fichePatient":"texte patient 150 mots"}\ngradeEvidence: A=essais randomisés, B=intermédiaire, C=faible, AE=accord experts\ngradeUtility: high=dispensation courante, mid=conseil/détection, low=informatif\nURLs: HAS https://www.has-sante.fr/jcms/fc_1249603/fr/recherche?text=MOT, ANSM https://ansm.sante.fr/rechercher?query=MOT, Thériaque https://www.theriaque.org/apps/recherche/rch.php?NOM=MOT, BDPM https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche=MOT\nSi inconnu: recos=[]”,
-“Pathologie: “+term+”\nSources: “+srcList,3000
-);
+var system=RECOS_SYSTEM.replace(/MOT/g,encodeURIComponent(term));
+var raw=await apiCall(system,“Pathologie: “+term+”\nSources: “+srcList,3000);
 var parsed=extractObj(raw);
 if(!parsed)throw new Error(“Format invalide. Reessayez.”);
 renderAll(term,parsed);
 }
-
 async function searchDrug(term){
-var raw=await apiCall(
-“Tu es expert pharmacien. Réponds UNIQUEMENT avec un objet JSON valide, sans texte ni markdown.\nFormat:\n{"dci":"DCI","commercial":["noms commerciaux"],"class":"classe pharmacologique","mechanism":"mécanisme d’action","indications":["indication1","indication2"],"posology":[{"route":"voie","dose":"posologie standard adulte","renal":"adaptation IR","hepatic":"adaptation IH"}],"contraindications":["CI1","CI2"],"interactions":[{"level":"CI|warn|caution","drug":"médicament","effect":"conséquence"}],"safety":{"grossesse":"ok|warn|no","grossesseNote":"détail","allaitement":"ok|warn|no","allaitementNote":"détail","ir":"ok|warn|no","irNote":"détail","ih":"ok|warn|no","ihNote":"détail","sujet_age":"ok|warn|no","sujet_ageNote":"détail"},"sideEffects":["effet1","effet2","effet3"],"monitoring":["surveillance1","surveillance2"],"patientAdvice":"conseils pratiques pour le patient en langage simple"}\nSi médicament inconnu retourner {"error":"inconnu"}”,
-“Médicament: “+term,2500
-);
+var raw=await apiCall(DRUG_SYSTEM,“Médicament: “+term,2500);
 var parsed=extractObj(raw);
-if(!parsed||parsed.error)throw new Error(“Médicament non trouvé. Essayez avec la DCI ou le nom commercial exact.”);
+if(!parsed||parsed.error)throw new Error(“Médicament non trouvé. Essayez avec la DCI ou nom commercial exact.”);
 showDrug(term,parsed);
 }
-
 async function searchStudy(term){
-var raw=await apiCall(
-“Tu es expert recherche clinique. Réponds UNIQUEMENT avec un tableau JSON, sans texte ni markdown.\n[{"type":"trial","title":"nom","phase":"Phase I|II|III|IV","status":"En cours|Terminé|Résultats disponibles","molecule":"DCI","mechanism":"mécanisme","objective":"objectif","results":"résultats ou vide","url":"lien ou vide"},{"type":"molecule","title":"DCI (nom commercial)","status":"AMM|En évaluation EMA|ATU/AAP|Phase III","mechanism":"mécanisme","advantage":"avantage vs actuel","indication":"indication","url":"lien EMA/ANSM ou vide"}]\nSi rien: []”,
-“Pathologie: “+term,2000
-);
+var raw=await apiCall(STUDY_SYSTEM,“Pathologie: “+term,2000);
 var parsed=extractJSON(raw);
 if(!Array.isArray(parsed))throw new Error(“Format invalide. Reessayez.”);
 showStudy(term,parsed);
@@ -441,38 +488,52 @@ showStudy(term,parsed);
 
 function extractObj(t){
 t=t.replace(/`json|`/gi,””);
-for(var i=0;i<t.length;i++){
-if(t[i]===”{”){for(var j=t.length-1;j>i;j–){if(t[j]===”}”){try{var p=JSON.parse(t.slice(i,j+1));if(typeof p===“object”&&!Array.isArray(p))return p;}catch(e){}}}}
-}return null;
+for(var i=0;i<t.length;i++){if(t[i]===”{”){for(var j=t.length-1;j>i;j–){if(t[j]===”}”){try{var p=JSON.parse(t.slice(i,j+1));if(typeof p===“object”&&!Array.isArray(p))return p;}catch(e){}}}}}
+return null;
 }
 function extractJSON(t){
 t=t.replace(/`json|`/gi,””);
-for(var i=0;i<t.length;i++){
-if(t[i]===”[”){for(var j=t.length-1;j>i;j–){if(t[j]===”]”){try{var p=JSON.parse(t.slice(i,j+1));if(Array.isArray(p))return p;}catch(e){}}}}
-}return null;
+for(var i=0;i<t.length;i++){if(t[i]===”[”){for(var j=t.length-1;j>i;j–){if(t[j]===”]”){try{var p=JSON.parse(t.slice(i,j+1));if(Array.isArray(p))return p;}catch(e){}}}}}
+return null;
 }
 function safeIcon(v){return v===“ok”?’<span class="ok">✓</span>’:v===“warn”?’<span class="warn">△</span>’:’<span class="no">✗</span>’;}
 
+function tagHtml(isIA,sourceLabel){
+if(isIA===false&&sourceLabel) return ‘<span class="tag-source" style="font-size:9px;padding:1px 5px;border-radius:3px;background:#e8f5e9;color:#1b5e20;border:1px solid #a5d6a7;font-weight:bold">SOURCE: ‘+sourceLabel+’</span>’;
+return ‘<span class="tag-ia" style="font-size:9px;padding:1px 5px;border-radius:3px;background:#e3f2fd;color:#0d47a1;border:1px solid #90caf9;font-weight:bold">IA</span>’;
+}
+function verifyBtn(url,label){
+if(!url)return””;
+return’ <a href="'+url+'" target="_blank" rel="noopener" class="verify-link" onclick="event.stopPropagation()">✔ VÉRIFIER ↗</a>’;
+}
+
 function renderAll(term,d){
 document.getElementById(“resultTitle”).textContent=term;
+var termEnc=encodeURIComponent(term);
 var alertsEl=document.getElementById(“ansm-alerts”);alertsEl.innerHTML=””;
 if(d.ansmAlerts&&d.ansmAlerts.length>0){
 var h=’<div class="ansm-alert"><div class="ansm-alert-title">⚠ Alertes ANSM</div>’;
-d.ansmAlerts.forEach(function(a){h+=’<div class="ansm-alert-item">’+a+’</div>’;});
+d.ansmAlerts.forEach(function(a){
+h+=’<div style="display:flex;align-items:flex-start;gap:6px;margin-bottom:5px"><span style="font-size:10px;color:#aaa;margin-top:2px">⚠</span><span style="font-size:12.5px;color:#333;flex:1">’+a.text+’</span>’+verifyBtn(a.verifyUrl||“https://ansm.sante.fr/rechercher?query=”+termEnc,“ANSM”)+’</div>’;
+});
 alertsEl.innerHTML=h+’</div>’;
 }
 var otcEl=document.getElementById(“otc-section”);otcEl.innerHTML=””;
 if(d.otcAdvice&&d.otcAdvice.length>0){
 var h=’<div class="otc-box"><div class="otc-title">✚ Conseils OTC & Hygiéno-diététiques</div>’;
-d.otcAdvice.forEach(function(a){h+=’<div class="otc-item">’+a+’</div>’;});
+d.otcAdvice.forEach(function(a){
+var tag=a.isIA===false&&a.sourceLabel?tagHtml(false,a.sourceLabel):tagHtml(true,””);
+h+=’<div style="display:flex;align-items:flex-start;gap:6px;margin-bottom:5px">’+tag+’<span style="font-size:12.5px;color:#333;flex:1">’+a.text+’</span></div>’;
+});
 otcEl.innerHTML=h+’</div>’;
 }
 var safeEl=document.getElementById(“safety-section”);safeEl.innerHTML=””;
 if(d.safetyRecap&&d.safetyRecap.length>0){
-var h=’<div class="safety-box"><div class="safety-title">Récapitulatif sécurité — 1ère & 2ème ligne</div><div style="overflow-x:auto"><table class="safety-table"><thead><tr><th>Médicament</th><th>Ligne</th><th>🤰 Grossesse</th><th>🫘 IR</th><th>🫀 IH</th><th>Note</th></tr></thead><tbody>’;
+var h=’<div class="safety-box"><div class="safety-title">Récapitulatif sécurité — 1ère & 2ème ligne <span style="font-size:10px;font-weight:normal;color:#999">(données RCP — vérifier BDPM)</span></div><div style="overflow-x:auto"><table class="safety-table"><thead><tr><th>Médicament</th><th>Ligne</th><th>🤰 Grossesse</th><th>🫘 IR</th><th>🫀 IH</th><th>Note</th><th>RCP</th></tr></thead><tbody>’;
 d.safetyRecap.forEach(function(r){
 var lc=r.line===“1”?“sl1”:“sl2”;
-h+=’<tr><td><span class="safety-drug">’+r.drug+’</span></td><td><span class="safety-line '+lc+'">’+(r.line===“1”?“1ère”:“2ème”)+’</span></td><td>’+safeIcon(r.grossesse)+’</td><td>’+safeIcon(r.ir)+’</td><td>’+safeIcon(r.ih)+’</td><td style="font-size:11px;color:#666">’+(r.note||””)+’</td></tr>’;
+var bdpmUrl=r.verifyUrl||(“https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche=”+encodeURIComponent(r.drug));
+h+=’<tr><td><span class="safety-drug">’+r.drug+’</span></td><td><span class="safety-line '+lc+'">’+(r.line===“1”?“1ère”:“2ème”)+’</span></td><td>’+safeIcon(r.grossesse)+’</td><td>’+safeIcon(r.ir)+’</td><td>’+safeIcon(r.ih)+’</td><td style="font-size:11px;color:#666">’+(r.note||””)+’</td><td><a href="'+bdpmUrl+'" target="_blank" rel="noopener" style="font-size:10px;font-weight:bold;color:#0f4c81;text-decoration:none;border-bottom:1px solid #0f4c8150">BDPM ↗</a></td></tr>’;
 });
 safeEl.innerHTML=h+’</tbody></table></div></div>’;
 }
@@ -482,125 +543,135 @@ var filtered=recos.filter(function(r){return activeFilters[r.sourceId];});
 var uO={high:0,mid:1,low:2},gO={A:0,B:1,C:2,AE:3};
 filtered.sort(function(a,b){var u=(uO[a.gradeUtility]||2)-(uO[b.gradeUtility]||2);return u!==0?u:(gO[a.gradeEvidence]||3)-(gO[b.gradeEvidence]||3);});
 document.getElementById(“resultCount”).textContent=filtered.length+” résultat”+(filtered.length>1?“s”:””);
-if(!filtered.length){list.innerHTML=’<div class="empty">Aucune recommandation trouvée.</div>’;}
+if(!filtered.length){list.innerHTML=’<div class="empty">Aucune recommandation trouvée pour les sources sélectionnées.</div>’;}
 else{
 filtered.forEach(function(r,i){
 var s=SOURCES.find(function(x){return x.id===r.sourceId;})||SOURCES[0];
 var card=document.createElement(“div”);card.className=“card”;
 card.style.borderLeftColor=s.color;card.style.animationDelay=(i*0.05)+“s”;
+// Lines
 var linesHtml=””;
 if(r.treatmentLines&&r.treatmentLines.length>0){
 var items=r.treatmentLines.map(function(l){
 var cls=l.line.indexOf(“1”)>=0?“l1”:l.line.indexOf(“2”)>=0?“l2”:“l3”;
-return’<div class="line-item"><span class="line-badge '+cls+'">’+l.line+’</span><span class="line-text">’+l.drugs+’</span></div>’;
+var ltag=l.isIA===false?tagHtml(false,l.sourceLabel||s.label):tagHtml(true,””);
+return’<div class="line-item"><span class="line-badge '+cls+'">’+l.line+’</span><div style="flex:1"><span class="line-text">’+l.drugs+’</span> ‘+ltag+’</div></div>’;
 }).join(””);
 linesHtml=’<div class="lines-block"><div class="lines-lbl">Traitements recommandés</div>’+items+’</div>’;
 }
-var kps=(r.keyPoints||[]).map(function(p){return”<li>”+p+”</li>”;}).join(””);
+// Key points
+var kps=(r.keyPoints||[]).map(function(p){
+var txt=typeof p===“object”?p.text:p;
+var isIA=typeof p===“object”?p.isIA:true;
+return’<li>’+txt+’ ‘+tagHtml(isIA,””)+’</li>’;
+}).join(””);
+// Grade
 var geMap={A:“grade-A”,B:“grade-B”,C:“grade-C”,AE:“grade-AE”};
-var geLabel={A:“Grade A”,B:“Grade B”,C:“Grade C”,AE:“Accord experts”};
+var geLabel={A:“Grade A — Preuve forte”,B:“Grade B — Preuve intermédiaire”,C:“Grade C — Preuve faible”,AE:“Accord experts”};
 var guMap={high:“util-high”,mid:“util-mid”,low:“util-low”};
 var guLabel={high:“⭐⭐⭐ Très utile”,mid:“⭐⭐ Utile”,low:“⭐ Informatif”};
 var gradeHtml=’<div class="grade-row">’+(r.gradeEvidence?’<span class=“grade-badge ‘+(geMap[r.gradeEvidence]||“grade-AE”)+’”>’+(geLabel[r.gradeEvidence]||r.gradeEvidence)+’</span>’:’’)+(r.gradeUtility?’<span class=“grade-badge ‘+(guMap[r.gradeUtility]||“util-low”)+’”>’+(guLabel[r.gradeUtility]||r.gradeUtility)+’</span>’:’’)+’</div>’;
-// Liens améliorés
-var termEnc=encodeURIComponent(term);
-var srcLinks=’<div class="src-links-row">’;
+// Summary
+var sumText=r.summary&&typeof r.summary===“object”?r.summary.text:(r.summary||””);
+var sumIA=r.summary&&typeof r.summary===“object”?r.summary.isIA:true;
+// Verify URLs
+var vUrls=r.verifyUrls||{};
+var srcLinksHtml=’<div class="src-links-row">’;
 if(r.url&&r.url.length>10){
-srcLinks+=’<a class="src-link" href="'+r.url+'" target="_blank" rel="noopener" style="color:'+s.color+';border-bottom-color:'+s.color+'80" onclick="event.stopPropagation()">📄 Document original ↗</a>’;
+srcLinksHtml+=’<a class="src-link-btn" href="'+r.url+'" target="_blank" rel="noopener" style="color:'+s.color+';border-color:'+s.color+';background:'+s.color+'15" onclick="event.stopPropagation()">📄 Document officiel ↗</a>’;
 }
-srcLinks+=’<a class="src-link" href="'+s.searchUrl+termEnc+'" target="_blank" rel="noopener" style="color:'+s.color+';border-bottom-color:'+s.color+'80" onclick="event.stopPropagation()">🔍 ‘+s.label+’ ↗</a>’;
-if(r.sourceId!==“has”){ srcLinks+=’<a class="src-link" href="https://www.has-sante.fr/jcms/fc_1249603/fr/recherche?text='+termEnc+'" target="_blank" rel="noopener" style="color:#1a4f8a;border-bottom-color:#1a4f8a80" onclick="event.stopPropagation()">🔍 HAS ↗</a>’; }
-srcLinks+=’</div>’;
-card.innerHTML=’<div class="card-top"><div style="flex:1"><div class="card-meta"><span class="badge" style="background:'+s.color+'20;color:'+s.color+'">’+s.label+’</span>’+(r.date?’<span class="card-date">’+r.date+’</span>’:’’)+gradeHtml+’</div><div class="card-title">’+r.title+’</div></div><span class="card-toggle">▼</span></div><div class="card-body">’+linesHtml+’<p class="card-summary">’+r.summary+’</p>’+(kps?’<div class="kp-lbl">Points clés officine</div><ul class="kp-list">’+kps+’</ul>’:’’)+’<div class="src-block"><div class="src-lbl">Sources</div>’+srcLinks+’</div></div>’;
+srcLinksHtml+=’<a class=“src-link-btn” href=”’+(vUrls.has||“https://www.has-sante.fr/jcms/fc_1249603/fr/recherche?text=”+termEnc)+’” target=”_blank” rel=“noopener” style=“color:#1a4f8a;border-color:#1a4f8a;background:#1a4f8a15” onclick=“event.stopPropagation()”>🔍 HAS ↗</a>’;
+srcLinksHtml+=’<a class=“src-link-btn” href=”’+(vUrls.ansm||“https://ansm.sante.fr/rechercher?query=”+termEnc)+’” target=”_blank” rel=“noopener” style=“color:#0e7c6e;border-color:#0e7c6e;background:#0e7c6e15” onclick=“event.stopPropagation()”>🔍 ANSM ↗</a>’;
+srcLinksHtml+=’<a class=“src-link-btn” href=”’+(vUrls.bdpm||“https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche=”+termEnc)+’” target=”_blank” rel=“noopener” style=“color:#0f4c81;border-color:#0f4c81;background:#0f4c8115” onclick=“event.stopPropagation()”>📋 BDPM ↗</a>’;
+srcLinksHtml+=’<a class=“src-link-btn” href=”’+(vUrls.theriaque||“https://www.theriaque.org/apps/recherche/rch.php?NOM=”+termEnc)+’” target=”_blank” rel=“noopener” style=“color:#b45309;border-color:#b45309;background:#b4530915” onclick=“event.stopPropagation()”>🔬 Thériaque ↗</a>’;
+srcLinksHtml+=’</div>’;
+var docRefHtml=r.docRef?’<span style="font-size:10px;color:#888;font-style:italic"> — Réf: ‘+r.docRef+’</span>’:””;
+card.innerHTML=’<div class="card-top"><div style="flex:1"><div class="card-meta"><span class="badge" style="background:'+s.color+'20;color:'+s.color+'">’+s.label+’</span>’+(r.date?’<span class="card-date">’+r.date+’</span>’:’’)+docRefHtml+gradeHtml+’</div><div class="card-title">’+r.title+’</div></div><span class="card-toggle">▼</span></div><div class="card-body">’+linesHtml+’<div style="margin-bottom:10px"><div style="display:flex;gap:6px;align-items:flex-start">’+tagHtml(sumIA,””)+’<p style="font-size:13px;color:#444;line-height:1.65;flex:1">’+sumText+’</p></div></div>’+(kps?’<div class="kp-lbl">Points clés officine</div><ul class="kp-list">’+kps+’</ul>’:’’)+’<div class="src-block"><div class="src-lbl">Vérifier les sources</div>’+srcLinksHtml+’</div></div>’;
 card.addEventListener(“click”,function(){card.classList.toggle(“open”);card.querySelector(”.card-toggle”).innerHTML=card.classList.contains(“open”)?”▲”:”▼”;});
 list.appendChild(card);
 });
 }
 var ficheEl=document.getElementById(“fiche-section”);ficheEl.innerHTML=””;
 if(d.fichePatient){
-ficheEl.innerHTML=’<div class="fiche-box"><div class="fiche-header"><span class="fiche-title">📄 Fiche patient — ‘+term+’</span><button class="btn-copy" onclick="copyFiche()">Copier</button></div><div class="fiche-content" id="ficheContent">’+d.fichePatient+’</div></div>’;
+ficheEl.innerHTML=’<div class="fiche-box"><div class="fiche-header"><span class="fiche-title">📄 Fiche patient — ‘+term+’ <span class="tag-ia" style="font-size:9px;vertical-align:middle">IA</span></span><button class="btn-copy" onclick="copyFiche()">Copier</button></div><div class="fiche-content" id="ficheContent">’+d.fichePatient+’</div></div>’;
 }
 document.getElementById(“resultsPanel”).style.display=“block”;
 }
 
 function showDrug(term,d){
 document.getElementById(“drugTitle”).textContent=d.dci||(d.commercial&&d.commercial[0])||term;
-var commercial=d.commercial&&d.commercial.length?d.commercial.join(”, “):”—”;
 var dciEnc=encodeURIComponent(d.dci||term);
-var commercialEnc=encodeURIComponent(d.commercial&&d.commercial[0]||term);
-// Posologie
-var posHtml=””;
-if(d.posology&&d.posology.length>0){
-posHtml=d.posology.map(function(p){
-return’<div class="posology-item"><span class="posology-route">’+(p.route||“oral”)+’</span><div><div class="drug-text">’+p.dose+’</div>’+(p.renal?’<div style="font-size:11px;color:#555;margin-top:2px">🫘 IR: ‘+p.renal+’</div>’:’’)+(p.hepatic?’<div style="font-size:11px;color:#555;margin-top:2px">🫀 IH: ‘+p.hepatic+’</div>’:’’)+’</div></div>’;
-}).join(””);
-}
-// Interactions
-var interHtml=””;
-if(d.interactions&&d.interactions.length>0){
-var lMap={CI:“inter-ci”,warn:“inter-warn”,caution:“inter-caution”};
-var lLabel={CI:“CI”,warn:“Précaution”,caution:“Prudence”};
-interHtml=d.interactions.map(function(it){
-return’<div class="interaction-item"><span class=“inter-level ‘+(lMap[it.level]||“inter-caution”)+’”>’+(lLabel[it.level]||it.level)+’</span><span class="inter-text"><strong>’+it.drug+’</strong> — ‘+it.effect+’</span></div>’;
-}).join(””);
-}
 // Safety
 var sf=d.safety||{};
-var safeHtml=’<div class="safety-inline">’+
-‘<div class="safety-item"><span class=“safety-icon ‘+(sf.grossesse===“ok”?“ok”:sf.grossesse===“warn”?“warn”:“no”)+’”>’+safeIcon(sf.grossesse)+’</span><span style="font-size:12px">🤰 Grossesse’+(sf.grossesseNote?’ — ‘+sf.grossesseNote:’’)+’</span></div>’+
-‘<div class="safety-item"><span class=“safety-icon ‘+(sf.allaitement===“ok”?“ok”:sf.allaitement===“warn”?“warn”:“no”)+’”>’+safeIcon(sf.allaitement)+’</span><span style="font-size:12px">🍼 Allaitement’+(sf.allaitementNote?’ — ‘+sf.allaitementNote:’’)+’</span></div>’+
-‘<div class="safety-item">’+safeIcon(sf.ir)+’<span style="font-size:12px">🫘 IR’+(sf.irNote?’ — ‘+sf.irNote:’’)+’</span></div>’+
-‘<div class="safety-item">’+safeIcon(sf.ih)+’<span style="font-size:12px">🫀 IH’+(sf.ihNote?’ — ‘+sf.ihNote:’’)+’</span></div>’+
-‘<div class="safety-item">’+safeIcon(sf.sujet_age)+’<span style="font-size:12px">👴 Sujet âgé’+(sf.sujet_ageNote?’ — ‘+sf.sujet_ageNote:’’)+’</span></div>’+
-‘</div>’;
-// Liens améliorés BDPM prioritaire
-var linksHtml=’<div class="drug-links">’+
-‘<a class="drug-link link-bdpm" href="https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche='+dciEnc+'" target="_blank" rel="noopener">📋 BDPM (RCP officiel)</a>’+
-‘<a class="drug-link link-vidal" href="https://www.vidal.fr/recherche/index/q:'+dciEnc+'" target="_blank" rel="noopener">📖 VIDAL</a>’+
-‘<a class="drug-link link-theriaque" href="https://www.theriaque.org/apps/recherche/rch.php?NOM='+dciEnc+'" target="_blank" rel="noopener">🔬 Thériaque</a>’+
-‘<a class="drug-link link-ansm" href="https://ansm.sante.fr/rechercher?query='+dciEnc+'" target="_blank" rel="noopener">⚠ ANSM</a>’+
-‘</div>’;
-var html=’<div class="drug-card">’+
-‘<div class="drug-header">’+
-‘<div class="drug-name">’+d.dci+’</div>’+
-‘<div class="drug-commercial">’+commercial+’</div>’+
-‘<span class="drug-class">’+d.class+’</span>’+
-‘</div>’+
-‘<div class="drug-body">’+
-‘<div class="drug-section"><div class="drug-section-title">Mécanisme d'action</div><p class="drug-text">’+d.mechanism+’</p></div>’+
-(d.indications&&d.indications.length?’<div class="drug-section"><div class="drug-section-title">Indications</div><ul class="drug-list">’+d.indications.map(function(x){return”<li>”+x+”</li>”;}).join(””)+’</ul></div>’:’’)+
+function safeRow(icon,label,val,note,src){
+var sourceTag=src&&src!==“IA”?’<span style="font-size:9px;background:#e8f5e9;color:#1b5e20;border:1px solid #a5d6a7;padding:1px 5px;border-radius:3px;font-weight:bold">SOURCE: ‘+src+’</span>’:’<span style="font-size:9px;background:#e3f2fd;color:#0d47a1;border:1px solid #90caf9;padding:1px 5px;border-radius:3px;font-weight:bold">IA</span>’;
+return’<div class="safety-item">’+safeIcon(val)+’ <span style="font-size:12px">’+icon+’ ‘+label+(note?’ — <em>’+note+’</em>’:’’)+’</span> ‘+sourceTag+’</div>’;
+}
+var safeHtml=’<div class="safety-inline">’+safeRow(“🤰”,“Grossesse”,sf.grossesse,sf.grossesseNote,sf.grossesseSource)+safeRow(“🍼”,“Allaitement”,sf.allaitement,sf.allaitementNote,sf.allaitementSource)+safeRow(“🫘”,“IR”,sf.ir,sf.irNote,sf.irSource)+safeRow(“🫀”,“IH”,sf.ih,sf.ihNote,sf.ihSource)+safeRow(“👴”,“Sujet âgé”,sf.sujet_age,sf.sujet_ageNote,sf.sujet_ageSource)+’</div>’;
+// Posology
+var posHtml=(d.posology||[]).map(function(p){
+var ptag=p.isIA===false?tagHtml(false,p.sourceLabel||“RCP”):tagHtml(true,””);
+return’<div class="posology-item"><span class="posology-route">’+(p.route||“oral”)+’</span><div><div class="drug-text">’+p.dose+’ ‘+ptag+’</div>’+(p.renal?’<div style="font-size:11px;color:#555;margin-top:2px">🫘 IR: ‘+p.renal+’</div>’:’’)+(p.hepatic?’<div style="font-size:11px;color:#555;margin-top:2px">🫀 IH: ‘+p.hepatic+’</div>’:’’)+’</div></div>’;
+}).join(””);
+// Interactions
+var lMap={CI:“inter-ci”,warn:“inter-warn”,caution:“inter-caution”};
+var lLabel={CI:“CI”,warn:“Précaution”,caution:“Prudence”};
+var interHtml=(d.interactions||[]).map(function(it){
+var itag=it.isIA===false?tagHtml(false,it.sourceLabel||“Thériaque”):tagHtml(true,””);
+return’<div class="interaction-item"><span class=“inter-level ‘+(lMap[it.level]||“inter-caution”)+’”>’+(lLabel[it.level]||it.level)+’</span><span class="inter-text"><strong>’+it.drug+’</strong> — ‘+it.effect+’ ‘+itag+’</span></div>’;
+}).join(””);
+// Side effects
+var seHtml=(d.sideEffects||[]).map(function(e){
+var etag=e.isIA===false?tagHtml(false,e.sourceLabel||“RCP”):tagHtml(true,””);
+var freq=e.frequency?’<span style="font-size:10px;color:#888"> (’+e.frequency+’)</span>’:””;
+return’<li>’+(typeof e===“object”?e.text:e)+freq+’ ‘+etag+’</li>’;
+}).join(””);
+// Indications
+var indHtml=(d.indications||[]).map(function(ind){
+var itag=typeof ind===“object”?(ind.isIA===false?tagHtml(false,ind.sourceLabel||“RCP”):tagHtml(true,””)):tagHtml(true,””);
+var txt=typeof ind===“object”?ind.text:ind;
+return’<li>’+txt+’ ‘+itag+’</li>’;
+}).join(””);
+// Monitoring
+var monHtml=(d.monitoring||[]).map(function(m){
+var txt=typeof m===“object”?m.text:m;
+return’<li>’+txt+’ ‘+tagHtml(true,””)+’</li>’;
+}).join(””);
+// CRAT link for pregnancy
+var cratUrl=“https://www.lecrat.fr/spip.php?page=recherche&recherche=”+dciEnc;
+var html=’<div class="drug-card"><div class="drug-header"><div class="drug-name">’+d.dci+’</div><div class="drug-commercial">’+(d.commercial&&d.commercial.join(”, “))+’</div><span class="drug-class-badge">’+d.class+’</span></div><div class="drug-body">’+
+‘<div class="drug-section"><div class="drug-section-title">Mécanisme d'action</div><div style="display:flex;gap:6px;align-items:flex-start">’+tagHtml(d.mechanism&&d.mechanism.isIA!==undefined?d.mechanism.isIA:false,“RCP”)+’<p class="drug-text">’+(d.mechanism&&typeof d.mechanism===“object”?d.mechanism.text:d.mechanism)+’</p></div></div>’+
+(indHtml?’<div class="drug-section"><div class="drug-section-title">Indications</div><ul class="drug-list">’+indHtml+’</ul></div>’:’’)+
 (posHtml?’<div class="drug-section"><div class="drug-section-title">Posologie & Formes</div>’+posHtml+’</div>’:’’)+
-‘<div class="drug-section"><div class="drug-section-title">Sécurité d'emploi</div>’+safeHtml+’</div>’+
-(d.contraindications&&d.contraindications.length?’<div class="drug-section"><div class="drug-section-title">Contre-indications</div><ul class="drug-list">’+d.contraindications.map(function(x){return”<li>”+x+”</li>”;}).join(””)+’</ul></div>’:’’)+
-(interHtml?’<div class="drug-section"><div class="drug-section-title">Interactions médicamenteuses</div>’+interHtml+’</div>’:’’)+
-(d.sideEffects&&d.sideEffects.length?’<div class="drug-section"><div class="drug-section-title">Effets indésirables principaux</div><ul class="drug-list">’+d.sideEffects.map(function(x){return”<li>”+x+”</li>”;}).join(””)+’</ul></div>’:’’)+
-(d.monitoring&&d.monitoring.length?’<div class="drug-section"><div class="drug-section-title">Surveillance</div><ul class="drug-list">’+d.monitoring.map(function(x){return”<li>”+x+”</li>”;}).join(””)+’</ul></div>’:’’)+
-(d.patientAdvice?’<div class="drug-section"><div class="drug-section-title">Conseils au patient</div><p class="drug-text">’+d.patientAdvice+’</p></div>’:’’)+
-linksHtml+
+‘<div class="drug-section"><div class="drug-section-title">Sécurité d'emploi <a href="'+cratUrl+'" target="_blank" style="font-size:10px;color:#0277bd;text-decoration:none;border-bottom:1px solid #0277bd50;margin-left:8px">🤰 Vérifier CRAT ↗</a><a href="https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche='+dciEnc+'" target="_blank" style="font-size:10px;color:#0f4c81;text-decoration:none;border-bottom:1px solid #0f4c8150;margin-left:8px">📋 RCP BDPM ↗</a></div>’+safeHtml+’</div>’+
+(d.contraindications&&d.contraindications.length?’<div class="drug-section"><div class="drug-section-title">Contre-indications</div><ul class="drug-list">’+(d.contraindications||[]).map(function(c){var txt=typeof c===“object”?c.text:c;var ctag=typeof c===“object”&&c.isIA===false?tagHtml(false,c.sourceLabel||“RCP”):tagHtml(true,””);return’<li>’+txt+’ ‘+ctag+’</li>’;}).join(””)+’</ul></div>’:’’)+
+(interHtml?’<div class="drug-section"><div class="drug-section-title">Interactions médicamenteuses <a href="https://www.theriaque.org/apps/recherche/rch.php?NOM='+dciEnc+'" target="_blank" style="font-size:10px;color:#b45309;text-decoration:none;border-bottom:1px solid #b4530950;margin-left:8px">🔬 Vérifier Thériaque ↗</a></div>’+interHtml+’</div>’:’’)+
+(seHtml?’<div class="drug-section"><div class="drug-section-title">Effets indésirables</div><ul class="drug-list">’+seHtml+’</ul></div>’:’’)+
+(monHtml?’<div class="drug-section"><div class="drug-section-title">Surveillance</div><ul class="drug-list">’+monHtml+’</ul></div>’:’’)+
+(d.patientAdvice?’<div class="drug-section"><div class="drug-section-title">Conseils au patient ‘+tagHtml(true,””)+’</div><p class="drug-text">’+(d.patientAdvice&&typeof d.patientAdvice===“object”?d.patientAdvice.text:d.patientAdvice)+’</p></div>’:’’)+
+‘<div class="drug-links"><a class="drug-link link-bdpm" href="https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche='+dciEnc+'" target="_blank">📋 BDPM — RCP officiel</a><a class="drug-link link-vidal" href="https://www.vidal.fr/recherche/index/q:'+dciEnc+'" target="_blank">📖 VIDAL</a><a class="drug-link link-theriaque" href="https://www.theriaque.org/apps/recherche/rch.php?NOM='+dciEnc+'" target="_blank">🔬 Thériaque</a><a class="drug-link link-ansm" href="https://ansm.sante.fr/rechercher?query='+dciEnc+'" target="_blank">⚠ ANSM</a><a class="drug-link" href="'+cratUrl+'" target="_blank" style="color:#880e4f;border-color:#880e4f;background:#fce4ec">🤰 CRAT</a></div>’+
 ‘</div></div>’;
 document.getElementById(“drugContent”).innerHTML=html;
 document.getElementById(“drugPanel”).style.display=“block”;
 }
 
 function copyFiche(){
-var el=document.getElementById(“ficheContent”);
-if(!el)return;
+var el=document.getElementById(“ficheContent”);if(!el)return;
 if(navigator.clipboard){navigator.clipboard.writeText(el.textContent);}
 else{var r=document.createRange();r.selectNode(el);window.getSelection().removeAllRanges();window.getSelection().addRange(r);document.execCommand(“copy”);window.getSelection().removeAllRanges();}
 alert(“Fiche copiée !”);
 }
-
 function clearResults(){
 [“resultsPanel”,“drugPanel”,“studyPanel”].forEach(function(id){document.getElementById(id).style.display=“none”;});
 document.getElementById(“homePanel”).style.display=“block”;
 [“ansm-alerts”,“otc-section”,“safety-section”,“fiche-section”].forEach(function(id){document.getElementById(id).innerHTML=””;});
 }
-
 function showStudy(term,data){
 document.getElementById(“studyTitle”).textContent=term;
 document.getElementById(“studyCount”).textContent=data.length+” entrée”+(data.length>1?“s”:””);
 var list=document.getElementById(“studyList”);list.innerHTML=””;
 if(!data.length){list.innerHTML=’<div class="empty">Aucun essai clinique ni molécule trouvés.</div>’;return;}
+var termEnc=encodeURIComponent(term);
 data.forEach(function(r,i){
 var card=document.createElement(“div”);card.className=“study-card”;card.style.animationDelay=(i*0.05)+“s”;
 var isTrial=r.type===“trial”;
@@ -608,16 +679,14 @@ var statusColor=r.status&&r.status.indexOf(“cours”)>=0?”#2e7d32”:r.statu
 var bodyHtml=isTrial?
 (r.mechanism?’<p class="study-detail"><strong>Mécanisme :</strong> ‘+r.mechanism+’</p>’:’’)+(r.objective?’<p class="study-detail"><strong>Objectif :</strong> ‘+r.objective+’</p>’:’’)+(r.results?’<p class="study-detail"><strong>Résultats :</strong> ‘+r.results+’</p>’:””):
 (r.mechanism?’<p class="study-detail"><strong>Mécanisme :</strong> ‘+r.mechanism+’</p>’:’’)+(r.indication?’<p class="study-detail"><strong>Indication :</strong> ‘+r.indication+’</p>’:’’)+(r.advantage?’<p class="study-detail"><strong>Avantage :</strong> ‘+r.advantage+’</p>’:””);
-var termEnc=encodeURIComponent(term);
 var linkHref=r.url&&r.url.length>10?r.url:(isTrial?“https://clinicaltrials.gov/search?cond=”+termEnc:“https://www.ema.europa.eu/en/search/search?search_api_views_fulltext=”+termEnc);
-var linkText=r.url&&r.url.length>10?“Consulter la source ↗”:(isTrial?“Rechercher sur ClinicalTrials ↗”:“Rechercher sur EMA ↗”);
-card.innerHTML=’<div class="card-top"><div style="flex:1"><div class="card-meta"><span class=“badge ‘+(isTrial?“trial-badge”:“molecule-badge”)+’”>’+(isTrial?“Essai clinique”:“Nouvelle molécule”)+’</span>’+(isTrial&&r.phase?’<span class="phase-badge">’+r.phase+’</span>’:’’)+(r.status?’<span style="font-size:10px;font-weight:bold;color:'+statusColor+'">’+r.status+’</span>’:’’)+’</div><div class="card-title">’+r.title+’</div></div><span class="card-toggle">▼</span></div><div class="study-body">’+bodyHtml+’<div style="margin-top:8px"><a href="'+linkHref+'" target="_blank" rel="noopener" style="font-size:12px;font-weight:bold;color:#0277bd;text-decoration:none;border-bottom:1px solid #0277bd80" onclick="event.stopPropagation()">’+linkText+’</a></div></div>’;
+var linkLabel=r.url&&r.url.length>10?“Consulter la source ↗”:(isTrial?“Rechercher sur ClinicalTrials ↗”:“Rechercher sur EMA ↗”);
+card.innerHTML=’<div class="card-top"><div style="flex:1"><div class="card-meta"><span class=“badge ‘+(isTrial?“trial-badge”:“molecule-badge”)+’”>’+(isTrial?“Essai clinique”:“Nouvelle molécule”)+’</span>’+(isTrial&&r.phase?’<span class="phase-badge">’+r.phase+’</span>’:’’)+(r.status?’<span style="font-size:10px;font-weight:bold;color:'+statusColor+'">’+r.status+’</span>’:’’)+tagHtml(true,””)+’</div><div class="card-title">’+r.title+’</div></div><span class="card-toggle">▼</span></div><div class="study-body">’+bodyHtml+’<div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap"><a href="'+linkHref+'" target="_blank" rel="noopener" style="font-size:12px;font-weight:bold;color:#0277bd;text-decoration:none;border-bottom:1px solid #0277bd80" onclick="event.stopPropagation()">’+linkLabel+’</a>’+(isTrial?’<a href="https://clinicaltrials.gov/search?cond='+termEnc+'" target="_blank" style="font-size:12px;font-weight:bold;color:#0277bd;text-decoration:none;border-bottom:1px solid #0277bd80">ClinicalTrials ↗</a>’:’<a href="https://www.ema.europa.eu/en/search/search?search_api_views_fulltext='+termEnc+'" target="_blank" style="font-size:12px;font-weight:bold;color:#7c3aed;text-decoration:none;border-bottom:1px solid #7c3aed80">EMA ↗</a>’)+’</div></div>’;
 card.addEventListener(“click”,function(){card.classList.toggle(“open”);card.querySelector(”.card-toggle”).innerHTML=card.classList.contains(“open”)?”▲”:”▼”;});
 list.appendChild(card);
 });
 document.getElementById(“studyPanel”).style.display=“block”;
 }
-
 init();
 </script>
 
