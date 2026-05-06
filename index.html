@@ -679,240 +679,85 @@ function searchStudy(term){
   });
 }
 
-// BASE LOCALE interactions majeures (source: RCP, Theriaque, ANSM)
-// Fiabilite: 3=tres haute (CI officielle), 2=haute (deconseille), 1=moderee (precaution)
-var LOCAL_DB = [
-  {d:["warfarine","aspirine"],lv:"CI",fi:3,ef:"Risque hemorragique majeur",ac:"Eviter l association. Si necessaire: surveillance INR rapprochee",src:"RCP/Theriaque"},
-  {d:["warfarine","ibuprofene"],lv:"CI",fi:3,ef:"Risque hemorragique majeur par inhibition COX et deplacementprotein",ac:"Contre-indique. Utiliser paracetamol si antalgique necessaire",src:"RCP/Theriaque"},
-  {d:["warfarine","naproxene"],lv:"CI",fi:3,ef:"Risque hemorragique majeur",ac:"Contre-indique. Alternatives: paracetamol",src:"RCP"},
-  {d:["warfarine","metronidazole"],lv:"CI",fi:3,ef:"Augmentation effet anticoagulant par inhibition CYP2C9",ac:"Contre-indique. Surveiller INR si association inevitable",src:"RCP/Theriaque"},
-  {d:["warfarine","fluconazole"],lv:"CI",fi:3,ef:"Augmentation majeure de l INR par inhibition CYP2C9",ac:"Contre-indique. Alternatives antifongiques si possible",src:"RCP"},
-  {d:["warfarine","amiodarone"],lv:"warn",fi:3,ef:"Potentialisation anticoagulant, risque hemorragique",ac:"Reduire dose warfarine de 30-50%. Surveillance INR bi-hebdomadaire",src:"RCP/Theriaque"},
-  {d:["warfarine","ciprofloxacine"],lv:"warn",fi:3,ef:"Augmentation INR par inhibition CYP1A2",ac:"Surveiller INR 2-3 jours apres debut antibiotique",src:"Theriaque"},
-  {d:["warfarine","clarithromycine"],lv:"warn",fi:3,ef:"Augmentation INR par inhibition CYP3A4",ac:"Surveiller INR. Alternative: azithromycine",src:"RCP"},
-  {d:["metformine","produit de contraste iode"],lv:"CI",fi:3,ef:"Risque d acidose lactique par insuffisance renale aigue",ac:"Arreter metformine 48h avant et reprendre 48h apres si fonction renale normale",src:"RCP/ANSM"},
-  {d:["metformine","alcool"],lv:"warn",fi:2,ef:"Risque accru d acidose lactique",ac:"Deconseiller consommation excessive d alcool",src:"RCP"},
-  {d:["ibuprofene","aspirine"],lv:"warn",fi:3,ef:"Antagonisme effet antiagregeant aspirine faible dose. Risque hemorragique cumule",ac:"Eviter. Si douleur: paracetamol preferable chez patient sous aspirine",src:"RCP/ANSM"},
-  {d:["ibuprofene","lithium"],lv:"warn",fi:3,ef:"Augmentation lithiemie par reduction elimination renale. Risque toxicite",ac:"Surveiller lithiemie. Alternative antalgique: paracetamol",src:"RCP/Theriaque"},
-  {d:["ibuprofene","methotrexate"],lv:"CI",fi:3,ef:"Augmentation toxicite methotrexate par competition tubulaire renale",ac:"Contre-indique si MTX > 20mg/sem. Precaution aux faibles doses",src:"RCP/Theriaque"},
-  {d:["ibuprofene","IEC"],lv:"warn",fi:2,ef:"Reduction effet antihypertenseur. Risque insuffisance renale aigue",ac:"Surveiller fonction renale et PA. Eviter si IR ou deshydratation",src:"RCP"},
-  {d:["ibuprofene","diuretique"],lv:"warn",fi:2,ef:"Risque insuffisance renale aigue. Reduction effet diuretique",ac:"Surveiller fonction renale et diurese. Hydratation correcte",src:"RCP"},
-  {d:["IMAO","tramadol"],lv:"CI",fi:3,ef:"Syndrome serotoninergique potentiellement fatal",ac:"Contre-indique. Respecter delai 14 jours apres arret IMAO",src:"RCP/ANSM"},
-  {d:["IMAO","fluoxetine"],lv:"CI",fi:3,ef:"Syndrome serotoninergique fatal",ac:"Contre-indique. Delai 14j apres IMAO, 5 semaines apres fluoxetine",src:"RCP/ANSM"},
-  {d:["IMAO","sertraline"],lv:"CI",fi:3,ef:"Syndrome serotoninergique",ac:"Contre-indique. Respecter delai 14 jours",src:"RCP"},
-  {d:["IMAO","paroxetine"],lv:"CI",fi:3,ef:"Syndrome serotoninergique",ac:"Contre-indique. Respecter delai 14 jours",src:"RCP"},
-  {d:["tramadol","ISRS"],lv:"warn",fi:3,ef:"Risque syndrome serotoninergique. Abaissement seuil epileptique",ac:"Surveillance signes serotoninergiques (agitation, hyperthermie, tremblements)",src:"RCP/Theriaque"},
-  {d:["tramadol","antidepresseur tricyclique"],lv:"warn",fi:2,ef:"Risque syndrome serotoninergique et convulsions",ac:"Surveiller signes neurologiques. Utiliser avec prudence",src:"RCP"},
-  {d:["clopidogrel","omeprazole"],lv:"warn",fi:3,ef:"Reduction 40-50% effet antiagregeant par inhibition CYP2C19",ac:"Preferer pantoprazole ou esomeprazole comme IPP alternatif",src:"ANSM/EMA"},
-  {d:["clopidogrel","esomeprazole"],lv:"caution",fi:2,ef:"Reduction moderee effet antiagregeant",ac:"Association possible mais preferer pantoprazole",src:"ANSM"},
-  {d:["statine","fibrate"],lv:"warn",fi:3,ef:"Risque myopathie et rhabdomyolyse augmente",ac:"Surveiller CPK. Preferer fenofibrate. Eviter gemfibrozil + statine",src:"RCP/Theriaque"},
-  {d:["simvastatine","amiodarone"],lv:"CI",fi:3,ef:"Risque rhabdomyolyse majeur par inhibition CYP3A4",ac:"Contre-indique. Utiliser autre statine (pravastatin, rosuvastatin)",src:"RCP/ANSM"},
-  {d:["simvastatine","clarithromycine"],lv:"CI",fi:3,ef:"Augmentation majeure taux simvastatine, risque rhabdomyolyse",ac:"Suspendre simvastatine pendant antibiotherapie ou utiliser azithromycine",src:"RCP"},
-  {d:["atorvastatine","clarithromycine"],lv:"warn",fi:2,ef:"Augmentation taux atorvastatine par inhibition CYP3A4",ac:"Reduire dose atorvastatine ou utiliser azithromycine",src:"RCP"},
-  {d:["quinolone","antiacide"],lv:"warn",fi:3,ef:"Chelation intestinale reduisant absorption quinolone de 50-90%",ac:"Espacer prises d au moins 2h (quinolone avant antiacide)",src:"RCP"},
-  {d:["tetracycline","antiacide"],lv:"warn",fi:3,ef:"Chelation reducant absorption tetracycline",ac:"Espacer prises de 2-3h",src:"RCP"},
-  {d:["tetracycline","lait"],lv:"warn",fi:2,ef:"Reduction absorption par chelation avec calcium",ac:"Prendre a distance des repas laitiers (2h)",src:"RCP"},
-  {d:["fluoroquinolone","AINS"],lv:"warn",fi:2,ef:"Risque convulsions par antagonisme GABA",ac:"Eviter association. Si necessaire: surveillance neurologique",src:"RCP/Theriaque"},
-  {d:["methotrexate","AINS"],lv:"CI",fi:3,ef:"Augmentation toxicite MTX par competition renale (si MTX > 20mg/sem)",ac:"Contre-indique a fortes doses. Precaution aux faibles doses rhumatologiques",src:"RCP"},
-  {d:["methotrexate","cotrimoxazole"],lv:"CI",fi:3,ef:"Majoration toxicite hematologique par inhibition DHFR",ac:"Contre-indique. Surveiller NFS si association inevitable",src:"RCP/Theriaque"},
-  {d:["digoxine","amiodarone"],lv:"warn",fi:3,ef:"Doublement de la digoxinemie par inhibition P-gp",ac:"Reduire dose digoxine de 50%. Surveiller digoxinemie et ECG",src:"RCP/Theriaque"},
-  {d:["digoxine","clarithromycine"],lv:"warn",fi:3,ef:"Augmentation digoxinemie par inhibition P-gp",ac:"Surveiller digoxinemie. Reduire dose si necessaire",src:"RCP"},
-  {d:["IEC","potassium"],lv:"warn",fi:2,ef:"Risque hyperkaliemie par reduction excretion potassium",ac:"Surveiller kaliemie. Eviter supplements potassium sans controle biologique",src:"RCP"},
-  {d:["IEC","diuretique epargnant potassium"],lv:"warn",fi:3,ef:"Risque hyperkaliemie severe",ac:"Surveiller kaliemie regulierement. Eviter association si IRC",src:"RCP/Theriaque"},
-  {d:["lithium","AINS"],lv:"warn",fi:3,ef:"Augmentation lithiemie par reduction elimination renale",ac:"Surveiller lithiemie 5j apres introduction AINS. Preferer paracetamol",src:"RCP/Theriaque"},
-  {d:["lithium","diuretique thiazidique"],lv:"warn",fi:3,ef:"Augmentation lithiemie par hypovolemie",ac:"Surveiller lithiemie. Ajuster doses",src:"RCP"},
-  {d:["carbamazepine","contraceptif oral"],lv:"warn",fi:3,ef:"Reduction efficacite contraceptive par induction CYP3A4",ac:"Utiliser contraception complementaire ou alternative (DIU)",src:"RCP/ANSM"},
-  {d:["rifampicine","contraceptif oral"],lv:"CI",fi:3,ef:"Reduction majeure taux estrogenes/progestatifs par induction enzymatique",ac:"Contre-indique. Utiliser autre methode contraceptive pendant et 1 mois apres",src:"RCP/ANSM"},
-  {d:["hydroxychloroquine","amiodarone"],lv:"warn",fi:2,ef:"Risque allongement QT et torsades de pointe",ac:"Surveiller ECG. Eviter association si QT long pre-existant",src:"Theriaque/RCP"},
-  {d:["azithromycine","amiodarone"],lv:"warn",fi:2,ef:"Risque allongement QT et torsades de pointe",ac:"Eviter association. Si necessaire: ECG avant et pendant traitement",src:"RCP/Theriaque"},
-  {d:["ciprofloxacine","theophylline"],lv:"warn",fi:3,ef:"Augmentation theophyllinemie par inhibition CYP1A2",ac:"Reduire dose theophylline de 50%. Surveiller signes surdosage",src:"RCP"},
-  {d:["allopurinol","azathioprine"],lv:"CI",fi:3,ef:"Augmentation majeure toxicite azathioprine (inhibition xanthine oxydase)",ac:"Contre-indique. Si necessaire: reduire dose azathioprine de 75% et surveiller NFS",src:"RCP/Theriaque"},
-  {d:["acide valproique","lamotrigine"],lv:"warn",fi:3,ef:"Doublement demi-vie lamotrigine par inhibition glucuronidation",ac:"Reduire dose lamotrigine de 50%. Titration tres progressive",src:"RCP"},
-  {d:["rivaroxaban","aspirine"],lv:"warn",fi:2,ef:"Risque hemorragique augmente",ac:"Association possible si benefice clinique. Surveiller signes hemorragiques",src:"RCP"},
-  {d:["apixaban","AINS"],lv:"warn",fi:2,ef:"Risque hemorragique augmente",ac:"Eviter si possible. Surveiller signes hemorragiques",src:"RCP"},
-  {d:["dabigatran","amiodarone"],lv:"warn",fi:2,ef:"Augmentation taux dabigatran par inhibition P-gp",ac:"Reduire dose dabigatran. Surveiller signes hemorragiques",src:"RCP"},
-  {d:["levothyroxine","antiacide"],lv:"warn",fi:2,ef:"Reduction absorption levothyroxine",ac:"Espacer prises d au moins 4h",src:"RCP"},
-  {d:["levothyroxine","calcium"],lv:"warn",fi:2,ef:"Reduction absorption levothyroxine par chelation",ac:"Prendre levothyroxine a jeun, 4h avant calcium",src:"RCP"},
-  {d:["levothyroxine","fer"],lv:"warn",fi:2,ef:"Reduction absorption levothyroxine",ac:"Espacer prises d au moins 4h",src:"RCP"},
-  {d:["sildenafil","derivé nitré"],lv:"CI",fi:3,ef:"Hypotension severe potentiellement fatale",ac:"Absolument contre-indique. Delai 24h apres sildenafil, 48h apres tadalafil",src:"RCP/ANSM"},
-  {d:["tadalafil","derive nitre"],lv:"CI",fi:3,ef:"Hypotension severe potentiellement fatale",ac:"Absolument contre-indique. Delai 48h minimum",src:"RCP/ANSM"}
-];
-
-function normDrug(s){ return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]/g,""); }
-
-function checkLocalDB(drugs) {
-  var results = [];
-  var normed = drugs.map(normDrug);
-  LOCAL_DB.forEach(function(entry) {
-    var nd = entry.d.map(normDrug);
-    // Check if any two drugs from input match this entry
-    var matched = [];
-    normed.forEach(function(n, idx) {
-      nd.forEach(function(ed) {
-        if (n.indexOf(ed) >= 0 || ed.indexOf(n) >= 0) {
-          if (matched.indexOf(idx) < 0) matched.push(idx);
-        }
-      });
-    });
-    if (matched.length >= 2 || (matched.length === 1 && nd.length === 1)) {
-      // Find which drugs matched
-      var matchedNames = matched.map(function(i){ return drugs[i]; });
-      results.push({
-        drugs: matchedNames.length >= 2 ? matchedNames : drugs.slice(0,2),
-        level: entry.lv,
-        fidelity: entry.fi,
-        effect: entry.ef,
-        action: entry.ac,
-        source: entry.src,
-        fromLocal: true
-      });
-    }
-  });
-  return results;
-}
 
 function doAnalyze(){
   var drugs=slots.map(function(s){return s.trim();}).filter(function(s){return s.length>0;});
   if(drugs.length<2){alert("Saisissez au moins 2 medicaments.");return;}
   document.getElementById("analRes").innerHTML="";
   document.getElementById("btnAnal").disabled=true;
-
-  // Check local DB first
-  var localResults = checkLocalDB(drugs);
-
-  // Build ANSM links for each drug
-  var ansmLinks = drugs.map(function(d){
-    return {drug:d, url:"https://ansm.sante.fr/rechercher?query="+encodeURIComponent(d)+"+interaction"};
-  });
-  var therLinks = drugs.map(function(d){
-    return {drug:d, url:"https://www.theriaque.org/apps/recherche/rch.php?NOM="+encodeURIComponent(d)};
-  });
-
-  // Show local results immediately
-  if (localResults.length > 0) {
-    renderInterLocal(drugs, localResults, ansmLinks, therLinks);
-  }
-
-  // Then ask AI for additional interactions
-  setLoad(true,"Analyse IA complementaire...");
-  var sys="Tu es expert en pharmacologie clinique. Reponds UNIQUEMENT avec un objet JSON valide, sans texte ni markdown."+
-    " {"summary":"resume global","interactions":[{"drugs":["med1","med2"],"level":"CI|warn|caution|ok","fidelity":3,"mechanism":"mecanisme","effect":"consequence","action":"conduite a tenir"}],"globalRisk":"high|moderate|low","recommendation":"recommandation"}"+
-    " level: CI=contre-indique, warn=deconseille, caution=precaution, ok=aucune interaction notable."+
-    " fidelity: 3=interaction tres connue/documentee, 2=bien documentee, 1=possible/moins certaine."+
-    " Ne pas re-signaler les interactions deja evidentes dans la base officielle, concentre-toi sur les moins connues."+
-    " Si aucune interaction supplementaire: interactions=[], globalRisk=low";
+  setLoad(true,"Analyse des interactions...");
+  var sys="Tu es expert en pharmacologie clinique. Reponds UNIQUEMENT avec un objet JSON valide, sans texte ni markdown. {\"summary\":\"resume global\",\"interactions\":[{\"drugs\":[\"med1\",\"med2\"],\"level\":\"CI|warn|caution|ok\",\"fidelity\":3,\"mechanism\":\"mecanisme\",\"effect\":\"consequence\",\"action\":\"conduite a tenir\"}],\"globalRisk\":\"high|moderate|low\",\"recommendation\":\"recommandation\"} level: CI=contre-indique, warn=deconseille, caution=precaution, ok=aucune interaction. fidelity: 3=tres connue, 2=bien documentee, 1=possible. Si aucune: interactions=[], globalRisk=low";
   apiCall(sys,"Medicaments: "+drugs.join(", "),2000,function(err,raw){
     setLoad(false);
     document.getElementById("btnAnal").disabled=false;
-    if(err){
-      if(localResults.length===0) showErr("Erreur: "+err);
-      return;
-    }
+    if(err){showErr("Erreur: "+err);return;}
     var d=exObj(raw);
-    if(!d && localResults.length===0){showErr("Format invalide.");return;}
-    renderInterFull(drugs, localResults, d, ansmLinks, therLinks);
+    if(!d){showErr("Format invalide.");return;}
+    renderInter(drugs,d);
   });
 }
 
 function fidStars(fi){
-  var s = "";
-  for(var i=0;i<3;i++) s += i<fi ? "&#9733;" : "&#9734;";
-  return '<span style="color:'+(fi===3?"#2e7d32":fi===2?"#f57c00":"#aaa")+';font-size:12px" title="Fiabilite: '+(fi===3?"Tres haute - Source officielle":fi===2?"Haute - Bien documentee":"Moderee - Donnee IA")+'">' + s + '</span>';
+  var s="";
+  for(var i=0;i<3;i++) s+=i<fi?"&#9733;":"&#9734;";
+  return '<span style="color:'+(fi===3?"#2e7d32":fi===2?"#f57c00":"#aaa")+';font-size:12px">'+s+'</span>';
 }
 
-function renderInterLocal(drugs, localRes, ansmLinks, therLinks) {
-  // Shown as part of full render
-}
-
-function renderInterFull(drugs, localRes, aiData, ansmLinks, therLinks){
+function renderInter(drugs,d){
   var rc={high:"#c62828",moderate:"#e65100",low:"#2e7d32"};
-  var rl={high:"Risque eleve",moderate:"Risque modere",low:"Pas d interaction majeure"};
-
-  var globalRisk = "low";
-  if (localRes.some(function(r){return r.level==="CI";})) globalRisk="high";
-  else if (localRes.some(function(r){return r.level==="warn";})) globalRisk="moderate";
-  else if (aiData && aiData.globalRisk) globalRisk=aiData.globalRisk;
-
+  var rl={high:"Risque eleve",moderate:"Risque modere",low:"Aucune interaction majeure"};
+  var enc0=encodeURIComponent((drugs[0]||""));
+  var allEnc=encodeURIComponent(drugs.join("+"));
   var html='<div style="background:white;border:1px solid #ddd;border-radius:8px;padding:14px;margin-bottom:10px">';
   html+='<div style="display:flex;justify-content:space-between;margin-bottom:8px">';
   html+='<strong style="font-size:14px;color:#1b2d45">'+drugs.length+' medicaments analyses</strong>';
-  html+='<span style="font-size:12px;font-weight:bold;color:'+(rc[globalRisk]||"#555")+'">'+(rl[globalRisk]||"")+'</span></div>';
-  if (aiData && aiData.summary) html+='<p style="font-size:13px;color:#444;line-height:1.6;margin-bottom:8px">'+aiData.summary+'</p>';
-  if (aiData && aiData.recommendation) html+='<div style="background:#f8f9fa;border-radius:6px;padding:8px 10px;font-size:12px;color:#1b2d45;font-weight:bold">'+aiData.recommendation+'</div>';
-
-  // Sources links block
-  html+='<div style="margin-top:10px;padding-top:10px;border-top:1px solid #f0f0f0">';
-  html+='<div style="font-size:10px;font-weight:bold;color:#999;text-transform:uppercase;margin-bottom:6px">Verifier sur les sources officielles</div>';
+  html+='<span style="font-size:12px;font-weight:bold;color:'+(rc[d.globalRisk]||"#555")+'">'+(rl[d.globalRisk]||"")+'</span></div>';
+  html+='<p style="font-size:13px;color:#444;line-height:1.6;margin-bottom:8px">'+d.summary+'</p>';
+  html+='<div style="background:#f8f9fa;border-radius:6px;padding:8px 10px;font-size:12px;color:#1b2d45;font-weight:bold">'+d.recommendation+'</div>';
+  html+='<div style="margin-top:10px;padding-top:10px;border-top:1px solid #f0f0f0"><div style="font-size:10px;font-weight:bold;color:#999;text-transform:uppercase;margin-bottom:6px">Verifier sur les sources officielles</div>';
   html+='<div style="display:flex;flex-wrap:wrap;gap:6px">';
-  drugs.forEach(function(d){
-    html+='<a href="https://www.theriaque.org/apps/recherche/rch.php?NOM='+encodeURIComponent(d)+'" target="_blank" style="font-size:11px;font-weight:bold;color:#b45309;text-decoration:none;padding:3px 8px;border:1px solid #b45309;border-radius:4px;background:#fef3e2">Theriaque: '+d+'</a>';
-    html+='<a href="https://ansm.sante.fr/rechercher?query='+encodeURIComponent(d)+'+interaction" target="_blank" style="font-size:11px;font-weight:bold;color:#0e7c6e;text-decoration:none;padding:3px 8px;border:1px solid #0e7c6e;border-radius:4px;background:#e0f4f1">ANSM: '+d+'</a>';
+  drugs.forEach(function(dr){
+    html+='<a href="https://www.theriaque.org/apps/recherche/rch.php?NOM='+encodeURIComponent(dr)+'" target="_blank" style="font-size:11px;font-weight:bold;color:#b45309;text-decoration:none;padding:3px 8px;border:1px solid #b45309;border-radius:4px;background:#fef3e2">Theriaque: '+dr+'</a>';
+    html+='<a href="https://ansm.sante.fr/rechercher?query='+encodeURIComponent(dr)+'+interaction" target="_blank" style="font-size:11px;font-weight:bold;color:#0e7c6e;text-decoration:none;padding:3px 8px;border:1px solid #0e7c6e;border-radius:4px;background:#e0f4f1">ANSM: '+dr+'</a>';
   });
   html+='</div></div></div>';
-
-  // Local DB results
-  if (localRes.length > 0) {
-    html+='<div style="background:#fff8e1;border:1px solid #ffe082;border-radius:6px;padding:6px 12px;margin-bottom:8px;font-size:11px;color:#7a5c00"><strong>Base locale</strong> — Interactions identifiees dans la base de donnees integree (RCP/Theriaque/ANSM)</div>';
-    localRes.forEach(function(inter){
-      var cls={CI:"ci",warn:"wn",caution:"ca",ok:"ok"}[inter.level]||"ca";
-      var lc={CI:"#c62828",warn:"#e65100",caution:"#f57c00",ok:"#2e7d32"}[inter.level]||"#f57c00";
-      var ll={CI:"Contre-indique",warn:"Deconseille",caution:"Precaution",ok:"Pas d interaction"}[inter.level]||inter.level;
-      html+='<div class="ires '+cls+'">';
-      html+='<div class="iresh"><span class="ireslvl" style="background:'+lc+'">'+ll+'</span>';
-      html+='<strong style="font-size:13px">'+inter.drugs.join(" &harr; ")+'</strong>';
-      html+=fidStars(inter.fidelity);
-      html+='<span class="tagSRC" style="margin-left:auto">'+inter.source+'</span></div>';
-      html+='<div style="font-size:12.5px;color:#333;margin-bottom:4px"><strong>Effet:</strong> '+inter.effect+'</div>';
-      html+='<div style="font-size:12px;font-weight:bold;color:#1b2d45;margin-top:6px">Conduite: '+inter.action+'</div>';
-      html+='<div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">';
-      html+='<a href="https://www.theriaque.org/apps/recherche/rch.php?NOM='+encodeURIComponent(inter.drugs[0]||"")+'" target="_blank" style="font-size:11px;font-weight:bold;color:#b45309;text-decoration:none;border-bottom:1px solid #b4530950">Theriaque &#8599;</a>';
-      html+='<a href="https://ansm.sante.fr/rechercher?query='+encodeURIComponent(inter.drugs.join("+"))+'" target="_blank" style="font-size:11px;font-weight:bold;color:#0e7c6e;text-decoration:none;border-bottom:1px solid #0e7c6e50">ANSM &#8599;</a>';
-      html+='</div></div>';
-    });
-  }
-
-  // AI results
-  var aiInter = aiData ? (aiData.interactions||[]) : [];
-  if (aiInter.length > 0) {
-    html+='<div style="background:#e3f2fd;border:1px solid #90caf9;border-radius:6px;padding:6px 12px;margin-bottom:8px;font-size:11px;color:#0d47a1"><strong>Analyse IA complementaire</strong> — A verifier sur Theriaque</div>';
-    aiInter.forEach(function(inter){
-      var cls={CI:"ci",warn:"wn",caution:"ca",ok:"ok"}[inter.level]||"ca";
-      var lc={CI:"#c62828",warn:"#e65100",caution:"#f57c00",ok:"#2e7d32"}[inter.level]||"#f57c00";
-      var ll={CI:"Contre-indique",warn:"Deconseille",caution:"Precaution",ok:"Pas d interaction"}[inter.level]||inter.level;
-      var fi = inter.fidelity || 1;
-      html+='<div class="ires '+cls+'">';
-      html+='<div class="iresh"><span class="ireslvl" style="background:'+lc+'">'+ll+'</span>';
-      html+='<strong style="font-size:13px">'+(inter.drugs||[]).join(" &harr; ")+'</strong>';
-      html+=fidStars(fi);
-      html+='<span class="tagIA" style="margin-left:auto">IA</span></div>';
-      if(inter.mechanism) html+='<div style="font-size:12.5px;color:#333;margin-bottom:4px"><strong>Mecanisme:</strong> '+inter.mechanism+'</div>';
-      if(inter.effect) html+='<div style="font-size:12.5px;color:#333;margin-bottom:4px"><strong>Effet:</strong> '+inter.effect+'</div>';
-      if(inter.action) html+='<div style="font-size:12px;font-weight:bold;color:#1b2d45;margin-top:6px">Conduite: '+inter.action+'</div>';
-      html+='<div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">';
-      html+='<a href="https://www.theriaque.org/apps/recherche/rch.php?NOM='+encodeURIComponent((inter.drugs||[])[0]||"")+'" target="_blank" style="font-size:11px;font-weight:bold;color:#b45309;text-decoration:none;border-bottom:1px solid #b4530950">Theriaque &#8599;</a>';
-      html+='<a href="https://ansm.sante.fr/rechercher?query='+encodeURIComponent((inter.drugs||[]).join("+"))+'" target="_blank" style="font-size:11px;font-weight:bold;color:#0e7c6e;text-decoration:none;border-bottom:1px solid #0e7c6e50">ANSM &#8599;</a>';
-      html+='</div></div>';
-    });
-  }
-
-  if (!localRes.length && !aiInter.length) {
-    html+='<div class="empty" style="background:#e8f5e9;border-color:#a5d6a7;color:#2e7d32">Aucune interaction notable identifiee.</div>';
-  }
-
-  html+='<div class="disc">Base locale (&#9733;&#9733;&#9733;) = donnees RCP/Theriaque/ANSM. IA (&#9733;) = a verifier imperativement sur Theriaque avant dispensation.</div>';
+  (d.interactions||[]).forEach(function(inter){
+    var cls={CI:"ci",warn:"wn",caution:"ca",ok:"ok"}[inter.level]||"ca";
+    var lc={CI:"#c62828",warn:"#e65100",caution:"#f57c00",ok:"#2e7d32"}[inter.level]||"#f57c00";
+    var ll={CI:"Contre-indique",warn:"Deconseille",caution:"Precaution",ok:"Pas interaction"}[inter.level]||inter.level;
+    var fi=inter.fidelity||1;
+    html+='<div class="ires '+cls+'">';
+    html+='<div class="iresh"><span class="ireslvl" style="background:'+lc+'">'+ll+'</span>';
+    html+='<strong style="font-size:13px">'+(inter.drugs||[]).join(" &harr; ")+'</strong>';
+    html+=fidStars(fi);
+    html+='<span class="tagIA" style="margin-left:auto">IA</span></div>';
+    if(inter.mechanism) html+='<div style="font-size:12.5px;color:#333;margin-bottom:4px"><strong>Mecanisme:</strong> '+inter.mechanism+'</div>';
+    if(inter.effect) html+='<div style="font-size:12.5px;color:#333;margin-bottom:4px"><strong>Effet:</strong> '+inter.effect+'</div>';
+    if(inter.action) html+='<div style="font-size:12px;font-weight:bold;color:#1b2d45;margin-top:6px">Conduite: '+inter.action+'</div>';
+    html+='<div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">';
+    html+='<a href="https://www.theriaque.org/apps/recherche/rch.php?NOM='+encodeURIComponent((inter.drugs||[])[0]||"")+'" target="_blank" style="font-size:11px;font-weight:bold;color:#b45309;text-decoration:none;border-bottom:1px solid #b4530950">Theriaque</a>';
+    html+='<a href="https://ansm.sante.fr/rechercher?query='+encodeURIComponent((inter.drugs||[]).join("+"))+'" target="_blank" style="font-size:11px;font-weight:bold;color:#0e7c6e;text-decoration:none;border-bottom:1px solid #0e7c6e50">ANSM</a>';
+    html+='</div></div>';
+  });
+  if(!d.interactions||!d.interactions.length) html+='<div class="empty" style="background:#e8f5e9;border-color:#a5d6a7;color:#2e7d32">Aucune interaction notable identifiee.</div>';
+  html+='<div class="disc">Resultats IA - verifier via Theriaque et ANSM avant dispensation.</div>';
   document.getElementById("analRes").innerHTML=html;
 }
+
+
+function sIcon(v){return v==="ok"?'<span class="ok">&#10003;</span>':v==="warn"?'<span class="wn">&#9651;</span>':'<span class="no">&#10007;</span>';}
+function tIA(ia,lb){return ia===false&&lb?'<span class="tagSRC">SOURCE: '+lb+'</span>':'<span class="tagIA">IA</span>';}
 
 function renderRecos(term,d){
   document.getElementById("rTitle").textContent=term;
   var enc=encodeURIComponent(term);
-  var ad=document.getElementById("ansmDiv"); ad.innerHTML="";
-  if(d.ansmAlerts&&d.ansmAlerts.length){var h='<div class="aalert"><div class="aatit">Alertes ANSM</div>'; d.ansmAlerts.forEach(function(a){h+='<div style="font-size:12.5px;color:#333;margin-bottom:4px;padding-left:12px">&#9651; '+(typeof a==="object"?a.text:a)+'<a href="'+(typeof a==="object"&&a.verifyUrl?a.verifyUrl:"https://ansm.sante.fr/rechercher?query="+enc)+'" target="_blank" style="font-size:10px;font-weight:bold;color:#0277bd;margin-left:6px;text-decoration:none;border-bottom:1px solid #0277bd50">Verifier</a></div>';}); ad.innerHTML=h+'</div>';}
-  var od=document.getElementById("otcDiv"); od.innerHTML="";
-  if(d.otcAdvice&&d.otcAdvice.length){var h='<div class="otcbox"><div class="otctit">Conseils OTC</div>'; d.otcAdvice.forEach(function(a){h+='<div style="display:flex;gap:6px;margin-bottom:5px">'+tIA(typeof a==="object"?a.isIA:true,"")+'<span style="font-size:12.5px;color:#333">'+(typeof a==="object"?a.text:a)+'</span></div>';}); od.innerHTML=h+'</div>';}
-  var sfd=document.getElementById("sfDiv"); sfd.innerHTML="";
-  if(d.safetyRecap&&d.safetyRecap.length){var h='<div class="sfbox"><div class="sftit">Securite 1ere et 2eme ligne</div><div style="overflow-x:auto"><table class="sft"><thead><tr><th>Medicament</th><th>Ligne</th><th>Grossesse</th><th>IR</th><th>IH</th><th>Note</th><th>RCP</th></tr></thead><tbody>'; d.safetyRecap.forEach(function(r){var bu="https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche="+encodeURIComponent(r.drug); h+='<tr><td><span class="sdrug">'+r.drug+'</span></td><td><span class="sln '+(r.line==="1"?"sl1":"sl2")+'">'+(r.line==="1"?"1ere":"2eme")+'</span></td><td>'+sIcon(r.grossesse)+'</td><td>'+sIcon(r.ir)+'</td><td>'+sIcon(r.ih)+'</td><td style="font-size:11px;color:#666">'+(r.note||"")+'</td><td><a href="'+bu+'" target="_blank" style="font-size:10px;font-weight:bold;color:#0f4c81;text-decoration:none;border-bottom:1px solid #0f4c8150">BDPM</a></td></tr>';}); sfd.innerHTML=h+'</tbody></table></div></div>';}
-  var rl=document.getElementById("recosList"); rl.innerHTML="";
+  var ad=document.getElementById("ansmDiv");ad.innerHTML="";
+  if(d.ansmAlerts&&d.ansmAlerts.length){var h='<div class="aalert"><div class="aatit">Alertes ANSM</div>';d.ansmAlerts.forEach(function(a){h+='<div style="font-size:12.5px;color:#333;margin-bottom:4px;padding-left:12px">&#9651; '+(typeof a==="object"?a.text:a)+'<a href="'+(typeof a==="object"&&a.verifyUrl?a.verifyUrl:"https://ansm.sante.fr/rechercher?query="+enc)+'" target="_blank" style="font-size:10px;font-weight:bold;color:#0277bd;margin-left:6px;text-decoration:none;border-bottom:1px solid #0277bd50">Verifier</a></div>';});ad.innerHTML=h+'</div>';}
+  var od=document.getElementById("otcDiv");od.innerHTML="";
+  if(d.otcAdvice&&d.otcAdvice.length){var h='<div class="otcbox"><div class="otctit">Conseils OTC</div>';d.otcAdvice.forEach(function(a){h+='<div style="display:flex;gap:6px;margin-bottom:5px">'+tIA(typeof a==="object"?a.isIA:true,"")+'<span style="font-size:12.5px;color:#333">'+(typeof a==="object"?a.text:a)+'</span></div>';});od.innerHTML=h+'</div>';}
+  var sfd=document.getElementById("sfDiv");sfd.innerHTML="";
+  if(d.safetyRecap&&d.safetyRecap.length){var h='<div class="sfbox"><div class="sftit">Securite 1ere et 2eme ligne</div><div style="overflow-x:auto"><table class="sft"><thead><tr><th>Medicament</th><th>Ligne</th><th>Grossesse</th><th>IR</th><th>IH</th><th>Note</th><th>RCP</th></tr></thead><tbody>';d.safetyRecap.forEach(function(r){var bu="https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche="+encodeURIComponent(r.drug);h+='<tr><td><span class="sdrug">'+r.drug+'</span></td><td><span class="sln '+(r.line==="1"?"sl1":"sl2")+'">'+( r.line==="1"?"1ere":"2eme")+'</span></td><td>'+sIcon(r.grossesse)+'</td><td>'+sIcon(r.ir)+'</td><td>'+sIcon(r.ih)+'</td><td style="font-size:11px;color:#666">'+(r.note||"")+'</td><td><a href="'+bu+'" target="_blank" style="font-size:10px;font-weight:bold;color:#0f4c81;text-decoration:none;border-bottom:1px solid #0f4c8150">BDPM</a></td></tr>';});sfd.innerHTML=h+'</tbody></table></div></div>';}
+  var rl=document.getElementById("recosList");rl.innerHTML="";
   var recos=(d.recos||[]).filter(function(r){return filters[r.sourceId];});
   var uO={high:0,mid:1,low:2},gO={A:0,B:1,C:2,AE:3};
   recos.sort(function(a,b){var u=(uO[a.gradeUtility]||2)-(uO[b.gradeUtility]||2);return u!==0?u:(gO[a.gradeEvidence]||3)-(gO[b.gradeEvidence]||3);});
@@ -920,47 +765,41 @@ function renderRecos(term,d){
   if(!recos.length){rl.innerHTML='<div class="empty">Aucune recommandation trouvee.</div>';}
   else{recos.forEach(function(r,i){
     var s=SRCS.find(function(x){return x.id===r.sourceId;})||SRCS[0];
-    var card=document.createElement("div"); card.className="card"; card.style.borderLeftColor=s.cl; card.style.animationDelay=(i*0.05)+"s";
-    var lh=""; if(r.treatmentLines&&r.treatmentLines.length){var li=r.treatmentLines.map(function(l){var cls=l.line.indexOf("1")>=0?"l1":l.line.indexOf("2")>=0?"l2":"l3";return'<div class="litem"><span class="lbdg '+cls+'">'+l.line+'</span><span class="ltxt">'+l.drugs+'</span> '+tIA(l.isIA===false?false:true,l.sourceLabel||"")+'</div>';}).join("");lh='<div class="lblock"><div class="llbl">Traitements recommandes</div>'+li+'</div>';}
+    var card=document.createElement("div");card.className="card";card.style.borderLeftColor=s.cl;card.style.animationDelay=(i*0.05)+"s";
+    var lh="";if(r.treatmentLines&&r.treatmentLines.length){var li=r.treatmentLines.map(function(l){var cls=l.line.indexOf("1")>=0?"l1":l.line.indexOf("2")>=0?"l2":"l3";return'<div class="litem"><span class="lbdg '+cls+'">'+l.line+'</span><span class="ltxt">'+l.drugs+'</span> '+tIA(l.isIA===false?false:true,l.sourceLabel||"")+'</div>';}).join("");lh='<div class="lblock"><div class="llbl">Traitements recommandes</div>'+li+'</div>';}
     var kps=(r.keyPoints||[]).map(function(p){var t=typeof p==="object"?p.text:p;var ia=typeof p==="object"?p.isIA:true;return'<li>'+t+' '+tIA(ia,"")+'</li>';}).join("");
     var gmap={A:"gA",B:"gB",C:"gC",AE:"gAE"};var glbl={A:"Grade A",B:"Grade B",C:"Grade C",AE:"Accord experts"};
-    var umap={high:"uh",mid:"um",low:"ul"};var ulbl={high:"Tres utile",mid:"Utile",low:"Informatif"};
-    var gr='<div class="gbrow">'+(r.gradeEvidence?'<span class="gb '+(gmap[r.gradeEvidence]||"gAE")+'">'+(glbl[r.gradeEvidence]||r.gradeEvidence)+'</span>':'')+(r.gradeUtility?'<span class="gb '+(umap[r.gradeUtility]||"ul")+'">'+(ulbl[r.gradeUtility]||r.gradeUtility)+'</span>':'')+'</div>';
-    var st=r.summary&&typeof r.summary==="object"?r.summary.text:(r.summary||""); var sia=r.summary&&typeof r.summary==="object"?r.summary.isIA:true;
+    var umap={high:"uh",mid:"um",low:"ul"};
+    var ustar={high:"&#9733;&#9733;&#9733; Tres utile",mid:"&#9733;&#9733; Utile",low:"&#9733; Informatif"};
+    var gr='<div class="gbrow">'+(r.gradeEvidence?'<span class="gb '+(gmap[r.gradeEvidence]||"gAE")+'">'+(glbl[r.gradeEvidence]||r.gradeEvidence)+'</span>':'')+( r.gradeUtility?'<span class="gb '+(umap[r.gradeUtility]||"ul")+'">'+(ustar[r.gradeUtility]||r.gradeUtility)+'</span>':'')+'</div>';
+    var st=r.summary&&typeof r.summary==="object"?r.summary.text:(r.summary||"");var sia=r.summary&&typeof r.summary==="object"?r.summary.isIA:true;
     var sl='<div class="srcrow">'+(r.url&&r.url.length>10?'<a class="srcbtn" href="'+r.url+'" target="_blank" style="color:'+s.cl+';border-color:'+s.cl+';background:'+s.cl+'15" onclick="event.stopPropagation()">Document</a>':'')+'<a class="srcbtn" href="https://www.has-sante.fr/jcms/fc_1249603/fr/recherche?text='+enc+'" target="_blank" style="color:#1a4f8a;border-color:#1a4f8a;background:#1a4f8a15" onclick="event.stopPropagation()">HAS</a><a class="srcbtn" href="https://ansm.sante.fr/rechercher?query='+enc+'" target="_blank" style="color:#0e7c6e;border-color:#0e7c6e;background:#0e7c6e15" onclick="event.stopPropagation()">ANSM</a><a class="srcbtn" href="https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche='+enc+'" target="_blank" style="color:#0f4c81;border-color:#0f4c81;background:#0f4c8115" onclick="event.stopPropagation()">BDPM</a><a class="srcbtn" href="https://www.theriaque.org/apps/recherche/rch.php?NOM='+enc+'" target="_blank" style="color:#b45309;border-color:#b45309;background:#b4530915" onclick="event.stopPropagation()">Theriaque</a></div>';
     card.innerHTML='<div class="ctop"><div style="flex:1"><div class="cmeta"><span class="bdg" style="background:'+s.cl+'20;color:'+s.cl+'">'+s.lb+'</span>'+(r.date?'<span class="cdate">'+r.date+'</span>':'')+gr+'</div><div class="ctit">'+r.title+'</div></div><span class="ctog">&#9660;</span></div><div class="cbody">'+lh+'<div style="display:flex;gap:6px;align-items:flex-start;margin-bottom:10px">'+tIA(sia,"")+'<p style="font-size:13px;color:#444;line-height:1.65;flex:1">'+st+'</p></div>'+(kps?'<div class="llbl">Points cles</div><ul style="padding-left:16px;margin:0 0 10px">'+kps+'</ul>':'')+'<div class="csrc"><div class="csrclbl">Sources</div>'+sl+'</div></div>';
     card.addEventListener("click",function(){card.classList.toggle("open");card.querySelector(".ctog").innerHTML=card.classList.contains("open")?"&#9650;":"&#9660;";});
     rl.appendChild(card);
   });}
-  var fd=document.getElementById("ficheDiv"); fd.innerHTML="";
+  var fd=document.getElementById("ficheDiv");fd.innerHTML="";
   if(d.fichePatient){fd.innerHTML='<div class="fiche"><div class="fichead"><span class="fictit">Fiche patient - '+term+'</span><button class="bcp" onclick="copyFiche()">Copier</button></div><div class="fictxt" id="ficTxt">'+d.fichePatient+'</div></div>';}
   document.getElementById("recosPanel").style.display="block";
 }
 
 function renderDrug(term,d){
   document.getElementById("dTitle").textContent=d.dci||(d.commercial&&d.commercial[0])||term;
-  var de=encodeURIComponent(d.dci||term); var sf=d.safety||{};
+  var de=encodeURIComponent(d.dci||term);var sf=d.safety||{};
   function safeRow(ico,lbl,val,note,src){var st=src&&src!=="IA"?tIA(false,src):tIA(true,"");return'<div class="safitem">'+sIcon(val)+' <span style="font-size:12px">'+ico+' '+lbl+(note?' — <em style="font-size:11px;color:#555">'+note+'</em>':'')+'</span> '+st+'</div>';}
   var safeH='<div class="safinl">'+safeRow("G.","Grossesse",sf.grossesse,sf.grossesseNote,sf.grossesseSource)+safeRow("All.","Allaitement",sf.allaitement,sf.allaitementNote,sf.allaitementSource)+safeRow("IR","IR",sf.ir,sf.irNote,sf.irSource)+safeRow("IH","IH",sf.ih,sf.ihNote,sf.ihSource)+safeRow("SA","Sujet age",sf.sujet_age,sf.sujet_ageNote,sf.sujet_ageSource)+'</div>';
-  var posH=(d.posology||[]).map(function(p){var pt=p.isIA===false?tIA(false,p.sourceLabel||"RCP"):tIA(true,"");return'<div class="positem"><span class="posrte">'+(p.route||"oral")+'</span><div><div class="dtxt">'+p.dose+' '+pt+'</div>'+(p.renal?'<div style="font-size:11px;color:#555">IR: '+p.renal+'</div>':'')+(p.hepatic?'<div style="font-size:11px;color:#555">IH: '+p.hepatic+'</div>':'')+'</div></div>';}).join("");
+  var posH=(d.posology||[]).map(function(p){var pt=p.isIA===false?tIA(false,p.sourceLabel||"RCP"):tIA(true,"");return'<div class="positem"><span class="posrte">'+(p.route||"oral")+'</span><div><div class="dtxt">'+p.dose+' '+pt+'</div>'+(p.renal?'<div style="font-size:11px;color:#555">IR: '+p.renal+'</div>':'')+( p.hepatic?'<div style="font-size:11px;color:#555">IH: '+p.hepatic+'</div>':'')+'</div></div>';}).join("");
   var lmap={CI:"ici",warn:"iwn",caution:"ica"};var llbl={CI:"CI",warn:"Precaution",caution:"Prudence"};
   var intH=(d.interactions||[]).map(function(it){var it2=it.isIA===false?tIA(false,it.sourceLabel||"Theriaque"):tIA(true,"");return'<div class="intitem"><span class="intlvl '+(lmap[it.level]||"ica")+'">'+(llbl[it.level]||it.level)+'</span><span style="font-size:12.5px;color:#333"><strong>'+it.drug+'</strong> — '+it.effect+' '+it2+'</span></div>';}).join("");
   var seH=(d.sideEffects||[]).map(function(e){var et=e.isIA===false?tIA(false,e.sourceLabel||"RCP"):tIA(true,"");return'<li>'+(typeof e==="object"?e.text:e)+(e.frequency?' ('+e.frequency+')':'')+' '+et+'</li>';}).join("");
   var indH=(d.indications||[]).map(function(ind){var it=typeof ind==="object"&&ind.isIA===false?tIA(false,ind.sourceLabel||"RCP"):tIA(true,"");return'<li>'+(typeof ind==="object"?ind.text:ind)+' '+it+'</li>';}).join("");
   var monH=(d.monitoring||[]).map(function(m){return'<li>'+(typeof m==="object"?m.text:m)+' '+tIA(true,"")+'</li>';}).join("");
   var crat="https://www.lecrat.fr/spip.php?page=recherche&recherche="+de;
-  document.getElementById("drugDiv").innerHTML='<div class="dcard"><div class="dhead"><div class="dname">'+d.dci+'</div><div class="dcom">'+(d.commercial&&d.commercial.join?d.commercial.join(", "):"")+'</div><span class="dclsbdg">'+d.class+'</span></div><div class="dbody">'+
-    '<div class="dsec"><div class="dsectit">Mecanisme</div><div style="display:flex;gap:6px">'+tIA(false,"RCP")+'<p class="dtxt">'+(d.mechanism&&typeof d.mechanism==="object"?d.mechanism.text:d.mechanism)+'</p></div></div>'+
-    (indH?'<div class="dsec"><div class="dsectit">Indications</div><ul class="dlist">'+indH+'</ul></div>':'')+
-    (posH?'<div class="dsec"><div class="dsectit">Posologie</div>'+posH+'</div>':'')+
-    '<div class="dsec"><div class="dsectit">Securite <a href="'+crat+'" target="_blank" style="font-size:10px;color:#880e4f;text-decoration:none;border-bottom:1px solid #880e4f50;margin-left:8px">CRAT</a><a href="https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche='+de+'" target="_blank" style="font-size:10px;color:#0f4c81;text-decoration:none;border-bottom:1px solid #0f4c8150;margin-left:8px">RCP BDPM</a></div>'+safeH+'</div>'+
-    (d.contraindications&&d.contraindications.length?'<div class="dsec"><div class="dsectit">Contre-indications</div><ul class="dlist">'+(d.contraindications||[]).map(function(c){return'<li>'+(typeof c==="object"?c.text:c)+' '+tIA(typeof c==="object"&&c.isIA===false?false:true,typeof c==="object"?c.sourceLabel:"")+'</li>';}).join("")+'</ul></div>':'')+
-    (intH?'<div class="dsec"><div class="dsectit">Interactions <a href="https://www.theriaque.org/apps/recherche/rch.php?NOM='+de+'" target="_blank" style="font-size:10px;color:#b45309;text-decoration:none;border-bottom:1px solid #b4530950;margin-left:8px">Theriaque</a></div>'+intH+'</div>':'')+
-    (seH?'<div class="dsec"><div class="dsectit">Effets indesirables</div><ul class="dlist">'+seH+'</ul></div>':'')+
-    (monH?'<div class="dsec"><div class="dsectit">Surveillance</div><ul class="dlist">'+monH+'</ul></div>':'')+
-    (d.patientAdvice?'<div class="dsec"><div class="dsectit">Conseils patient '+tIA(true,"")+'</div><p class="dtxt">'+(d.patientAdvice&&typeof d.patientAdvice==="object"?d.patientAdvice.text:d.patientAdvice)+'</p></div>':'')+
-    '<div class="dlinks"><a class="dlnk lbdpm" href="https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche='+de+'" target="_blank">BDPM</a><a class="dlnk lvidal" href="https://www.vidal.fr/recherche/index/q:'+de+'" target="_blank">VIDAL</a><a class="dlnk lther" href="https://www.theriaque.org/apps/recherche/rch.php?NOM='+de+'" target="_blank">Theriaque</a><a class="dlnk lansm" href="https://ansm.sante.fr/rechercher?query='+de+'" target="_blank">ANSM</a><a class="dlnk lcrat" href="'+crat+'" target="_blank">CRAT</a></div>'+
-    '</div></div>';
+  document.getElementById("drugDiv").innerHTML='<div class="dcard"><div class="dhead"><div class="dname">'+d.dci+'</div><div class="dcom">'+(d.commercial&&d.commercial.join?d.commercial.join(", "):"")+'</div><span class="dclsbdg">'+d.class+'</span></div><div class="dbody">'
+    +'<div class="dsec"><div class="dsectit">Mecanisme</div><div style="display:flex;gap:6px">'+tIA(false,"RCP")+'<p class="dtxt">'+(d.mechanism&&typeof d.mechanism==="object"?d.mechanism.text:d.mechanism)+'</p></div></div>'
+    +(indH?'<div class="dsec"><div class="dsectit">Indications</div><ul class="dlist">'+indH+'</ul></div>':'')+( posH?'<div class="dsec"><div class="dsectit">Posologie</div>'+posH+'</div>':'')+'<div class="dsec"><div class="dsectit">Securite <a href="'+crat+'" target="_blank" style="font-size:10px;color:#880e4f;text-decoration:none;border-bottom:1px solid #880e4f50;margin-left:8px">CRAT</a><a href="https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche='+de+'" target="_blank" style="font-size:10px;color:#0f4c81;text-decoration:none;border-bottom:1px solid #0f4c8150;margin-left:8px">RCP BDPM</a></div>'+safeH+'</div>'
+    +(d.contraindications&&d.contraindications.length?'<div class="dsec"><div class="dsectit">Contre-indications</div><ul class="dlist">'+(d.contraindications||[]).map(function(c){return'<li>'+(typeof c==="object"?c.text:c)+' '+tIA(typeof c==="object"&&c.isIA===false?false:true,typeof c==="object"?c.sourceLabel:"")+'</li>';}).join("")+'</ul></div>':'')+( intH?'<div class="dsec"><div class="dsectit">Interactions <a href="https://www.theriaque.org/apps/recherche/rch.php?NOM='+de+'" target="_blank" style="font-size:10px;color:#b45309;text-decoration:none;border-bottom:1px solid #b4530950;margin-left:8px">Theriaque</a></div>'+intH+'</div>':'')+( seH?'<div class="dsec"><div class="dsectit">Effets indesirables</div><ul class="dlist">'+seH+'</ul></div>':'')+( monH?'<div class="dsec"><div class="dsectit">Surveillance</div><ul class="dlist">'+monH+'</ul></div>':'')+( d.patientAdvice?'<div class="dsec"><div class="dsectit">Conseils patient '+tIA(true,"")+'</div><p class="dtxt">'+(d.patientAdvice&&typeof d.patientAdvice==="object"?d.patientAdvice.text:d.patientAdvice)+'</p></div>':'')+'<div class="dlinks"><a class="dlnk lbdpm" href="https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche='+de+'" target="_blank">BDPM</a><a class="dlnk lvidal" href="https://www.vidal.fr/recherche/index/q:'+de+'" target="_blank">VIDAL</a><a class="dlnk lther" href="https://www.theriaque.org/apps/recherche/rch.php?NOM='+de+'" target="_blank">Theriaque</a><a class="dlnk lansm" href="https://ansm.sante.fr/rechercher?query='+de+'" target="_blank">ANSM</a><a class="dlnk lcrat" href="'+crat+'" target="_blank">CRAT</a></div>'
+    +'</div></div>';
   document.getElementById("drugPanel").style.display="block";
 }
 
@@ -970,7 +809,7 @@ function renderPedi(term,d){
   var html='<div class="pcard"><div class="phead"><div class="ptit">'+d.pathologie+'</div></div><div class="pbody">';
   if(d.definition)html+='<div class="psec"><div class="psectit">Definition</div><p style="font-size:13px;color:#333;line-height:1.6">'+d.definition.text+' '+tIA(d.definition.isIA,"")+'</p></div>';
   if(d.generalWarnings&&d.generalWarnings.length){html+='<div class="psec"><div class="psectit">Mises en garde</div>';d.generalWarnings.forEach(function(w){html+='<div class="pwarn">'+w+'</div>';});html+='</div>';}
-  if(d.ageGroups&&d.ageGroups.length){html+='<div class="psec"><div class="psectit">Traitements par age</div>';d.ageGroups.forEach(function(ag){html+='<div class="agegrp"><span class="agebdg">'+ag.age+'</span><div style="flex:1;font-size:12.5px">';if(ag.specificities)html+='<div style="margin-bottom:5px;color:#555;font-style:italic">'+ag.specificities+'</div>';if(ag.treatments)ag.treatments.forEach(function(t){var tt=t.isIA===false?tIA(false,t.sourceLabel||"BDPM"):tIA(true,"");html+='<div style="margin-bottom:4px"><strong>'+t.drug+'</strong> — '+t.dose+(t.max?' (max: '+t.max+')':'')+(t.route?' — '+t.route:'')+' '+tt+(t.notes?'<div style="font-size:11px;color:#666">'+t.notes+'</div>':'')+'</div>';});if(ag.warnings)ag.warnings.forEach(function(w){html+='<div style="font-size:11px;color:#e65100">&#9651; '+w+'</div>';});html+='</div></div>';});html+='</div>';}
+  if(d.ageGroups&&d.ageGroups.length){html+='<div class="psec"><div class="psectit">Traitements par age</div>';d.ageGroups.forEach(function(ag){html+='<div class="agegrp"><span class="agebdg">'+ag.age+'</span><div style="flex:1;font-size:12.5px">';if(ag.specificities)html+='<div style="margin-bottom:5px;color:#555;font-style:italic">'+ag.specificities+'</div>';if(ag.treatments)ag.treatments.forEach(function(t){var tt=t.isIA===false?tIA(false,t.sourceLabel||"BDPM"):tIA(true,"");html+='<div style="margin-bottom:4px"><strong>'+t.drug+'</strong> — '+t.dose+(t.max?' (max: '+t.max+')':'')+( t.route?' — '+t.route:'')+' '+tt+(t.notes?'<div style="font-size:11px;color:#666">'+t.notes+'</div>':'')+'</div>';});if(ag.warnings)ag.warnings.forEach(function(w){html+='<div style="font-size:11px;color:#e65100">&#9651; '+w+'</div>';});html+='</div></div>';});html+='</div>';}
   if(d.otcAdvice&&d.otcAdvice.length){html+='<div class="psec"><div class="psectit">Conseils OTC</div>';d.otcAdvice.forEach(function(a){html+='<div style="font-size:12.5px;padding-left:10px;border-left:2px solid #a5d6a7;margin-bottom:3px">'+a+'</div>';});html+='</div>';}
   if(d.whenToRefer&&d.whenToRefer.length){html+='<div class="psec"><div class="psectit">Quand orienter</div>';d.whenToRefer.forEach(function(w){html+='<div style="font-size:12.5px;color:#c62828;padding-left:10px;border-left:2px solid #ef9a9a;margin-bottom:3px">'+w+'</div>';});html+='</div>';}
   if(d.ficheParent)html+='<div class="psec"><div class="psectit">Message parents '+tIA(true,"")+'<button onclick="copyPedi()" style="margin-left:8px;background:#1b2d45;color:white;border:none;border-radius:4px;padding:2px 8px;font-size:10px;cursor:pointer">Copier</button></div><p id="pediTxt" style="font-size:13px;color:#333;line-height:1.7;background:#f8f9fa;border-radius:6px;padding:10px;white-space:pre-wrap">'+d.ficheParent+'</p></div>';
@@ -982,23 +821,21 @@ function renderPedi(term,d){
 
 function renderStudy(term,data){
   document.getElementById("sTitle").textContent=term;
-  var sd=document.getElementById("studyDiv"); sd.innerHTML="";
+  var sd=document.getElementById("studyDiv");sd.innerHTML="";
   var enc=encodeURIComponent(term);
   if(!data.length){sd.innerHTML='<div class="empty">Aucun essai clinique ni molecule trouves.</div>';document.getElementById("studyPanel").style.display="block";return;}
   data.forEach(function(r,i){
     var card=document.createElement("div");card.className="card";card.style.borderLeftColor="#0277bd";card.style.animationDelay=(i*0.05)+"s";
     var isTrial=r.type==="trial";
     var sc=r.status&&r.status.indexOf("cours")>=0?"#2e7d32":r.status&&r.status.indexOf("AMM")>=0?"#1565c0":"#555";
-    var bh=isTrial?(r.mechanism?'<p style="font-size:12.5px;color:#444;margin-bottom:4px"><strong>Mecanisme:</strong> '+r.mechanism+'</p>':'')+(r.objective?'<p style="font-size:12.5px;color:#444;margin-bottom:4px"><strong>Objectif:</strong> '+r.objective+'</p>':'')+(r.results?'<p style="font-size:12.5px;color:#444;margin-bottom:4px"><strong>Resultats:</strong> '+r.results+'</p>':""):(r.mechanism?'<p style="font-size:12.5px;color:#444;margin-bottom:4px"><strong>Mecanisme:</strong> '+r.mechanism+'</p>':'')+(r.indication?'<p style="font-size:12.5px;color:#444;margin-bottom:4px"><strong>Indication:</strong> '+r.indication+'</p>':'')+(r.advantage?'<p style="font-size:12.5px;color:#444;margin-bottom:4px"><strong>Avantage:</strong> '+r.advantage+'</p>':"");
+    var bh=isTrial?(r.mechanism?'<p style="font-size:12.5px;color:#444;margin-bottom:4px"><strong>Mecanisme:</strong> '+r.mechanism+'</p>':'')+( r.objective?'<p style="font-size:12.5px;color:#444;margin-bottom:4px"><strong>Objectif:</strong> '+r.objective+'</p>':'')+( r.results?'<p style="font-size:12.5px;color:#444;margin-bottom:4px"><strong>Resultats:</strong> '+r.results+'</p>':''): (r.mechanism?'<p style="font-size:12.5px;color:#444;margin-bottom:4px"><strong>Mecanisme:</strong> '+r.mechanism+'</p>':'')+( r.indication?'<p style="font-size:12.5px;color:#444;margin-bottom:4px"><strong>Indication:</strong> '+r.indication+'</p>':'')+( r.advantage?'<p style="font-size:12.5px;color:#444;margin-bottom:4px"><strong>Avantage:</strong> '+r.advantage+'</p>':''  );
     var lh=r.url&&r.url.length>10?r.url:(isTrial?"https://clinicaltrials.gov/search?cond="+enc:"https://www.ema.europa.eu/en/search/search?search_api_views_fulltext="+enc);
-    card.innerHTML='<div class="ctop"><div style="flex:1"><div class="cmeta"><span class="bdg" style="background:#e3f2fd;color:#0d47a1">'+(isTrial?"Essai clinique":"Molecule")+'</span>'+(isTrial&&r.phase?'<span style="background:#e8f5e9;color:#1b5e20;border:1px solid #a5d6a7;padding:1px 6px;border-radius:4px;font-size:10px;font-weight:bold">'+r.phase+'</span>':'')+(r.status?'<span style="font-size:10px;font-weight:bold;color:'+sc+'">'+r.status+'</span>':'')+tIA(true,"")+'</div><div class="ctit">'+r.title+'</div></div><span class="ctog">&#9660;</span></div><div class="cbody">'+bh+'<a href="'+lh+'" target="_blank" style="font-size:12px;font-weight:bold;color:#0277bd;text-decoration:none;border-bottom:1px solid #0277bd80">'+(isTrial?"ClinicalTrials":"EMA")+'</a></div>';
+    card.innerHTML='<div class="ctop"><div style="flex:1"><div class="cmeta"><span class="bdg" style="background:#e3f2fd;color:#0d47a1">'+(isTrial?"Essai clinique":"Molecule")+'</span>'+(isTrial&&r.phase?'<span style="background:#e8f5e9;color:#1b5e20;border:1px solid #a5d6a7;padding:1px 6px;border-radius:4px;font-size:10px;font-weight:bold">'+r.phase+'</span>':'')+( r.status?'<span style="font-size:10px;font-weight:bold;color:'+sc+'">'+r.status+'</span>':'')+tIA(true,"")+'</div><div class="ctit">'+r.title+'</div></div><span class="ctog">&#9660;</span></div><div class="cbody">'+bh+'<a href="'+lh+'" target="_blank" style="font-size:12px;font-weight:bold;color:#0277bd;text-decoration:none;border-bottom:1px solid #0277bd80">'+(isTrial?"ClinicalTrials":"EMA")+'</a></div>';
     card.addEventListener("click",function(){card.classList.toggle("open");card.querySelector(".ctog").innerHTML=card.classList.contains("open")?"&#9650;":"&#9660;";});
     sd.appendChild(card);
   });
   document.getElementById("studyPanel").style.display="block";
 }
-
-function renderInter(drugs,d){ renderInterFull(drugs,[],d,[],[]); }
 
 function copyFiche(){var el=document.getElementById("ficTxt");if(!el)return;try{navigator.clipboard.writeText(el.textContent);}catch(e){var r=document.createRange();r.selectNode(el);window.getSelection().removeAllRanges();window.getSelection().addRange(r);document.execCommand("copy");window.getSelection().removeAllRanges();}alert("Copie!");}
 function copyPedi(){var el=document.getElementById("pediTxt");if(!el)return;try{navigator.clipboard.writeText(el.textContent);}catch(e){var r=document.createRange();r.selectNode(el);window.getSelection().removeAllRanges();window.getSelection().addRange(r);document.execCommand("copy");window.getSelection().removeAllRanges();}alert("Copie!");}
