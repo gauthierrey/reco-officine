@@ -4,67 +4,909 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Test3</title>
+<title>Recos Officine</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Arial,sans-serif;background:#f4f4f4;padding-bottom:40px;}
+.header{background:#1b2d45;color:white;padding:18px 16px;}
+.header h1{font-size:19px;margin-bottom:3px;}
+.header p{font-size:11px;color:#aac4d8;}
+.apibar{background:#243a57;color:#aac4d8;font-size:11px;padding:7px 16px;display:none;justify-content:space-between;align-items:center;}
+.dot{width:7px;height:7px;background:#4caf92;border-radius:50%;display:inline-block;margin-right:5px;}
+.main{max-width:700px;margin:0 auto;padding:14px;}
+.box{background:white;border-radius:8px;border:1px solid #ddd;padding:20px;margin-bottom:12px;}
+.box h2{font-size:16px;margin-bottom:8px;color:#1b2d45;}
+.box p{font-size:13px;color:#555;line-height:1.6;margin-bottom:14px;}
+.box a{color:#0066cc;}
+.inp{flex:1;border:1px solid #ccc;border-radius:6px;padding:10px 12px;font-size:13px;outline:none;width:100%;margin-bottom:8px;}
+.inp:focus{border-color:#1b2d45;}
+.btn{background:#1b2d45;color:white;border:none;border-radius:6px;padding:10px 18px;font-size:13px;font-weight:bold;cursor:pointer;}
+.btn:hover{background:#243a57;}
+.btn:disabled{background:#aaa;cursor:not-allowed;}
+.note{font-size:11px;color:#999;margin-top:8px;}
+.tabs{display:flex;margin-bottom:10px;background:white;border:1px solid #ddd;border-radius:8px;overflow:hidden;}
+.tab{flex:1;padding:10px 2px;font-size:11px;font-weight:bold;cursor:pointer;border:none;background:white;color:#666;text-align:center;border-right:1px solid #ddd;}
+.tab:last-child{border-right:none;}
+.tab.active{background:#1b2d45;color:white;}
+.swrap{position:relative;margin-bottom:10px;}
+.srow{display:flex;gap:8px;background:white;border:1px solid #ccc;border-radius:8px;padding:4px 4px 4px 12px;align-items:center;}
+.sinp{flex:1;border:none;outline:none;font-size:14px;padding:10px 0;background:transparent;}
+.sbtn{background:#1b2d45;color:white;border:none;border-radius:6px;padding:9px 14px;font-size:13px;font-weight:bold;cursor:pointer;}
+.sbtn:disabled{background:#aaa;cursor:not-allowed;}
+.bx{background:none;border:none;color:#aaa;font-size:15px;cursor:pointer;padding:0 4px;}
+.ac{display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;background:white;border:1px solid #1b2d45;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.12);z-index:100;overflow:hidden;}
+.aci{padding:10px 14px;font-size:13px;cursor:pointer;color:#333;border-bottom:1px solid #f0f0f0;}
+.aci:last-child{border-bottom:none;}
+.aci:hover,.aci.on{background:#eef4ff;color:#1b2d45;font-weight:bold;}
+.fbox{background:white;border:1px solid #ddd;border-radius:8px;padding:12px 14px;margin-bottom:10px;}
+.lbl{font-size:11px;font-weight:bold;color:#999;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;}
+.frow{display:flex;flex-wrap:wrap;gap:6px;}
+.fp{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:20px;border:2px solid;font-size:11px;font-weight:bold;cursor:pointer;user-select:none;}
+.fck{font-size:9px;width:11px;text-align:center;}
+.facta{display:flex;gap:8px;margin-top:8px;}
+.bsm{background:white;border:1px solid #ccc;border-radius:6px;padding:3px 9px;font-size:11px;color:#555;cursor:pointer;}
+.home{margin-bottom:10px;}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.qp{background:white;border:1px solid #ccc;border-radius:20px;padding:5px 12px;font-size:12px;color:#444;cursor:pointer;}
+.qp:hover{background:#1b2d45;color:white;border-color:#1b2d45;}
+.hp{background:white;border:1px solid #ccc;border-radius:20px;padding:5px 12px;font-size:12px;color:#555;cursor:pointer;display:inline-flex;align-items:center;gap:4px;}
+.fvp{background:white;border:1px solid #e8b400;border-radius:20px;padding:5px 12px;font-size:12px;color:#7a5c00;cursor:pointer;display:inline-flex;align-items:center;gap:4px;}
+.loading{text-align:center;padding:40px 0;display:none;}
+.spinner{width:32px;height:32px;border:3px solid #ddd;border-top-color:#1b2d45;border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto 12px;}
+.erbox{background:#fff3f3;border:1px solid #f5c6c6;border-radius:8px;padding:12px 16px;margin-bottom:10px;display:none;font-size:13px;color:#c00;}
+.rhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:13px;color:#555;flex-wrap:wrap;gap:6px;}
+.rhead strong{color:#1b2d45;}
+.ract{display:flex;gap:6px;}
+.bcl{background:white;border:1px solid #ccc;border-radius:6px;padding:3px 9px;font-size:11px;color:#888;cursor:pointer;}
+.bfv{background:white;border:1px solid #e8b400;border-radius:6px;padding:3px 9px;font-size:11px;color:#7a5c00;cursor:pointer;}
+.bfv.on{background:#fff8e1;}
+.aalert{background:#fff3e0;border:1px solid #ffb74d;border-left:4px solid #e65100;border-radius:8px;padding:12px 14px;margin-bottom:10px;}
+.aatit{font-size:11px;font-weight:bold;color:#e65100;text-transform:uppercase;margin-bottom:6px;}
+.otcbox{background:#e8f5e9;border:1px solid #a5d6a7;border-left:4px solid #2e7d32;border-radius:8px;padding:12px 14px;margin-bottom:10px;}
+.otctit{font-size:11px;font-weight:bold;color:#2e7d32;text-transform:uppercase;margin-bottom:6px;}
+.sfbox{background:white;border:1px solid #ddd;border-radius:8px;padding:12px 14px;margin-bottom:10px;overflow-x:auto;}
+.sftit{font-size:11px;font-weight:bold;color:#999;text-transform:uppercase;margin-bottom:8px;}
+.sft{width:100%;border-collapse:collapse;font-size:12px;}
+.sft th{background:#f8f9fa;padding:6px 8px;text-align:left;font-size:11px;font-weight:bold;color:#555;border-bottom:2px solid #ddd;white-space:nowrap;}
+.sft td{padding:6px 8px;border-bottom:1px solid #f0f0f0;vertical-align:middle;}
+.sft tr:last-child td{border-bottom:none;}
+.sdrug{font-weight:bold;color:#1b2d45;font-size:12px;}
+.sln{display:inline-block;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:bold;color:white;}
+.sl1{background:#2e7d32;}.sl2{background:#1565c0;}
+.ok{color:#2e7d32;font-size:14px;font-weight:bold;}
+.wn{color:#f57c00;font-size:14px;font-weight:bold;}
+.no{color:#c62828;font-size:14px;font-weight:bold;}
+.card{background:white;border:1px solid #ddd;border-left:4px solid;border-radius:8px;padding:13px 15px;margin-bottom:8px;cursor:pointer;transition:box-shadow 0.15s;animation:fadeUp 0.25s ease both;}
+.card:hover{box-shadow:0 4px 12px rgba(0,0,0,0.08);}
+.ctop{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+.cmeta{display:flex;gap:5px;align-items:center;margin-bottom:5px;flex-wrap:wrap;}
+.bdg{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:bold;text-transform:uppercase;}
+.cdate{font-size:10px;color:#aaa;}
+.ctit{font-size:13.5px;font-weight:bold;color:#1a1a1a;line-height:1.4;}
+.ctog{color:#bbb;font-size:13px;flex-shrink:0;margin-top:2px;}
+.cbody{display:none;margin-top:12px;padding-top:12px;border-top:1px solid #f0f0f0;}
+.card.open .cbody{display:block;}
+.gbrow{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px;}
+.gb{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:bold;}
+.gA{background:#e8f5e9;color:#1b5e20;border:1px solid #a5d6a7;}
+.gB{background:#e3f2fd;color:#0d47a1;border:1px solid #90caf9;}
+.gC{background:#fff8e1;color:#e65100;border:1px solid #ffe082;}
+.gAE{background:#fce4ec;color:#880e4f;border:1px solid #f48fb1;}
+.uh{background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;}
+.um{background:#fff8e1;color:#f57f17;border:1px solid #ffe082;}
+.ul{background:#f5f5f5;color:#757575;border:1px solid #e0e0e0;}
+.lblock{margin-bottom:10px;}
+.llbl{font-size:10px;font-weight:bold;color:#999;text-transform:uppercase;margin-bottom:6px;}
+.litem{display:flex;align-items:flex-start;gap:8px;margin-bottom:5px;}
+.lbdg{flex-shrink:0;font-size:10px;font-weight:bold;padding:2px 8px;border-radius:4px;color:white;white-space:nowrap;}
+.l1{background:#2e7d32;}.l2{background:#1565c0;}.l3{background:#6a1b9a;}
+.ltxt{font-size:12.5px;color:#333;line-height:1.5;}
+.csrc{padding-top:10px;border-top:1px solid #f0f0f0;margin-top:10px;}
+.csrclbl{font-size:10px;font-weight:bold;color:#999;text-transform:uppercase;margin-bottom:6px;}
+.srcrow{display:flex;flex-wrap:wrap;gap:6px;}
+.srcbtn{display:inline-flex;align-items:center;font-size:11px;font-weight:bold;text-decoration:none;padding:4px 8px;border-radius:5px;border:1px solid;}
+.tagIA{background:#e3f2fd;color:#0d47a1;border:1px solid #90caf9;padding:1px 5px;border-radius:3px;font-size:9px;font-weight:bold;}
+.tagSRC{background:#e8f5e9;color:#1b5e20;border:1px solid #a5d6a7;padding:1px 5px;border-radius:3px;font-size:9px;font-weight:bold;}
+.fiche{background:white;border:2px solid #1b2d45;border-radius:8px;padding:14px;margin-bottom:10px;}
+.fichead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.fictit{font-size:13px;font-weight:bold;color:#1b2d45;}
+.bcp{background:#1b2d45;color:white;border:none;border-radius:6px;padding:5px 11px;font-size:11px;cursor:pointer;}
+.fictxt{font-size:13px;color:#333;line-height:1.7;white-space:pre-wrap;}
+.dcard{background:white;border:1px solid #ddd;border-left:4px solid #1b2d45;border-radius:8px;overflow:hidden;margin-bottom:10px;}
+.dhead{background:#f8f9fa;padding:13px 15px;border-bottom:1px solid #eee;}
+.dname{font-size:17px;font-weight:bold;color:#1b2d45;margin-bottom:2px;}
+.dcom{font-size:12px;color:#666;margin-bottom:5px;}
+.dclsbdg{display:inline-block;background:#e3f2fd;color:#0d47a1;border:1px solid #90caf9;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:bold;}
+.dbody{padding:13px 15px;}
+.dsec{margin-bottom:13px;}
+.dsectit{font-size:10px;font-weight:bold;color:#999;text-transform:uppercase;margin-bottom:7px;padding-bottom:3px;border-bottom:1px solid #f0f0f0;}
+.dtxt{font-size:13px;color:#333;line-height:1.6;}
+.dlist{padding-left:16px;margin:0;}
+.dlist li{font-size:12.5px;color:#333;line-height:1.6;margin-bottom:3px;}
+.positem{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;}
+.posrte{flex-shrink:0;background:#f3e5f5;color:#4a148c;border:1px solid #ce93d8;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:bold;text-transform:uppercase;}
+.intitem{display:flex;align-items:flex-start;gap:8px;margin-bottom:5px;}
+.intlvl{flex-shrink:0;font-size:10px;font-weight:bold;padding:2px 7px;border-radius:4px;color:white;white-space:nowrap;}
+.ici{background:#c62828;}.iwn{background:#e65100;}.ica{background:#f57c00;}
+.safinl{display:flex;gap:8px;flex-wrap:wrap;}
+.safitem{display:flex;align-items:center;gap:5px;font-size:12px;}
+.dlinks{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px;padding-top:12px;border-top:1px solid #f0f0f0;}
+.dlnk{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:bold;text-decoration:none;padding:6px 10px;border-radius:6px;border:1px solid;}
+.dlnk:hover{opacity:0.8;}
+.lbdpm{color:#0f4c81;border-color:#0f4c81;background:#e8f0fe;}
+.lvidal{color:#8b1a1a;border-color:#8b1a1a;background:#fce8e8;}
+.lther{color:#b45309;border-color:#b45309;background:#fef3e2;}
+.lansm{color:#0e7c6e;border-color:#0e7c6e;background:#e0f4f1;}
+.lcrat{color:#880e4f;border-color:#880e4f;background:#fce4ec;}
+.pcard{background:white;border:1px solid #ddd;border-left:4px solid #0277bd;border-radius:8px;overflow:hidden;margin-bottom:10px;}
+.phead{background:#e3f2fd;padding:12px 15px;border-bottom:1px solid #90caf9;}
+.ptit{font-size:15px;font-weight:bold;color:#0d47a1;}
+.pbody{padding:13px 15px;}
+.psec{margin-bottom:12px;}
+.psectit{font-size:10px;font-weight:bold;color:#999;text-transform:uppercase;margin-bottom:6px;padding-bottom:3px;border-bottom:1px solid #f0f0f0;}
+.agebdg{flex-shrink:0;background:#1565c0;color:white;font-size:10px;font-weight:bold;padding:2px 8px;border-radius:4px;white-space:nowrap;}
+.agegrp{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;padding:8px;background:#f8f9fa;border-radius:6px;}
+.pwarn{background:#fff3e0;border:1px solid #ffb74d;border-radius:6px;padding:8px 10px;font-size:12px;color:#e65100;margin-bottom:6px;}
+.iabox{background:white;border:1px solid #ddd;border-radius:8px;padding:16px;margin-bottom:10px;}
+.iabox h3{font-size:14px;font-weight:bold;color:#1b2d45;margin-bottom:6px;}
+.iabox p{font-size:12px;color:#666;margin-bottom:12px;line-height:1.5;}
+.dslots{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+.dslot{display:flex;gap:8px;align-items:center;}
+.dsnum{background:#1b2d45;color:white;font-size:11px;font-weight:bold;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.dsinp{flex:1;border:1px solid #ccc;border-radius:6px;padding:8px 10px;font-size:13px;outline:none;}
+.dsinp:focus{border-color:#1b2d45;}
+.dsadd{background:white;border:1px dashed #ccc;border-radius:6px;padding:7px 14px;font-size:12px;color:#666;cursor:pointer;width:100%;text-align:center;margin-bottom:10px;}
+.banal{background:#1b2d45;color:white;border:none;border-radius:6px;padding:10px 18px;font-size:13px;font-weight:bold;cursor:pointer;width:100%;}
+.banal:disabled{background:#aaa;cursor:not-allowed;}
+.ires{border-radius:8px;padding:12px 14px;margin-bottom:8px;}
+.ires.ci{background:#ffebee;border:1px solid #ef9a9a;border-left:4px solid #c62828;}
+.ires.wn{background:#fff3e0;border:1px solid #ffb74d;border-left:4px solid #e65100;}
+.ires.ca{background:#fff8e1;border:1px solid #ffe082;border-left:4px solid #f57c00;}
+.ires.ok{background:#e8f5e9;border:1px solid #a5d6a7;border-left:4px solid #2e7d32;}
+.iresh{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;}
+.ireslvl{font-size:11px;font-weight:bold;padding:2px 8px;border-radius:4px;color:white;}
+.empty{text-align:center;padding:22px;font-size:13px;color:#999;background:white;border:1px solid #ddd;border-radius:8px;}
+.disc{margin-top:12px;padding:10px 14px;background:#fffbee;border:1px solid #ffe082;border-radius:8px;font-size:11px;color:#7a5c00;line-height:1.6;}
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+</style>
 </head>
 <body>
-<div id="apiScreen">
-  <input id="apiKeyInput" type="password" placeholder="Colle ta cle" style="width:280px;padding:8px;font-size:14px;display:block;margin-bottom:8px"/>
-  <button onclick="saveKey()" style="padding:8px 16px;font-size:14px">Valider</button>
+<div class="header">
+  <h1>Recommandations officine</h1>
+  <p>HAS · ANSM · Thériaque · VIDAL · BDPM · Sociétés savantes · SPF</p>
 </div>
-<div id="appScreen" style="display:none">
-  <p style="color:green;font-size:16px">SUCCES - App affichee !</p>
-  <p id="keyDisplay"></p>
+<div class="apibar" id="apiBar">
+  <span><span class="dot"></span>API connectée</span>
+  <button style="background:none;border:none;color:#aac4d8;font-size:11px;cursor:pointer;text-decoration:underline" onclick="changeKey()">Modifier la clé</button>
 </div>
-<div id="apiBar" style="display:none;background:#243a57;color:white;padding:8px">API connectee</div>
-<div id="log" style="margin-top:12px;font-size:12px;color:#555;font-family:monospace"></div>
-
+<div class="main">
+  <div class="box" id="apiScreen">
+    <h2>Connexion à l'API Anthropic</h2>
+    <p>Obtiens ta clé sur <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> — API Keys — Create Key</p>
+    <input class="inp" id="apiKeyInput" type="password" placeholder="sk-ant-api03-..."/>
+    <button class="btn" id="btnValider" onclick="saveKey()">Valider</button>
+    <p class="note">Clé stockée uniquement dans ton navigateur</p>
+  </div>
+  <div id="appScreen" style="display:none">
+    <div class="tabs">
+      <button class="tab active" id="t0" onclick="setTab(0)">Recos</button>
+      <button class="tab" id="t1" onclick="setTab(1)">Medicament</button>
+      <button class="tab" id="t2" onclick="setTab(2)">Pediatrie</button>
+      <button class="tab" id="t3" onclick="setTab(3)">Interactions</button>
+      <button class="tab" id="t4" onclick="setTab(4)">Etudes</button>
+    </div>
+    <div id="searchArea">
+      <div class="swrap" id="swrap">
+        <div class="srow">
+          <span id="sicon">🔍</span>
+          <input class="sinp" id="sinput" type="text" placeholder="Rechercher une pathologie..." oninput="onSInput()" onkeydown="onSKey(event)" onfocus="onSFocus()"/>
+          <button class="bx" id="bclr" onclick="clearS()" style="display:none">✕</button>
+          <button class="sbtn" id="sbtn" onclick="doSearch(null)">Chercher</button>
+        </div>
+        <div class="ac" id="acbox"></div>
+      </div>
+      <div class="fbox" id="fbox">
+        <div class="lbl">Filtrer les sources</div>
+        <div class="frow" id="frow"></div>
+        <div class="facta">
+          <button class="bsm" onclick="selAll()">Tout</button>
+          <button class="bsm" onclick="selNone()">Aucun</button>
+        </div>
+      </div>
+    </div>
+    <div id="interArea" style="display:none">
+      <div class="iabox">
+        <h3>Analyseur d'interactions</h3>
+        <p>Saisit les medicaments du patient (jusqu'a 8) pour analyser toutes les interactions.</p>
+        <div class="dslots" id="dslots"></div>
+        <button class="dsadd" id="btnAddSlot" onclick="addSlot()">+ Ajouter un medicament</button>
+        <button class="banal" id="btnAnal" onclick="doAnalyze()">Analyser les interactions</button>
+      </div>
+      <div id="analRes"></div>
+    </div>
+    <div id="homeArea">
+      <div id="favArea" style="display:none">
+        <div class="lbl">Favoris</div>
+        <div class="pills" id="favPills"></div>
+        <div style="margin-bottom:10px"></div>
+      </div>
+      <div id="histArea" style="display:none">
+        <div class="lbl">Historique</div>
+        <div class="pills" id="histPills"></div>
+        <div style="margin-bottom:10px"></div>
+      </div>
+      <div class="lbl" id="qlbl">Acces rapide</div>
+      <div class="pills" id="qpills"></div>
+    </div>
+    <div class="loading" id="lding">
+      <div class="spinner"></div>
+      <p id="ldtxt">Chargement...</p>
+    </div>
+    <div class="erbox" id="erbox">
+      <span id="ermsg"></span>
+      <br><button class="btn" style="margin-top:8px;padding:7px 14px;font-size:12px" onclick="doSearch(APP.lastTerm)">Reessayer</button>
+    </div>
+    <div id="recosPanel" style="display:none">
+      <div class="rhead">
+        <span>Resultats pour <strong id="rTitle"></strong> — <span id="rCnt"></span></span>
+        <div class="ract">
+          <button class="bfv" id="bfvR" onclick="togFav()">Favori</button>
+          <button class="bcl" onclick="clearRes()">Effacer</button>
+        </div>
+      </div>
+      <div id="ansmDiv"></div>
+      <div id="otcDiv"></div>
+      <div id="sfDiv"></div>
+      <div id="recosList"></div>
+      <div id="ficheDiv"></div>
+      <div class="disc">Les donnees marquees IA sont des syntheses a verifier via les liens sources.</div>
+    </div>
+    <div id="drugPanel" style="display:none">
+      <div class="rhead">
+        <span>Fiche medicament : <strong id="dTitle"></strong></span>
+        <div class="ract">
+          <button class="bfv" id="bfvD" onclick="togFav()">Favori</button>
+          <button class="bcl" onclick="clearRes()">Effacer</button>
+        </div>
+      </div>
+      <div id="drugDiv"></div>
+      <div class="disc">Verifier le RCP officiel BDPM avant dispensation.</div>
+    </div>
+    <div id="pediPanel" style="display:none">
+      <div class="rhead">
+        <span>Pediatrie : <strong id="pTitle"></strong></span>
+        <div class="ract">
+          <button class="bfv" id="bfvP" onclick="togFav()">Favori</button>
+          <button class="bcl" onclick="clearRes()">Effacer</button>
+        </div>
+      </div>
+      <div id="pediDiv"></div>
+      <div class="disc">Doses a verifier imperativement sur le RCP BDPM.</div>
+    </div>
+    <div id="studyPanel" style="display:none">
+      <div class="rhead">
+        <span>Etudes pour <strong id="sTitle"></strong></span>
+        <button class="bcl" onclick="clearRes()">Effacer</button>
+      </div>
+      <div id="studyDiv"></div>
+    </div>
+  </div>
+</div>
 <script>
-var APP = { apiKey: "" };
+var APP = {
+  apiKey: localStorage.getItem("rk") || "",
+  tab: 0,
+  lastTerm: "",
+  filters: {},
+  slots: [],
+  suggs: [],
+  acIdx: -1,
+  hist: [],
+  favs: {}
+};
 
-function log(msg) {
-  document.getElementById("log").innerHTML += msg + "<br>";
-}
+try { APP.hist = JSON.parse(localStorage.getItem(“rh”) || “[]”); } catch(e){ APP.hist=[]; }
+try { APP.favs = JSON.parse(localStorage.getItem(“rf”) || “{}”); } catch(e){ APP.favs={}; }
 
-try {
-  var saved = localStorage.getItem("rk");
-  log("localStorage rk: " + (saved ? saved.substring(0,10)+"..." : "vide"));
-  if (saved) {
-    APP.apiKey = saved;
-    log("Cle trouvee, appel showApp...");
-    showApp();
-  }
-} catch(e) {
-  log("Erreur init: " + e.message);
-}
+var SRCS = [
+{id:“has”,lb:“HAS”,cl:”#1a4f8a”,su:“https://www.has-sante.fr/jcms/fc_1249603/fr/recherche?text=”},
+{id:“ansm”,lb:“ANSM”,cl:”#0e7c6e”,su:“https://ansm.sante.fr/rechercher?query=”},
+{id:“ther”,lb:“Theriaque”,cl:”#b45309”,su:“https://www.theriaque.org/apps/recherche/rch.php?NOM=”},
+{id:“vidal”,lb:“VIDAL”,cl:”#8b1a1a”,su:“https://www.vidal.fr/recherche/index/q:”},
+{id:“bdpm”,lb:“BDPM”,cl:”#0f4c81”,su:“https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche=”},
+{id:“spf”,lb:“SPF”,cl:”#2d6a2d”,su:“https://www.santepubliquefrance.fr/recherche/#search=”},
+{id:“sav”,lb:“Soc.savantes”,cl:”#5a3580”,su:“https://www.google.com/search?q=recommandations+societe+savante+france+”}
+];
+SRCS.forEach(function(s){ APP.filters[s.id]=true; });
+
+var QP = [“Dyslipidemie”,“Hypertension”,“Diabete type 2”,“BPCO”,“Asthme”,“Insomnie”,“Depression”,“Osteoporose”];
+var QD = [“Metformine”,“Atorvastatine”,“Amoxicilline”,“Omeprazole”,“Paracetamol”,“Ibuprofene”,“Bisoprolol”,“Levothyroxine”];
+var QI = [“Otite”,“Angine”,“Fievre”,“Bronchiolite”,“Asthme”,“Gastroenterite”,“Constipation”,“Rhinopharyngite”];
+
+var ALP = [“Dyslipidemie”,“Hypertension arterielle”,“Diabete type 2”,“Diabete type 1”,“BPCO”,“Asthme”,“Insuffisance cardiaque”,“Fibrillation auriculaire”,“Depression”,“Anxiete”,“Hypothyroidie”,“Hyperthyroidie”,“Gonarthrose”,“Lombalgie”,“Polyarthrite rhumatoide”,“Rhinite allergique”,“Reflux gastro-oesophagien”,“Insomnie”,“Migraine”,“Epilepsie”,“Alzheimer”,“Insuffisance renale chronique”,“Maladie de Crohn”,“Psoriasis”,“Eczema atopique”,“Acne”,“Osteoporose”,“Obesite”,“Goutte”,“Anemie ferriprive”,“VIH”,“Hepatite B”,“Hepatite C”,“Otite”,“Sinusite”,“Angine”,“Bronchite”,“Pneumonie”,“Cystite”,“Endometriose”,“Menopause”,“Constipation”,“Diarrhee”,“Candidose”,“Herpes”,“Zona”,“Urticaire”];
+var ALD = [“Metformine”,“Atorvastatine”,“Rosuvastatine”,“Amlodipine”,“Ramipril”,“Bisoprolol”,“Metoprolol”,“Lisinopril”,“Valsartan”,“Losartan”,“Omeprazole”,“Pantoprazole”,“Esomeprazole”,“Levothyroxine”,“Amoxicilline”,“Azithromycine”,“Ciprofloxacine”,“Ibuprofene”,“Paracetamol”,“Aspirine”,“Warfarine”,“Rivaroxaban”,“Apixaban”,“Dabigatran”,“Fluoxetine”,“Sertraline”,“Escitalopram”,“Paroxetine”,“Venlafaxine”,“Alprazolam”,“Lorazepam”,“Zolpidem”,“Furosemide”,“Spironolactone”,“Allopurinol”,“Colchicine”,“Prednisolone”,“Salbutamol”,“Formoter ol”,“Beclometasone”,“Budesonide”,“Fluticasone”,“Tiotropium”,“Cetirizine”,“Loratadine”,“Insuline”,“Sitagliptine”,“Empagliflozine”,“Liraglutide”,“Semaglutide”,“Methotrexate”,“Hydroxychloroquine”,“Tramadol”,“Morphine”,“Gabapentine”,“Pregabaline”,“Carbamazepine”,“Valproate”,“Levotiracetam”,“Lamotrigine”,“Donepezil”,“Levodopa”,“Doxycycline”];
 
 function saveKey() {
-  log("saveKey appele");
-  try {
-    var v = document.getElementById("apiKeyInput").value.trim();
-    log("Valeur: " + v.length + " chars");
-    if (v.length < 10) { alert("Trop court"); return; }
-    APP.apiKey = v;
-    log("apiKey set");
-    localStorage.setItem("rk", v);
-    log("localStorage set");
-    showApp();
-  } catch(e) {
-    log("ERREUR saveKey: " + e.message);
-  }
+var v = document.getElementById(“apiKeyInput”).value.trim();
+if (v.length < 10) { alert(“Cle invalide - verifie que tu as bien tout copie”); return; }
+APP.apiKey = v;
+localStorage.setItem(“rk”, v);
+showApp();
+}
+
+function changeKey() {
+APP.apiKey = “”;
+localStorage.removeItem(“rk”);
+document.getElementById(“apiScreen”).style.display = “block”;
+document.getElementById(“appScreen”).style.display = “none”;
+document.getElementById(“apiBar”).style.display = “none”;
+document.getElementById(“apiKeyInput”).value = “”;
 }
 
 function showApp() {
-  log("showApp appele");
-  try {
-    document.getElementById("apiScreen").style.display = "none";
-    document.getElementById("appScreen").style.display = "block";
-    document.getElementById("apiBar").style.display = "block";
-    document.getElementById("keyDisplay").textContent = "Cle: " + APP.apiKey.substring(0,15) + "...";
-    log("showApp OK");
-  } catch(e) {
-    log("ERREUR showApp: " + e.message);
-  }
+document.getElementById(“apiScreen”).style.display = “none”;
+document.getElementById(“appScreen”).style.display = “block”;
+document.getElementById(“apiBar”).style.display = “flex”;
+initApp();
 }
+
+function initApp() {
+try {
+var fr = document.getElementById(“frow”);
+if (fr && fr.children.length === 0) {
+SRCS.forEach(function(s) {
+var el = document.createElement(“div”);
+el.className = “fp”; el.id = “fp”+s.id;
+el.style.borderColor = s.cl; el.style.background = s.cl; el.style.color = “#fff”;
+el.innerHTML = ‘<span class="fck">✓</span>’ + s.lb;
+el.onclick = (function(sid){ return function(){ togFilter(sid); }; })(s.id);
+fr.appendChild(el);
+});
+}
+} catch(e) { console.log(“frow err”,e); }
+try { renderQPills(); } catch(e) { console.log(“qpills err”,e); }
+try { renderFavPills(); } catch(e) { console.log(“fav err”,e); }
+try { renderHistPills(); } catch(e) { console.log(“hist err”,e); }
+document.addEventListener(“mousedown”, function(e) {
+try { var sw = document.getElementById(“swrap”); if (sw && !sw.contains(e.target)) hideAC(); } catch(ex){}
+});
+}
+
+function setTab(n) {
+APP.tab = n;
+// Init slots lazily when interaction tab opened
+if (n === 3 && APP.slots.length === 0) {
+try { addSlot(); addSlot(); } catch(e){}
+}
+for (var i = 0; i < 5; i++) {
+var t = document.getElementById(“t”+i);
+if (t) t.className = “tab” + (i===n ? “ active” : “”);
+}
+var sa = document.getElementById(“searchArea”);
+var ia = document.getElementById(“interArea”);
+if (sa) sa.style.display = n===3 ? “none” : “block”;
+if (ia) ia.style.display = n===3 ? “block” : “none”;
+var fb = document.getElementById(“fbox”);
+if (fb) fb.style.display = n===0 ? “block” : “none”;
+var si = document.getElementById(“sinput”);
+var phs = [“Rechercher une pathologie…”,“Rechercher un medicament…”,“Rechercher une pathologie pediatrique…”,””,“Rechercher une pathologie…”];
+if (si) si.placeholder = phs[n] || “Rechercher…”;
+var qlbls = [“Acces rapide”,“Medicaments frequents”,“Pediatrie frequente”,””,“Acces rapide”];
+var ql = document.getElementById(“qlbl”);
+if (ql) ql.textContent = qlbls[n] || “Acces rapide”;
+var qmap = [QP, QD, QI, [], QP];
+renderQPills(qmap[n] || QP);
+renderFavPills();
+clearRes();
+}
+
+function togFilter(id) {
+var cnt = SRCS.filter(function(s){ return APP.filters[s.id]; }).length;
+if (APP.filters[id] && cnt===1) return;
+APP.filters[id] = !APP.filters[id];
+renderFilter(id);
+}
+function renderFilter(id) {
+var s = SRCS.find(function(x){ return x.id===id; });
+var el = document.getElementById(“fp”+id);
+if (!el) return;
+if (APP.filters[id]) { el.style.background=s.cl; el.style.color=”#fff”; el.querySelector(”.fck”).innerHTML=”✓”; }
+else { el.style.background=”#fff”; el.style.color=s.cl; el.querySelector(”.fck”).innerHTML=””; }
+}
+function selAll() { SRCS.forEach(function(s){ APP.filters[s.id]=true; renderFilter(s.id); }); }
+function selNone() { SRCS.forEach(function(s){ APP.filters[s.id]=false; renderFilter(s.id); }); APP.filters[SRCS[0].id]=true; renderFilter(SRCS[0].id); }
+
+function renderQPills(arr) {
+arr = arr || (APP.tab===1?QD:APP.tab===2?QI:QP);
+var qp = document.getElementById(“qpills”); if (!qp) return;
+qp.innerHTML = “”;
+arr.forEach(function(p) {
+var b = document.createElement(“button”); b.className = “qp”; b.textContent = p;
+b.onclick = (function(pp){ return function(){ var si=document.getElementById(“sinput”); if(si)si.value=pp; doSearch(pp); }; })(p);
+qp.appendChild(b);
+});
+}
+function renderFavPills() {
+var favs = APP.favs[APP.tab] || {};
+var keys = Object.keys(favs);
+var fa = document.getElementById(“favArea”); if (!fa) return;
+var fp = document.getElementById(“favPills”); if (!fp) return;
+fp.innerHTML = “”;
+if (!keys.length) { fa.style.display=“none”; return; }
+fa.style.display = “block”;
+keys.forEach(function(k) {
+var p = document.createElement(“span”); p.className = “fvp”;
+p.innerHTML = “★ “ + k + “ <span style='color:#aaa;cursor:pointer;margin-left:3px' onclick='delFav(\""+k.replace(/"/g,"&quot;")+"\")'>×</span>”;
+p.onclick = (function(kk){ return function(e){ if(e.target.tagName===“SPAN”)return; var si=document.getElementById(“sinput”); if(si)si.value=kk; doSearch(kk); }; })(k);
+fp.appendChild(p);
+});
+}
+function delFav(k) {
+if (APP.favs[APP.tab]) delete APP.favs[APP.tab][k];
+localStorage.setItem(“rf”, JSON.stringify(APP.favs));
+renderFavPills();
+}
+function renderHistPills() {
+var ha = document.getElementById(“histArea”); if (!ha) return;
+var hp = document.getElementById(“histPills”); if (!hp) return;
+hp.innerHTML = “”;
+if (!APP.hist.length) { ha.style.display=“none”; return; }
+ha.style.display = “block”;
+APP.hist.slice(0,8).forEach(function(h) {
+var p = document.createElement(“span”); p.className = “hp”;
+p.innerHTML = “🕐 “ + h;
+p.onclick = (function(hh){ return function(){ var si=document.getElementById(“sinput”); if(si)si.value=hh; doSearch(hh); }; })(h);
+hp.appendChild(p);
+});
+}
+function addHist(term) {
+APP.hist = APP.hist.filter(function(h){ return h!==term; });
+APP.hist.unshift(term);
+if (APP.hist.length > 20) APP.hist = APP.hist.slice(0,20);
+localStorage.setItem(“rh”, JSON.stringify(APP.hist));
+renderHistPills();
+}
+function togFav() {
+var term = APP.lastTerm; if (!term) return;
+if (!APP.favs[APP.tab]) APP.favs[APP.tab] = {};
+if (APP.favs[APP.tab][term]) delete APP.favs[APP.tab][term];
+else APP.favs[APP.tab][term] = true;
+localStorage.setItem(“rf”, JSON.stringify(APP.favs));
+updateFavBtn();
+renderFavPills();
+}
+function updateFavBtn() {
+var ids = [“bfvR”,“bfvD”,“bfvP”];
+var isFav = APP.favs[APP.tab] && APP.favs[APP.tab][APP.lastTerm];
+ids.forEach(function(id) {
+var b = document.getElementById(id); if (!b) return;
+b.textContent = isFav ? “★ Favori” : “☆ Favori”;
+b.className = “bfv” + (isFav ? “ on” : “”);
+});
+}
+
+// Autocomplete
+function norm(s){ return s.toLowerCase().normalize(“NFD”).replace(/[\u0300-\u036f]/g,””); }
+function onSInput() {
+var v = document.getElementById(“sinput”).value;
+document.getElementById(“bclr”).style.display = v ? “block” : “none”;
+if (v.length < 2) { hideAC(); return; }
+var q = norm(v);
+var list = APP.tab===1 ? ALD : ALP;
+APP.suggs = list.filter(function(p){ return norm(p).indexOf(q)>=0; }).slice(0,8);
+APP.acIdx = -1;
+if (!APP.suggs.length) { hideAC(); return; }
+var ac = document.getElementById(“acbox”); ac.innerHTML = “”;
+APP.suggs.forEach(function(s,i) {
+var d = document.createElement(“div”); d.className = “aci”; d.textContent = s;
+d.onmousedown = (function(ss){ return function(){ pickAC(ss); }; })(s);
+d.onmouseenter = (function(ii){ return function(){ APP.acIdx=ii; renderAC(); }; })(i);
+ac.appendChild(d);
+});
+ac.style.display = “block”;
+}
+function renderAC(){ document.querySelectorAll(”.aci”).forEach(function(el,i){ el.className=“aci”+(i===APP.acIdx?” on”:””); }); }
+function hideAC(){ var ac=document.getElementById(“acbox”); if(ac)ac.style.display=“none”; }
+function pickAC(val){ var si=document.getElementById(“sinput”); if(si)si.value=val; hideAC(); doSearch(val); }
+function onSFocus(){ var v=document.getElementById(“sinput”).value; if(v.length>=2) onSInput(); }
+function onSKey(e){
+var ac=document.getElementById(“acbox”);
+if(!ac||ac.style.display===“none”){ if(e.key===“Enter”) doSearch(null); return; }
+if(e.key===“ArrowDown”){ APP.acIdx=Math.min(APP.acIdx+1,APP.suggs.length-1); renderAC(); e.preventDefault(); }
+else if(e.key===“ArrowUp”){ APP.acIdx=Math.max(APP.acIdx-1,-1); renderAC(); e.preventDefault(); }
+else if(e.key===“Enter”){ APP.acIdx>=0 ? pickAC(APP.suggs[APP.acIdx]) : (hideAC(),doSearch(null)); }
+else if(e.key===“Escape”) hideAC();
+}
+function clearS(){
+var si=document.getElementById(“sinput”); if(si)si.value=””;
+document.getElementById(“bclr”).style.display=“none”;
+hideAC(); clearRes();
+}
+
+// Interaction slots
+function addSlot() {
+if (APP.slots.length >= 8) return;
+APP.slots.push(””);
+renderSlots();
+}
+function removeSlot(i) {
+if (APP.slots.length <= 2) return;
+APP.slots.splice(i,1);
+renderSlots();
+}
+function renderSlots() {
+var c = document.getElementById(“dslots”); if (!c) return;
+c.innerHTML = “”;
+APP.slots.forEach(function(v,i) {
+var d = document.createElement(“div”); d.className = “dslot”;
+var num = document.createElement(“span”); num.className = “dsnum”; num.textContent = i+1;
+var inp = document.createElement(“input”); inp.className = “dsinp”; inp.placeholder = “DCI ou nom commercial…”; inp.value = v;
+inp.oninput = (function(ii){ return function(){ APP.slots[ii]=this.value; }; })(i);
+d.appendChild(num); d.appendChild(inp);
+if (APP.slots.length > 2) {
+var del = document.createElement(“button”);
+del.style.cssText = “background:none;border:none;color:#ccc;font-size:16px;cursor:pointer;padding:0 4px”;
+del.textContent = “x”;
+del.onclick = (function(ii){ return function(){ removeSlot(ii); }; })(i);
+d.appendChild(del);
+}
+c.appendChild(d);
+});
+var btnAdd = document.getElementById(“btnAddSlot”);
+if (btnAdd) btnAdd.style.display = APP.slots.length>=8 ? “none” : “block”;
+}
+
+// API call
+function apiCall(system, userMsg, maxTok, cb) {
+var xhr = new XMLHttpRequest();
+xhr.open(“POST”, “https://api.anthropic.com/v1/messages”, true);
+xhr.setRequestHeader(“Content-Type”, “application/json”);
+xhr.setRequestHeader(“x-api-key”, APP.apiKey);
+xhr.setRequestHeader(“anthropic-version”, “2023-06-01”);
+xhr.setRequestHeader(“anthropic-dangerous-direct-browser-access”, “true”);
+xhr.onload = function() {
+if (xhr.status !== 200) {
+try { var e=JSON.parse(xhr.responseText); cb(e.error?e.error.message:“Erreur “+xhr.status, null); }
+catch(ex) { cb(“Erreur “+xhr.status, null); }
+return;
+}
+try {
+var d = JSON.parse(xhr.responseText);
+var txt = (d.content||[]).filter(function(b){return b.type===“text”;}).map(function(b){return b.text;}).join(””);
+cb(null, txt);
+} catch(ex) { cb(“Erreur de lecture de la reponse”, null); }
+};
+xhr.onerror = function(){ cb(“Erreur reseau”, null); };
+xhr.send(JSON.stringify({
+model: “claude-haiku-4-5-20251001”,
+max_tokens: maxTok || 2500,
+system: system,
+messages: [{role:“user”, content:userMsg}]
+}));
+}
+
+function extractObj(t) {
+t = t.replace(/`json|`/gi,””);
+for(var i=0;i<t.length;i++){
+if(t[i]===”{”){for(var j=t.length-1;j>i;j–){if(t[j]===”}”){try{var p=JSON.parse(t.slice(i,j+1));if(typeof p===“object”&&!Array.isArray(p))return p;}catch(e){}}}}
+}return null;
+}
+function extractArr(t) {
+t = t.replace(/`json|`/gi,””);
+for(var i=0;i<t.length;i++){
+if(t[i]===”[”){for(var j=t.length-1;j>i;j–){if(t[j]===”]”){try{var p=JSON.parse(t.slice(i,j+1));if(Array.isArray(p))return p;}catch(e){}}}}
+}return null;
+}
+
+function setLoad(on, msg) {
+document.getElementById(“lding”).style.display = on ? “block” : “none”;
+if (msg) document.getElementById(“ldtxt”).textContent = msg;
+var sb = document.getElementById(“sbtn”); if(sb) sb.disabled = on;
+if (on) {
+document.getElementById(“sicon”).innerHTML = ‘<span style="display:inline-block;width:14px;height:14px;border:2px solid #ddd;border-top-color:#1b2d45;border-radius:50%;animation:spin 0.7s linear infinite"></span>’;
+} else {
+document.getElementById(“sicon”).textContent = “🔍”;
+}
+}
+function showErr(msg) {
+document.getElementById(“ermsg”).textContent = msg;
+document.getElementById(“erbox”).style.display = “block”;
+}
+function hideErr() { document.getElementById(“erbox”).style.display = “none”; }
+
+function clearRes() {
+[“recosPanel”,“drugPanel”,“pediPanel”,“studyPanel”].forEach(function(id){
+var el=document.getElementById(id); if(el) el.style.display=“none”;
+});
+document.getElementById(“homeArea”).style.display = “block”;
+}
+
+function doSearch(term) {
+if (!term) {
+var si = document.getElementById(“sinput”); if(si) term = si.value.trim();
+}
+if (!term) return;
+APP.lastTerm = term;
+hideAC(); hideErr();
+addHist(term);
+document.getElementById(“homeArea”).style.display = “none”;
+[“recosPanel”,“drugPanel”,“pediPanel”,“studyPanel”].forEach(function(id){
+var el=document.getElementById(id); if(el) el.style.display=“none”;
+});
+var msgs = [“Interrogation des sources…”,“Recherche medicamenteuse…”,“Recherche pediatrique…”,””,“Recherche etudes…”];
+setLoad(true, msgs[APP.tab]||“Chargement…”);
+if (APP.tab===0) searchRecos(term);
+else if (APP.tab===1) searchDrug(term);
+else if (APP.tab===2) searchPedi(term);
+else if (APP.tab===4) searchStudy(term);
+}
+
+function searchRecos(term) {
+var srcs = SRCS.filter(function(s){return APP.filters[s.id];}).map(function(s){return s.lb;}).join(”, “);
+var sys = “Tu es expert pharmacien. Reponds UNIQUEMENT avec un objet JSON valide, sans texte ni markdown.” +
+“ Format: {"ansmAlerts":[{"text":"alerte","verifyUrl":"https://ansm.sante.fr/rechercher?query=”+encodeURIComponent(term)+”"}],” +
+“"otcAdvice":[{"text":"conseil","isIA":true}],” +
+“"safetyRecap":[{"drug":"DCI","line":"1","grossesse":"ok|warn|no","ir":"ok|warn|no","ih":"ok|warn|no","note":"note"}],” +
+“"recos":[{"sourceId":"has|ansm|ther|vidal|bdpm|spf|sav","title":"titre","date":"annee","gradeEvidence":"A|B|C|AE","gradeUtility":"high|mid|low","summary":{"text":"resume","isIA":true},"treatmentLines":[{"line":"1ere ligne","drugs":"DCI","isIA":false,"sourceLabel":"HAS 20XX"}],"keyPoints":[{"text":"point","isIA":true}],"url":"url ou vide"}],” +
+“"fichePatient":"texte 150 mots"}” +
+“ gradeEvidence: A=essais, B=intermediaire, C=faible, AE=accord experts.” +
+“ gradeUtility: high=dispensation, mid=conseil, low=informatif.” +
+“ Trier recos: high avant mid avant low. Si inconnu: recos=[].”;
+apiCall(sys, “Pathologie: “+term+”\nSources: “+srcs, 3000, function(err, raw) {
+setLoad(false);
+if (err) { showErr(“Erreur: “+err); return; }
+var d = extractObj(raw);
+if (!d) { showErr(“Format invalide. Reessayez.”); return; }
+renderRecos(term, d);
+updateFavBtn();
+});
+}
+
+function searchDrug(term) {
+var sys = “Tu es expert pharmacien. Reponds UNIQUEMENT avec un objet JSON valide, sans texte ni markdown.” +
+“ {"dci":"DCI","commercial":["noms"],"class":"classe","mechanism":{"text":"mecanisme","isIA":false},” +
+“"indications":[{"text":"indication","isIA":false,"sourceLabel":"RCP BDPM"}],” +
+“"posology":[{"route":"voie","dose":"posologie adulte","renal":"adaptation IR","hepatic":"adaptation IH","isIA":false,"sourceLabel":"RCP BDPM"}],” +
+“"contraindications":[{"text":"CI","isIA":false,"sourceLabel":"RCP BDPM"}],” +
+“"interactions":[{"level":"CI|warn|caution","drug":"medicament","effect":"consequence","isIA":false,"sourceLabel":"Theriaque"}],” +
+“"safety":{"grossesse":"ok|warn|no","grossesseNote":"detail","grossesseSource":"RCP|CRAT|IA","allaitement":"ok|warn|no","allaitementNote":"detail","allaitementSource":"RCP|CRAT|IA","ir":"ok|warn|no","irNote":"detail","irSource":"RCP|IA","ih":"ok|warn|no","ihNote":"detail","ihSource":"RCP|IA","sujet_age":"ok|warn|no","sujet_ageNote":"detail","sujet_ageSource":"RCP|IA"},” +
+“"sideEffects":[{"text":"effet","frequency":"tres frequent|frequent|peu frequent","isIA":false,"sourceLabel":"RCP BDPM"}],” +
+“"monitoring":[{"text":"surveillance","isIA":true}],” +
+“"patientAdvice":{"text":"conseils","isIA":true}}” +
+“ Si inconnu: {"error":"inconnu"}”;
+apiCall(sys, “Medicament: “+term, 2500, function(err, raw) {
+setLoad(false);
+if (err) { showErr(“Erreur: “+err); return; }
+var d = extractObj(raw);
+if (!d||d.error) { showErr(“Medicament non trouve. Essayez avec la DCI ou nom commercial exact.”); return; }
+renderDrug(term, d);
+updateFavBtn();
+});
+}
+
+function searchPedi(term) {
+var sys = “Tu es pediatre et pharmacien expert. Reponds UNIQUEMENT avec un objet JSON valide, sans texte ni markdown.” +
+“ {"pathologie":"nom","definition":{"text":"definition","isIA":true},” +
+“"ageGroups":[{"age":"Nourrisson <1 an|Enfant 1-5 ans|Enfant 6-11 ans|Adolescent 12-17 ans",” +
+“"specificities":"particularites","treatments":[{"drug":"DCI","dose":"dose mg/kg","max":"dose max","route":"voie","notes":"notes","isIA":false,"sourceLabel":"BDPM"}],” +
+“"warnings":["mise en garde"]}],” +
+“"generalWarnings":["CI absolues"],"otcAdvice":["conseil OTC"],"whenToRefer":["criteres urgence"],"ficheParent":"texte parents 100 mots"}” +
+“ Si non applicable: {"error":"non_pedi"}”;
+apiCall(sys, “Pathologie pediatrique: “+term, 2500, function(err, raw) {
+setLoad(false);
+if (err) { showErr(“Erreur: “+err); return; }
+var d = extractObj(raw);
+if (!d||d.error) { showErr(“Pathologie non trouvee ou non applicable en pediatrie.”); return; }
+renderPedi(term, d);
+updateFavBtn();
+});
+}
+
+function searchStudy(term) {
+var sys = “Tu es expert recherche clinique. Reponds UNIQUEMENT avec un tableau JSON, sans texte ni markdown.” +
+“ [{"type":"trial","title":"nom","phase":"Phase I|II|III|IV","status":"En cours|Termine","molecule":"DCI","mechanism":"mecanisme","objective":"objectif","results":"resultats ou vide","url":"lien ou vide"},” +
+“{"type":"molecule","title":"DCI (nom commercial)","status":"AMM|En evaluation EMA|Phase III","mechanism":"mecanisme","advantage":"avantage","indication":"indication","url":"lien ou vide"}]” +
+“ Si rien: []”;
+apiCall(sys, “Pathologie: “+term, 2000, function(err, raw) {
+setLoad(false);
+if (err) { showErr(“Erreur: “+err); return; }
+var d = extractArr(raw);
+if (!Array.isArray(d)) { showErr(“Format invalide. Reessayez.”); return; }
+renderStudy(term, d);
+});
+}
+
+function doAnalyze() {
+var drugs = APP.slots.map(function(s){return s.trim();}).filter(function(s){return s.length>0;});
+if (drugs.length < 2) { alert(“Saisissez au moins 2 medicaments.”); return; }
+document.getElementById(“analRes”).innerHTML = “”;
+document.getElementById(“btnAnal”).disabled = true;
+setLoad(true, “Analyse des interactions…”);
+var sys = “Tu es expert en pharmacologie clinique. Reponds UNIQUEMENT avec un objet JSON valide, sans texte ni markdown.” +
+“ {"summary":"resume global","interactions":[{"drugs":["med1","med2"],"level":"CI|warn|caution|ok","mechanism":"mecanisme","effect":"consequence","action":"conduite a tenir","verifyUrl":"https://www.theriaque.org/apps/recherche/rch.php?NOM=med1"}],"globalRisk":"high|moderate|low","recommendation":"recommandation pharmacien"}” +
+“ level: CI=contre-indique, warn=deconseille, caution=precaution, ok=aucune interaction.” +
+“ Si aucune interaction: interactions=[], globalRisk=low”;
+apiCall(sys, “Medicaments: “+drugs.join(”, “), 2000, function(err, raw) {
+setLoad(false);
+document.getElementById(“btnAnal”).disabled = false;
+if (err) { showErr(“Erreur: “+err); return; }
+var d = extractObj(raw);
+if (!d) { showErr(“Format invalide. Reessayez.”); return; }
+renderInterResults(drugs, d);
+});
+}
+
+function safeIcon(v){ return v===“ok”?’<span class="ok">✓</span>’:v===“warn”?’<span class="wn">△</span>’:’<span class="no">✗</span>’; }
+function tagIA(isIA, lbl){ return isIA===false&&lbl?’<span class="tagSRC">SOURCE: ‘+lbl+’</span>’:’<span class="tagIA">IA</span>’; }
+
+function renderRecos(term, d) {
+document.getElementById(“rTitle”).textContent = term;
+var enc = encodeURIComponent(term);
+var ad = document.getElementById(“ansmDiv”); ad.innerHTML = “”;
+if (d.ansmAlerts && d.ansmAlerts.length) {
+var h = ‘<div class="aalert"><div class="aatit">Alertes ANSM</div>’;
+d.ansmAlerts.forEach(function(a){ h+=’<div style="font-size:12.5px;color:#333;margin-bottom:4px;padding-left:12px">△ ‘+(typeof a===“object”?a.text:a)+’<a href=”’+(typeof a===“object”&&a.verifyUrl?a.verifyUrl:“https://ansm.sante.fr/rechercher?query=”+enc)+’” target=”_blank” style=“font-size:10px;font-weight:bold;color:#0277bd;margin-left:6px;text-decoration:none;border-bottom:1px solid #0277bd50”> Verifier</a></div>’; });
+ad.innerHTML = h + ‘</div>’;
+}
+var od = document.getElementById(“otcDiv”); od.innerHTML = “”;
+if (d.otcAdvice && d.otcAdvice.length) {
+var h = ‘<div class="otcbox"><div class="otctit">Conseils OTC</div>’;
+d.otcAdvice.forEach(function(a){ h+=’<div style="display:flex;gap:6px;margin-bottom:5px">’+tagIA(typeof a===“object”?a.isIA:true,””)+’<span style="font-size:12.5px;color:#333">’+(typeof a===“object”?a.text:a)+’</span></div>’; });
+od.innerHTML = h + ‘</div>’;
+}
+var sfd = document.getElementById(“sfDiv”); sfd.innerHTML = “”;
+if (d.safetyRecap && d.safetyRecap.length) {
+var h = ‘<div class="sfbox"><div class="sftit">Securite 1ere & 2eme ligne</div><div style="overflow-x:auto"><table class="sft"><thead><tr><th>Medicament</th><th>Ligne</th><th>Grossesse</th><th>IR</th><th>IH</th><th>Note</th><th>RCP</th></tr></thead><tbody>’;
+d.safetyRecap.forEach(function(r){
+var bdurl = “https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche=”+encodeURIComponent(r.drug);
+h+=’<tr><td><span class="sdrug">’+r.drug+’</span></td><td><span class=“sln ‘+(r.line===“1”?“sl1”:“sl2”)+’”>’+(r.line===“1”?“1ere”:“2eme”)+’</span></td><td>’+safeIcon(r.grossesse)+’</td><td>’+safeIcon(r.ir)+’</td><td>’+safeIcon(r.ih)+’</td><td style="font-size:11px;color:#666">’+(r.note||””)+’</td><td><a href="'+bdurl+'" target="_blank" style="font-size:10px;font-weight:bold;color:#0f4c81;text-decoration:none;border-bottom:1px solid #0f4c8150">BDPM</a></td></tr>’;
+});
+sfd.innerHTML = h + ‘</tbody></table></div></div>’;
+}
+var rl = document.getElementById(“recosList”); rl.innerHTML = “”;
+var recos = (d.recos||[]).filter(function(r){ return APP.filters[r.sourceId]; });
+var uO={high:0,mid:1,low:2},gO={A:0,B:1,C:2,AE:3};
+recos.sort(function(a,b){ var u=(uO[a.gradeUtility]||2)-(uO[b.gradeUtility]||2); return u!==0?u:(gO[a.gradeEvidence]||3)-(gO[b.gradeEvidence]||3); });
+document.getElementById(“rCnt”).textContent = recos.length + “ resultat”+(recos.length>1?“s”:””);
+if (!recos.length) { rl.innerHTML = ‘<div class="empty">Aucune recommandation trouvee.</div>’; }
+else {
+recos.forEach(function(r,i) {
+var s = SRCS.find(function(x){return x.id===r.sourceId;})||SRCS[0];
+var card = document.createElement(“div”); card.className = “card”; card.style.borderLeftColor = s.cl; card.style.animationDelay=(i*0.05)+“s”;
+var lh = “”;
+if (r.treatmentLines&&r.treatmentLines.length) {
+var li = r.treatmentLines.map(function(l){ var cls=l.line.indexOf(“1”)>=0?“l1”:l.line.indexOf(“2”)>=0?“l2”:“l3”; return ‘<div class="litem"><span class="lbdg '+cls+'">’+l.line+’</span><span class="ltxt">’+l.drugs+’</span> ‘+tagIA(l.isIA===false?false:true,l.sourceLabel||””)+’</div>’; }).join(””);
+lh = ‘<div class="lblock"><div class="llbl">Traitements recommandes</div>’+li+’</div>’;
+}
+var kps = (r.keyPoints||[]).map(function(p){ var t=typeof p===“object”?p.text:p; var ia=typeof p===“object”?p.isIA:true; return ‘<li>’+t+’ ‘+tagIA(ia,””)+’</li>’; }).join(””);
+var gmap={A:“gA”,B:“gB”,C:“gC”,AE:“gAE”};var glbl={A:“Grade A”,B:“Grade B”,C:“Grade C”,AE:“Accord experts”};
+var umap={high:“uh”,mid:“um”,low:“ul”};var ulbl={high:“Tres utile”,mid:“Utile”,low:“Informatif”};
+var gr = ‘<div class="gbrow">’+(r.gradeEvidence?’<span class=“gb ‘+(gmap[r.gradeEvidence]||“gAE”)+’”>’+(glbl[r.gradeEvidence]||r.gradeEvidence)+’</span>’:’’)+(r.gradeUtility?’<span class=“gb ‘+(umap[r.gradeUtility]||“ul”)+’”>’+(ulbl[r.gradeUtility]||r.gradeUtility)+’</span>’:’’)+’</div>’;
+var st = r.summary&&typeof r.summary===“object”?r.summary.text:(r.summary||””);
+var sia = r.summary&&typeof r.summary===“object”?r.summary.isIA:true;
+var sl = ‘<div class="srcrow">’+(r.url&&r.url.length>10?’<a class="srcbtn" href="'+r.url+'" target="_blank" style="color:'+s.cl+';border-color:'+s.cl+';background:'+s.cl+'15" onclick="event.stopPropagation()">Document</a>’:’’)+
+‘<a class="srcbtn" href="https://www.has-sante.fr/jcms/fc_1249603/fr/recherche?text='+enc+'" target="_blank" style="color:#1a4f8a;border-color:#1a4f8a;background:#1a4f8a15" onclick="event.stopPropagation()">HAS</a>’+
+‘<a class="srcbtn" href="https://ansm.sante.fr/rechercher?query='+enc+'" target="_blank" style="color:#0e7c6e;border-color:#0e7c6e;background:#0e7c6e15" onclick="event.stopPropagation()">ANSM</a>’+
+‘<a class="srcbtn" href="https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche='+enc+'" target="_blank" style="color:#0f4c81;border-color:#0f4c81;background:#0f4c8115" onclick="event.stopPropagation()">BDPM</a>’+
+‘<a class="srcbtn" href="https://www.theriaque.org/apps/recherche/rch.php?NOM='+enc+'" target="_blank" style="color:#b45309;border-color:#b45309;background:#b4530915" onclick="event.stopPropagation()">Theriaque</a>’+
+‘</div>’;
+card.innerHTML = ‘<div class="ctop"><div style="flex:1"><div class="cmeta"><span class="bdg" style="background:'+s.cl+'20;color:'+s.cl+'">’+s.lb+’</span>’+(r.date?’<span class="cdate">’+r.date+’</span>’:’’)+gr+’</div><div class="ctit">’+r.title+’</div></div><span class="ctog">▼</span></div>’+
+‘<div class="cbody">’+lh+’<div style="display:flex;gap:6px;align-items:flex-start;margin-bottom:10px">’+tagIA(sia,””)+’<p style="font-size:13px;color:#444;line-height:1.65;flex:1">’+st+’</p></div>’+
+(kps?’<div class="llbl">Points cles officine</div><ul style="padding-left:16px;margin:0 0 10px">’+kps+’</ul>’:’’)+
+‘<div class="csrc"><div class="csrclbl">Sources</div>’+sl+’</div></div>’;
+card.addEventListener(“click”, function(){ card.classList.toggle(“open”); card.querySelector(”.ctog”).innerHTML=card.classList.contains(“open”)?”▲”:”▼”; });
+rl.appendChild(card);
+});
+}
+var fd = document.getElementById(“ficheDiv”); fd.innerHTML = “”;
+if (d.fichePatient) {
+fd.innerHTML = ‘<div class="fiche"><div class="fichead"><span class="fictit">Fiche patient — ‘+term+’</span><button class="bcp" onclick="copyFiche()">Copier</button></div><div class="fictxt" id="ficTxt">’+d.fichePatient+’</div></div>’;
+}
+document.getElementById(“recosPanel”).style.display = “block”;
+}
+
+function renderDrug(term, d) {
+document.getElementById(“dTitle”).textContent = d.dci||(d.commercial&&d.commercial[0])||term;
+var de = encodeURIComponent(d.dci||term);
+var sf = d.safety||{};
+function safeRow(ico,lbl,val,note,src){ var st=src&&src!==“IA”?tagIA(false,src):tagIA(true,””); return ‘<div class="safitem">’+safeIcon(val)+’ <span style="font-size:12px">’+ico+’ ‘+lbl+(note?’ — <em style="font-size:11px;color:#555">’+note+’</em>’:’’)+’</span> ‘+st+’</div>’; }
+var safeH = ‘<div class="safinl">’+safeRow(“Grossesse”,“G.”,sf.grossesse,sf.grossesseNote,sf.grossesseSource)+safeRow(“Allaitement”,“All.”,sf.allaitement,sf.allaitementNote,sf.allaitementSource)+safeRow(“IR”,“IR”,sf.ir,sf.irNote,sf.irSource)+safeRow(“IH”,“IH”,sf.ih,sf.ihNote,sf.ihSource)+safeRow(“Sujet age”,“SA”,sf.sujet_age,sf.sujet_ageNote,sf.sujet_ageSource)+’</div>’;
+var posH = (d.posology||[]).map(function(p){ var pt=p.isIA===false?tagIA(false,p.sourceLabel||“RCP”):tagIA(true,””); return ‘<div class="positem"><span class="posrte">’+(p.route||“oral”)+’</span><div><div class="dtxt">’+p.dose+’ ‘+pt+’</div>’+(p.renal?’<div style="font-size:11px;color:#555">IR: ‘+p.renal+’</div>’:’’)+(p.hepatic?’<div style="font-size:11px;color:#555">IH: ‘+p.hepatic+’</div>’:’’)+’</div></div>’; }).join(””);
+var lmap={CI:“ici”,warn:“iwn”,caution:“ica”};var llbl={CI:“CI”,warn:“Precaution”,caution:“Prudence”};
+var intH = (d.interactions||[]).map(function(it){ var it2=it.isIA===false?tagIA(false,it.sourceLabel||“Theriaque”):tagIA(true,””); return ‘<div class="intitem"><span class=“intlvl ‘+(lmap[it.level]||“ica”)+’”>’+(llbl[it.level]||it.level)+’</span><span style="font-size:12.5px;color:#333"><strong>’+it.drug+’</strong> — ‘+it.effect+’ ‘+it2+’</span></div>’; }).join(””);
+var seH = (d.sideEffects||[]).map(function(e){ var et=e.isIA===false?tagIA(false,e.sourceLabel||“RCP”):tagIA(true,””); return ‘<li>’+(typeof e===“object”?e.text:e)+(e.frequency?’ (’+e.frequency+’)’:’’)+’ ‘+et+’</li>’; }).join(””);
+var indH = (d.indications||[]).map(function(ind){ var it=typeof ind===“object”&&ind.isIA===false?tagIA(false,ind.sourceLabel||“RCP”):tagIA(true,””); return ‘<li>’+(typeof ind===“object”?ind.text:ind)+’ ‘+it+’</li>’; }).join(””);
+var monH = (d.monitoring||[]).map(function(m){ return ‘<li>’+(typeof m===“object”?m.text:m)+’ ‘+tagIA(true,””)+’</li>’; }).join(””);
+var crat = “https://www.lecrat.fr/spip.php?page=recherche&recherche=”+de;
+var html = ‘<div class="dcard"><div class="dhead"><div class="dname">’+d.dci+’</div><div class="dcom">’+(d.commercial&&d.commercial.join?d.commercial.join(”, “):””)+’</div><span class="dclsbdg">’+d.class+’</span></div><div class="dbody">’+
+‘<div class="dsec"><div class="dsectit">Mecanisme</div><div style="display:flex;gap:6px">’+tagIA(false,“RCP”)+’<p class="dtxt">’+(d.mechanism&&typeof d.mechanism===“object”?d.mechanism.text:d.mechanism)+’</p></div></div>’+
+(indH?’<div class="dsec"><div class="dsectit">Indications</div><ul class="dlist">’+indH+’</ul></div>’:’’)+
+(posH?’<div class="dsec"><div class="dsectit">Posologie</div>’+posH+’</div>’:’’)+
+‘<div class="dsec"><div class="dsectit">Securite <a href="'+crat+'" target="_blank" style="font-size:10px;color:#880e4f;text-decoration:none;border-bottom:1px solid #880e4f50;margin-left:8px">CRAT</a><a href="https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche='+de+'" target="_blank" style="font-size:10px;color:#0f4c81;text-decoration:none;border-bottom:1px solid #0f4c8150;margin-left:8px">RCP BDPM</a></div>’+safeH+’</div>’+
+(d.contraindications&&d.contraindications.length?’<div class="dsec"><div class="dsectit">Contre-indications</div><ul class="dlist">’+(d.contraindications||[]).map(function(c){ return ‘<li>’+(typeof c===“object”?c.text:c)+’ ‘+tagIA(typeof c===“object”&&c.isIA===false?false:true,typeof c===“object”?c.sourceLabel:””)+’</li>’; }).join(””)+’</ul></div>’:’’)+
+(intH?’<div class="dsec"><div class="dsectit">Interactions <a href="https://www.theriaque.org/apps/recherche/rch.php?NOM='+de+'" target="_blank" style="font-size:10px;color:#b45309;text-decoration:none;border-bottom:1px solid #b4530950;margin-left:8px">Theriaque</a></div>’+intH+’</div>’:’’)+
+(seH?’<div class="dsec"><div class="dsectit">Effets indesirables</div><ul class="dlist">’+seH+’</ul></div>’:’’)+
+(monH?’<div class="dsec"><div class="dsectit">Surveillance</div><ul class="dlist">’+monH+’</ul></div>’:’’)+
+(d.patientAdvice?’<div class="dsec"><div class="dsectit">Conseils patient ‘+tagIA(true,””)+’</div><p class="dtxt">’+(d.patientAdvice&&typeof d.patientAdvice===“object”?d.patientAdvice.text:d.patientAdvice)+’</p></div>’:’’)+
+‘<div class="dlinks"><a class="dlnk lbdpm" href="https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche='+de+'" target="_blank">BDPM</a><a class="dlnk lvidal" href="https://www.vidal.fr/recherche/index/q:'+de+'" target="_blank">VIDAL</a><a class="dlnk lther" href="https://www.theriaque.org/apps/recherche/rch.php?NOM='+de+'" target="_blank">Theriaque</a><a class="dlnk lansm" href="https://ansm.sante.fr/rechercher?query='+de+'" target="_blank">ANSM</a><a class="dlnk lcrat" href="'+crat+'" target="_blank">CRAT</a></div>’+
+‘</div></div>’;
+document.getElementById(“drugDiv”).innerHTML = html;
+document.getElementById(“drugPanel”).style.display = “block”;
+}
+
+function renderPedi(term, d) {
+document.getElementById(“pTitle”).textContent = d.pathologie||term;
+var enc = encodeURIComponent(term);
+var html = ‘<div class="pcard"><div class="phead"><div class="ptit">’+d.pathologie+’</div></div><div class="pbody">’;
+if (d.definition) html += ‘<div class="psec"><div class="psectit">Definition</div><p style="font-size:13px;color:#333;line-height:1.6">’+d.definition.text+’ ‘+tagIA(d.definition.isIA,””)+’</p></div>’;
+if (d.generalWarnings&&d.generalWarnings.length) { html+=’<div class="psec"><div class="psectit">Mises en garde generales</div>’; d.generalWarnings.forEach(function(w){html+=’<div class="pwarn">’+w+’</div>’;}); html+=’</div>’; }
+if (d.ageGroups&&d.ageGroups.length) {
+html += ‘<div class="psec"><div class="psectit">Traitements par age</div>’;
+d.ageGroups.forEach(function(ag) {
+html += ‘<div class="agegrp"><span class="agebdg">’+ag.age+’</span><div style="flex:1;font-size:12.5px">’;
+if (ag.specificities) html += ‘<div style="margin-bottom:5px;color:#555;font-style:italic">’+ag.specificities+’</div>’;
+if (ag.treatments) ag.treatments.forEach(function(t){ var tt=t.isIA===false?tagIA(false,t.sourceLabel||“BDPM”):tagIA(true,””); html+=’<div style="margin-bottom:4px"><strong>’+t.drug+’</strong> — ‘+t.dose+(t.max?’ (max: ‘+t.max+’)’:’’)+(t.route?’ — ‘+t.route:’’)+’ ‘+tt+(t.notes?’<div style="font-size:11px;color:#666">’+t.notes+’</div>’:’’)+’</div>’; });
+if (ag.warnings) ag.warnings.forEach(function(w){html+=’<div style="font-size:11px;color:#e65100">△ ‘+w+’</div>’;});
+html += ‘</div></div>’;
+});
+html += ‘</div>’;
+}
+if (d.otcAdvice&&d.otcAdvice.length) { html+=’<div class="psec"><div class="psectit">Conseils OTC</div>’; d.otcAdvice.forEach(function(a){html+=’<div style="font-size:12.5px;padding-left:10px;border-left:2px solid #a5d6a7;margin-bottom:3px">’+a+’</div>’;}); html+=’</div>’; }
+if (d.whenToRefer&&d.whenToRefer.length) { html+=’<div class="psec"><div class="psectit">Quand orienter en urgence</div>’; d.whenToRefer.forEach(function(w){html+=’<div style="font-size:12.5px;color:#c62828;padding-left:10px;border-left:2px solid #ef9a9a;margin-bottom:3px">’+w+’</div>’;}); html+=’</div>’; }
+if (d.ficheParent) html += ‘<div class="psec"><div class="psectit">Message pour les parents ‘+tagIA(true,””)+’<button onclick="copyPedi()" style="margin-left:8px;background:#1b2d45;color:white;border:none;border-radius:4px;padding:2px 8px;font-size:10px;cursor:pointer">Copier</button></div><p id="pediTxt" style="font-size:13px;color:#333;line-height:1.7;background:#f8f9fa;border-radius:6px;padding:10px;white-space:pre-wrap">’+d.ficheParent+’</p></div>’;
+html += ‘<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid #f0f0f0"><a class="dlnk lbdpm" href="https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche='+enc+'" target="_blank">BDPM</a><a class="dlnk" href="https://www.has-sante.fr/jcms/fc_1249603/fr/recherche?text='+enc+'+pediatrie" target="_blank" style="color:#1a4f8a;border-color:#1a4f8a;background:#1a4f8a15;font-size:12px;font-weight:bold;text-decoration:none;padding:6px 10px;border-radius:6px;border:1px solid">HAS Pediatrie</a></div>’;
+html += ‘</div></div>’;
+document.getElementById(“pediDiv”).innerHTML = html;
+document.getElementById(“pediPanel”).style.display = “block”;
+}
+
+function renderStudy(term, data) {
+document.getElementById(“sTitle”).textContent = term;
+var enc = encodeURIComponent(term);
+var sd = document.getElementById(“studyDiv”); sd.innerHTML = “”;
+if (!data.length) { sd.innerHTML=’<div class="empty">Aucun essai clinique ni molecule trouves.</div>’; document.getElementById(“studyPanel”).style.display=“block”; return; }
+data.forEach(function(r,i) {
+var card = document.createElement(“div”); card.className = “card”; card.style.borderLeftColor=”#0277bd”; card.style.animationDelay=(i*0.05)+“s”;
+var isTrial = r.type===“trial”;
+var sc=r.status&&r.status.indexOf(“cours”)>=0?”#2e7d32”:r.status&&r.status.indexOf(“AMM”)>=0?”#1565c0”:”#555”;
+var bh=isTrial?(r.mechanism?’<p style="font-size:12.5px;color:#444;margin-bottom:4px"><strong>Mecanisme:</strong> ‘+r.mechanism+’</p>’:’’)+(r.objective?’<p style="font-size:12.5px;color:#444;margin-bottom:4px"><strong>Objectif:</strong> ‘+r.objective+’</p>’:’’)+(r.results?’<p style="font-size:12.5px;color:#444;margin-bottom:4px"><strong>Resultats:</strong> ‘+r.results+’</p>’:””):
+(r.mechanism?’<p style="font-size:12.5px;color:#444;margin-bottom:4px"><strong>Mecanisme:</strong> ‘+r.mechanism+’</p>’:’’)+(r.indication?’<p style="font-size:12.5px;color:#444;margin-bottom:4px"><strong>Indication:</strong> ‘+r.indication+’</p>’:’’)+(r.advantage?’<p style="font-size:12.5px;color:#444;margin-bottom:4px"><strong>Avantage:</strong> ‘+r.advantage+’</p>’:””);
+var lh=r.url&&r.url.length>10?r.url:(isTrial?“https://clinicaltrials.gov/search?cond=”+enc:“https://www.ema.europa.eu/en/search/search?search_api_views_fulltext=”+enc);
+card.innerHTML=’<div class="ctop"><div style="flex:1"><div class="cmeta"><span class=“bdg ‘+(isTrial?“trial-badge”:“molecule-badge”)+’” style=“background:#e3f2fd;color:#0d47a1”>’+(isTrial?“Essai clinique”:“Molecule”)+’</span>’+(isTrial&&r.phase?’<span style="background:#e8f5e9;color:#1b5e20;border:1px solid #a5d6a7;padding:1px 6px;border-radius:4px;font-size:10px;font-weight:bold">’+r.phase+’</span>’:’’)+(r.status?’<span style="font-size:10px;font-weight:bold;color:'+sc+'">’+r.status+’</span>’:’’)+tagIA(true,””)+’</div><div class="ctit">’+r.title+’</div></div><span class="ctog">▼</span></div><div class="cbody">’+bh+’<a href="'+lh+'" target="_blank" style="font-size:12px;font-weight:bold;color:#0277bd;text-decoration:none;border-bottom:1px solid #0277bd80">’+(isTrial?“ClinicalTrials ↗”:“EMA ↗”)+’</a></div>’;
+card.addEventListener(“click”,function(){card.classList.toggle(“open”);card.querySelector(”.ctog”).innerHTML=card.classList.contains(“open”)?”▲”:”▼”;});
+sd.appendChild(card);
+});
+document.getElementById(“studyPanel”).style.display = “block”;
+}
+
+function renderInterResults(drugs, d) {
+var riskColor={high:”#c62828”,moderate:”#e65100”,low:”#2e7d32”};
+var riskLabel={high:“Risque eleve”,moderate:“Risque modere”,low:“Aucune interaction majeure”};
+var html=’<div style="background:white;border:1px solid #ddd;border-radius:8px;padding:14px;margin-bottom:10px">’+
+‘<div style="display:flex;justify-content:space-between;margin-bottom:8px"><strong style="font-size:14px;color:#1b2d45">’+drugs.length+’ medicaments analyses</strong><span style=“font-size:12px;font-weight:bold;color:’+(riskColor[d.globalRisk]||”#555”)+’”>’+(riskLabel[d.globalRisk]||””)+’</span></div>’+
+‘<p style="font-size:13px;color:#444;line-height:1.6;margin-bottom:8px">’+d.summary+’</p>’+
+‘<div style="background:#f8f9fa;border-radius:6px;padding:8px 10px;font-size:12px;color:#1b2d45;font-weight:bold">’+d.recommendation+’</div></div>’;
+(d.interactions||[]).forEach(function(inter,i) {
+var cls={CI:“ci”,warn:“wn”,caution:“ca”,ok:“ok”}[inter.level]||“ca”;
+var lc={CI:”#c62828”,warn:”#e65100”,caution:”#f57c00”,ok:”#2e7d32”}[inter.level]||”#f57c00”;
+var ll={CI:“Contre-indique”,warn:“Deconseille”,caution:“Precaution”,ok:“Pas d’interaction”}[inter.level]||inter.level;
+html+=’<div class="ires '+cls+'"><div class="iresh"><span class="ireslvl" style="background:'+lc+'">’+ll+’</span><strong style="font-size:13px">’+(inter.drugs||[]).join(” ↔ “)+’</strong><span class="tagIA" style="margin-left:auto">IA</span></div>’+
+(inter.mechanism?’<div style="font-size:12.5px;color:#333;margin-bottom:4px"><strong>Mecanisme:</strong> ‘+inter.mechanism+’</div>’:’’)+
+(inter.effect?’<div style="font-size:12.5px;color:#333;margin-bottom:4px"><strong>Effet:</strong> ‘+inter.effect+’</div>’:’’)+
+(inter.action?’<div style="font-size:12px;font-weight:bold;color:#1b2d45;margin-top:6px">Conduite: ‘+inter.action+’</div>’:’’)+
+‘<div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap"><a href=”’+(inter.verifyUrl||“https://www.theriaque.org/apps/recherche/rch.php?NOM=”+encodeURIComponent((inter.drugs||[])[0]||””))+’” target=”_blank” style=“font-size:11px;font-weight:bold;color:#b45309;text-decoration:none;border-bottom:1px solid #b4530950”>Verifier Theriaque</a><a href=“https://ansm.sante.fr/rechercher?query=’+encodeURIComponent((inter.drugs||[]).join(”+”))+’” target=”_blank” style=“font-size:11px;font-weight:bold;color:#0e7c6e;text-decoration:none;border-bottom:1px solid #0e7c6e50”>Verifier ANSM</a></div></div>’;
+});
+if (!d.interactions||!d.interactions.length) html+=’<div class="empty" style="background:#e8f5e9;border-color:#a5d6a7;color:#2e7d32">Aucune interaction notable identifiee.</div>’;
+html+=’<div class="disc">Resultats IA — verifier via Theriaque et ANSM avant dispensation.</div>’;
+document.getElementById(“analRes”).innerHTML = html;
+}
+
+function copyFiche(){ var el=document.getElementById(“ficTxt”); if(!el)return; if(navigator.clipboard){navigator.clipboard.writeText(el.textContent);}else{var r=document.createRange();r.selectNode(el);window.getSelection().removeAllRanges();window.getSelection().addRange(r);document.execCommand(“copy”);window.getSelection().removeAllRanges();} alert(“Copie!”); }
+function copyPedi(){ var el=document.getElementById(“pediTxt”); if(!el)return; if(navigator.clipboard){navigator.clipboard.writeText(el.textContent);}else{var r=document.createRange();r.selectNode(el);window.getSelection().removeAllRanges();window.getSelection().addRange(r);document.execCommand(“copy”);window.getSelection().removeAllRanges();} alert(“Copie!”); }
+
+// Init on load
+if (APP.apiKey) { showApp(); }
 </script>
 
 </body>
