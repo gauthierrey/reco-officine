@@ -173,8 +173,8 @@ body{font-family:Arial,sans-serif;background:#f4f4f4;padding-bottom:40px;}
 </head>
 <body>
 <div class="header">
-  <h1>Recommandations officine</h1>
-  <p>HAS · ANSM · Thériaque · VIDAL · BDPM · Sociétés savantes · SPF</p>
+  <h1>Recos Officine</h1>
+  <p>HAS - ANSM - Theriaque - VIDAL - BDPM - SPF</p>
 </div>
 <div class="apibar" id="apiBar">
   <span><span class="dot"></span>API connectée</span>
@@ -182,14 +182,14 @@ body{font-family:Arial,sans-serif;background:#f4f4f4;padding-bottom:40px;}
 </div>
 <div class="main">
   <div class="box" id="apiScreen">
-    <h2>Connexion à l'API Anthropic</h2>
-    <p>Obtiens ta clé sur <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> — API Keys — Create Key</p>
+    <h2>Connexion API Anthropic</h2>
+    <p>Obtiens ta cle sur <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> — API Keys — Create Key</p>
     <input class="inp" id="apiKeyInput" type="password" placeholder="sk-ant-api03-..."/>
     <button class="btn" id="btnValider" onclick="saveKey()">Valider</button>
-    <p class="note">Clé stockée uniquement dans ton navigateur</p>
+    <p class="note">Cle stockee dans ton navigateur</p>
   </div>
+  <div id="logDiv" style="font-size:11px;font-family:monospace;color:#555;padding:6px 14px;background:#f8f9fa;border-bottom:1px solid #ddd;min-height:20px"></div>
   <div id="appScreen" style="display:none">
-  <div id="logDiv" style="font-size:11px;font-family:monospace;color:#555;padding:6px 14px;background:#f8f9fa;border-bottom:1px solid #ddd"></div>
     <div class="tabs">
       <button class="tab active" id="t0" onclick="setTab(0)">Recos</button>
       <button class="tab" id="t1" onclick="setTab(1)">Medicament</button>
@@ -326,7 +326,7 @@ var QD = [“Metformine”,“Atorvastatine”,“Amoxicilline”,“Omeprazole�
 var QI = [“Otite”,“Angine”,“Fievre”,“Bronchiolite”,“Asthme”,“Gastroenterite”,“Constipation”,“Rhinopharyngite”];
 
 var ALP = [“Dyslipidemie”,“Hypertension arterielle”,“Diabete type 2”,“Diabete type 1”,“BPCO”,“Asthme”,“Insuffisance cardiaque”,“Fibrillation auriculaire”,“Depression”,“Anxiete”,“Hypothyroidie”,“Hyperthyroidie”,“Gonarthrose”,“Lombalgie”,“Polyarthrite rhumatoide”,“Rhinite allergique”,“Reflux gastro-oesophagien”,“Insomnie”,“Migraine”,“Epilepsie”,“Alzheimer”,“Insuffisance renale chronique”,“Maladie de Crohn”,“Psoriasis”,“Eczema atopique”,“Acne”,“Osteoporose”,“Obesite”,“Goutte”,“Anemie ferriprive”,“VIH”,“Hepatite B”,“Hepatite C”,“Otite”,“Sinusite”,“Angine”,“Bronchite”,“Pneumonie”,“Cystite”,“Endometriose”,“Menopause”,“Constipation”,“Diarrhee”,“Candidose”,“Herpes”,“Zona”,“Urticaire”];
-var ALD = [“Metformine”,“Atorvastatine”,“Rosuvastatine”,“Amlodipine”,“Ramipril”,“Bisoprolol”,“Metoprolol”,“Lisinopril”,“Valsartan”,“Losartan”,“Omeprazole”,“Pantoprazole”,“Esomeprazole”,“Levothyroxine”,“Amoxicilline”,“Azithromycine”,“Ciprofloxacine”,“Ibuprofene”,“Paracetamol”,“Aspirine”,“Warfarine”,“Rivaroxaban”,“Apixaban”,“Dabigatran”,“Fluoxetine”,“Sertraline”,“Escitalopram”,“Paroxetine”,“Venlafaxine”,“Alprazolam”,“Lorazepam”,“Zolpidem”,“Furosemide”,“Spironolactone”,“Allopurinol”,“Colchicine”,“Prednisolone”,“Salbutamol”,“Formoter ol”,“Beclometasone”,“Budesonide”,“Fluticasone”,“Tiotropium”,“Cetirizine”,“Loratadine”,“Insuline”,“Sitagliptine”,“Empagliflozine”,“Liraglutide”,“Semaglutide”,“Methotrexate”,“Hydroxychloroquine”,“Tramadol”,“Morphine”,“Gabapentine”,“Pregabaline”,“Carbamazepine”,“Valproate”,“Levotiracetam”,“Lamotrigine”,“Donepezil”,“Levodopa”,“Doxycycline”];
+var ALD = [“Metformine”,“Atorvastatine”,“Rosuvastatine”,“Amlodipine”,“Ramipril”,“Bisoprolol”,“Metoprolol”,“Lisinopril”,“Valsartan”,“Losartan”,“Omeprazole”,“Pantoprazole”,“Esomeprazole”,“Levothyroxine”,“Amoxicilline”,“Azithromycine”,“Ciprofloxacine”,“Ibuprofene”,“Paracetamol”,“Aspirine”,“Warfarine”,“Rivaroxaban”,“Apixaban”,“Dabigatran”,“Fluoxetine”,“Sertraline”,“Escitalopram”,“Paroxetine”,“Venlafaxine”,“Alprazolam”,“Lorazepam”,“Zolpidem”,“Furosemide”,“Spironolactone”,“Allopurinol”,“Colchicine”,“Prednisolone”,“Salbutamol”,“Formoterol”,“Beclometasone”,“Budesonide”,“Fluticasone”,“Tiotropium”,“Cetirizine”,“Loratadine”,“Insuline”,“Sitagliptine”,“Empagliflozine”,“Liraglutide”,“Semaglutide”,“Methotrexate”,“Hydroxychloroquine”,“Tramadol”,“Morphine”,“Gabapentine”,“Pregabaline”,“Carbamazepine”,“Valproate”,“Levotiracetam”,“Lamotrigine”,“Donepezil”,“Levodopa”,“Doxycycline”];
 
 function saveKey() {
 var v = document.getElementById(“apiKeyInput”).value.trim();
@@ -935,7 +935,7 @@ function copyFiche(){ var el=document.getElementById(“ficTxt”); if(!el)retur
 function copyPedi(){ var el=document.getElementById(“pediTxt”); if(!el)return; if(navigator.clipboard){navigator.clipboard.writeText(el.textContent);}else{var r=document.createRange();r.selectNode(el);window.getSelection().removeAllRanges();window.getSelection().addRange(r);document.execCommand(“copy”);window.getSelection().removeAllRanges();} alert(“Copie!”); }
 
 // Init on load
-if (APP.apiKey) { showApp(); }
+document.addEventListener(‘DOMContentLoaded’, function(){ if (APP.apiKey) { showApp(); } });
 </script>
 
 </body>
