@@ -539,8 +539,10 @@ document.getElementById(“errorBox”).style.display=“none”;
 document.getElementById(“btnAnalyze”).disabled=true;
 try{
 var raw=await apiCall(
-`Tu es expert en pharmacologie clinique. Analyse toutes les interactions médicamenteuses entre les médicaments fournis. Réponds UNIQUEMENT avec un objet JSON valide, sans texte ni markdown. Format: { "summary": "résumé global en 1-2 phrases", "interactions": [ { "drugs": ["médicament1","médicament2"], "level": "CI|warn|caution|ok", "mechanism": "mécanisme de l'interaction", "effect": "conséquence clinique", "action": "conduite à tenir au comptoir", "isIA": true, "verifyUrl": "https://www.theriaque.org/apps/recherche/rch.php?NOM=medicament1" } ], "globalRisk": "high|moderate|low", "recommendation": "recommandation globale pour le pharmacien" } level: CI=contre-indiqué, warn=déconseillé/précaution majeure, caution=précaution, ok=pas d'interaction notable Si aucune interaction: interactions=[], globalRisk="low"`,
-“Médicaments du patient: “+drugs.join(”, “),2000
+“Tu es expert en pharmacologie clinique. Reponds UNIQUEMENT avec un objet JSON valide, sans texte ni markdown.” +
+“ Format: {"summary":"resume","interactions":[{"drugs":["med1","med2"],"level":"CI|warn|caution|ok","mechanism":"mecanisme","effect":"consequence","action":"conduite","isIA":true,"verifyUrl":"https://www.theriaque.org/apps/recherche/rch.php?NOM=med"}],"globalRisk":"high|moderate|low","recommendation":"recommandation"}” +
+“ level: CI=contre-indique, warn=deconseille, caution=precaution, ok=pas interaction. Si aucune interaction: interactions=[], globalRisk="low"”,
+“Medicaments du patient: “+drugs.join(”, “),2000
 );
 var parsed=extractObj(raw);
 if(!parsed)throw new Error(“Format invalide. Reessayez.”);
@@ -679,7 +681,10 @@ async function searchRecos(term){
 var srcList=SOURCES.filter(function(s){return activeFilters[s.id];}).map(function(s){return s.label;}).join(”, “);
 var termEnc=encodeURIComponent(term);
 var raw=await apiCall(
-`Tu es expert pharmacien. Réponds UNIQUEMENT avec un objet JSON valide, sans texte ni markdown. Format: {"ansmAlerts":[{"text":"alerte","verifyUrl":"https://ansm.sante.fr/rechercher?query=`+termEnc+`"}],"otcAdvice":[{"text":"conseil","isIA":true}],"safetyRecap":[{"drug":"DCI","line":"1","grossesse":"ok|warn|no","ir":"ok|warn|no","ih":"ok|warn|no","note":"note","verifyUrl":"https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche=DCI"}],"recos":[{"sourceId":"has|ansm|theriaque|vidal|bdpm|spf|savantes","title":"titre","date":"annee","docRef":"ref si connue","gradeEvidence":"A|B|C|AE","gradeUtility":"high|mid|low","summary":{"text":"résumé","isIA":true},"treatmentLines":[{"line":"1ere ligne","drugs":"DCI","isIA":false,"sourceLabel":"HAS 20XX"}],"keyPoints":[{"text":"point","isIA":true}],"url":"url directe ou vide"}],"fichePatient":"texte 150 mots"} gradeEvidence: A=essais randomisés, B=intermédiaire, C=faible, AE=accord experts. gradeUtility: high=dispensation courante, mid=conseil, low=informatif. Trier recos: high avant mid avant low. Si inconnu: recos=[]`,
+“Tu es expert pharmacien. Reponds UNIQUEMENT avec un objet JSON valide, sans texte ni markdown.” +
+“ Format: {"ansmAlerts":[{"text":"alerte","verifyUrl":"https://ansm.sante.fr/rechercher?query=”+termEnc+”"}],"otcAdvice":[{"text":"conseil","isIA":true}],"safetyRecap":[{"drug":"DCI","line":"1","grossesse":"ok|warn|no","ir":"ok|warn|no","ih":"ok|warn|no","note":"note","verifyUrl":"https://base-donnees-publique.medicaments.gouv.fr/index.php?typRecherche=1&specRecherche=DCI"}],"recos":[{"sourceId":"has|ansm|theriaque|vidal|bdpm|spf|savantes","title":"titre","date":"annee","gradeEvidence":"A|B|C|AE","gradeUtility":"high|mid|low","summary":{"text":"resume","isIA":true},"treatmentLines":[{"line":"1ere ligne","drugs":"DCI","isIA":false,"sourceLabel":"HAS 20XX"}],"keyPoints":[{"text":"point","isIA":true}],"url":"url ou vide"}],"fichePatient":"texte 150 mots"}” +
+“ gradeEvidence: A=essais, B=intermediaire, C=faible, AE=accord experts. gradeUtility: high=dispensation, mid=conseil, low=informatif.” +
+“ Trier recos: high avant mid avant low. Si inconnu: recos=[]”,
 “Pathologie: “+term+”\nSources: “+srcList,3000
 );
 var parsed=extractObj(raw);
@@ -689,8 +694,10 @@ renderAll(term,parsed);
 
 async function searchDrug(term){
 var raw=await apiCall(
-`Tu es expert pharmacien. Réponds UNIQUEMENT avec un objet JSON valide, sans texte ni markdown. {"dci":"DCI","commercial":["noms"],"class":"classe","mechanism":{"text":"mécanisme","isIA":false},"indications":[{"text":"indication","isIA":false,"sourceLabel":"RCP BDPM"}],"posology":[{"route":"voie","dose":"posologie adulte","renal":"adaptation IR","hepatic":"adaptation IH","isIA":false,"sourceLabel":"RCP BDPM"}],"contraindications":[{"text":"CI","isIA":false,"sourceLabel":"RCP BDPM"}],"interactions":[{"level":"CI|warn|caution","drug":"médicament","effect":"conséquence","isIA":false,"sourceLabel":"Thériaque"}],"safety":{"grossesse":"ok|warn|no","grossesseNote":"détail","grossesseSource":"RCP|CRAT|IA","allaitement":"ok|warn|no","allaitementNote":"détail","allaitementSource":"RCP|CRAT|IA","ir":"ok|warn|no","irNote":"détail","irSource":"RCP|IA","ih":"ok|warn|no","ihNote":"détail","ihSource":"RCP|IA","sujet_age":"ok|warn|no","sujet_ageNote":"détail","sujet_ageSource":"RCP|IA"},"sideEffects":[{"text":"effet","frequency":"très fréquent|fréquent|peu fréquent","isIA":false,"sourceLabel":"RCP BDPM"}],"monitoring":[{"text":"surveillance","isIA":true}],"patientAdvice":{"text":"conseils","isIA":true}} Si inconnu: {"error":"inconnu"}`,
-“Médicament: “+term,2500
+“Tu es expert pharmacien. Reponds UNIQUEMENT avec un objet JSON valide, sans texte ni markdown.” +
+“ {"dci":"DCI","commercial":["noms"],"class":"classe","mechanism":{"text":"mecanisme","isIA":false},"indications":[{"text":"indication","isIA":false,"sourceLabel":"RCP BDPM"}],"posology":[{"route":"voie","dose":"posologie adulte","renal":"adaptation IR","hepatic":"adaptation IH","isIA":false,"sourceLabel":"RCP BDPM"}],"contraindications":[{"text":"CI","isIA":false,"sourceLabel":"RCP BDPM"}],"interactions":[{"level":"CI|warn|caution","drug":"medicament","effect":"consequence","isIA":false,"sourceLabel":"Theriaque"}],"safety":{"grossesse":"ok|warn|no","grossesseNote":"detail","grossesseSource":"RCP|CRAT|IA","allaitement":"ok|warn|no","allaitementNote":"detail","allaitementSource":"RCP|CRAT|IA","ir":"ok|warn|no","irNote":"detail","irSource":"RCP|IA","ih":"ok|warn|no","ihNote":"detail","ihSource":"RCP|IA","sujet_age":"ok|warn|no","sujet_ageNote":"detail","sujet_ageSource":"RCP|IA"},"sideEffects":[{"text":"effet","frequency":"tres frequent|frequent|peu frequent","isIA":false,"sourceLabel":"RCP BDPM"}],"monitoring":[{"text":"surveillance","isIA":true}],"patientAdvice":{"text":"conseils","isIA":true}}” +
+“ Si inconnu: {"error":"inconnu"}”,
+“Medicament: “+term,2500
 );
 var parsed=extractObj(raw);
 if(!parsed||parsed.error)throw new Error(“Médicament non trouvé. Essayez avec la DCI ou nom commercial exact.”);
@@ -699,8 +706,10 @@ showDrug(term,parsed);
 
 async function searchPedi(term){
 var raw=await apiCall(
-`Tu es pédiatre et pharmacien expert. Réponds UNIQUEMENT avec un objet JSON valide, sans texte ni markdown. {"pathologie":"nom","definition":{"text":"définition courte","isIA":true},"ageGroups":[{"age":"Nourrisson <1 an|Enfant 1-5 ans|Enfant 6-11 ans|Adolescent 12-17 ans","specificities":"particularités cliniques pour cet âge","treatments":[{"drug":"DCI","dose":"dose mg/kg ou posologie","max":"dose max","route":"voie","notes":"notes importantes","isIA":false,"sourceLabel":"BDPM|Vidal pédiatrique|HAS"}],"warnings":["mise en garde spécifique à cet âge"]}],"generalWarnings":["CI absolues en pédiatrie","médicaments dangereux chez l'enfant"],"otcAdvice":["conseils OTC adaptés enfant"],"whenToRefer":["critères d'orientation urgence ou spécialiste"],"ficheParent":"texte simple pour les parents 100 mots"} Si pathologie inconnue ou non pédiatrique: {"error":"non_pedi"}`,
-“Pathologie pédiatrique: “+term,2500
+“Tu es pediatre et pharmacien expert. Reponds UNIQUEMENT avec un objet JSON valide, sans texte ni markdown.” +
+“ {"pathologie":"nom","definition":{"text":"definition courte","isIA":true},"ageGroups":[{"age":"Nourrisson <1 an|Enfant 1-5 ans|Enfant 6-11 ans|Adolescent 12-17 ans","specificities":"particularites cliniques","treatments":[{"drug":"DCI","dose":"dose mg/kg","max":"dose max","route":"voie","notes":"notes","isIA":false,"sourceLabel":"BDPM"}],"warnings":["mise en garde"]}],"generalWarnings":["CI absolues en pediatrie"],"otcAdvice":["conseils OTC enfant"],"whenToRefer":["criteres urgence"],"ficheParent":"texte parents 100 mots"}” +
+“ Si pathologie inconnue: {"error":"non_pedi"}”,
+“Pathologie pediatrique: “+term,2500
 );
 var parsed=extractObj(raw);
 if(!parsed||parsed.error)throw new Error(“Pathologie non trouvée ou non applicable en pédiatrie.”);
@@ -709,7 +718,9 @@ showPedi(term,parsed);
 
 async function searchStudy(term){
 var raw=await apiCall(
-`Tu es expert recherche clinique. Réponds UNIQUEMENT avec un tableau JSON, sans texte ni markdown. [{"type":"trial","title":"nom","phase":"Phase I|II|III|IV","status":"En cours|Terminé|Résultats disponibles","molecule":"DCI","mechanism":"mécanisme","objective":"objectif","results":"résultats ou vide","isIA":true,"url":"lien ou vide"},{"type":"molecule","title":"DCI (nom commercial)","status":"AMM|En évaluation EMA|ATU/AAP|Phase III","mechanism":"mécanisme","advantage":"avantage vs actuel","indication":"indication","isIA":true,"url":"lien ou vide"}] Si rien: []`,
+“Tu es expert recherche clinique. Reponds UNIQUEMENT avec un tableau JSON, sans texte ni markdown.” +
+“ [{"type":"trial","title":"nom","phase":"Phase I|II|III|IV","status":"En cours|Termine|Resultats disponibles","molecule":"DCI","mechanism":"mecanisme","objective":"objectif","results":"resultats ou vide","isIA":true,"url":"lien ou vide"},{"type":"molecule","title":"DCI (nom commercial)","status":"AMM|En evaluation EMA|ATU/AAP|Phase III","mechanism":"mecanisme","advantage":"avantage","indication":"indication","isIA":true,"url":"lien ou vide"}]” +
+“ Si rien: []”,
 “Pathologie: “+term,2000
 );
 var parsed=extractJSON(raw);
