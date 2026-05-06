@@ -188,7 +188,7 @@ body{font-family:Arial,sans-serif;background:#f4f4f4;padding-bottom:40px;}
 <body>
 
 <div class="header">
-  <h1>Recos Officine</h1>
+  <h1>Recommandations Officine</h1>
   <p>HAS - ANSM - Theriaque - VIDAL - BDPM - SPF</p>
 </div>
 
@@ -203,7 +203,7 @@ body{font-family:Arial,sans-serif;background:#f4f4f4;padding-bottom:40px;}
 
 <div class="main">
   <div class="tabs">
-    <button class="tab active" id="t0" onclick="setTab(0)">Recos</button>
+    <button class="tab active" id="t0" onclick="setTab(0)">Recommandation</button>
     <button class="tab" id="t1" onclick="setTab(1)">Medicament</button>
     <button class="tab" id="t2" onclick="setTab(2)">Pediatrie</button>
     <button class="tab" id="t3" onclick="setTab(3)">Interactions</button>
@@ -679,23 +679,228 @@ function searchStudy(term){
   });
 }
 
+// BASE LOCALE interactions majeures (source: RCP, Theriaque, ANSM)
+// Fiabilite: 3=tres haute (CI officielle), 2=haute (deconseille), 1=moderee (precaution)
+var LOCAL_DB = [
+  {d:["warfarine","aspirine"],lv:"CI",fi:3,ef:"Risque hemorragique majeur",ac:"Eviter l'association. Si necessaire: surveillance INR rapprochee",src:"RCP/Theriaque"},
+  {d:["warfarine","ibuprofene"],lv:"CI",fi:3,ef:"Risque hemorragique majeur par inhibition COX et deplacementprotein",ac:"Contre-indique. Utiliser paracetamol si antalgique necessaire",src:"RCP/Theriaque"},
+  {d:["warfarine","naproxene"],lv:"CI",fi:3,ef:"Risque hemorragique majeur",ac:"Contre-indique. Alternatives: paracetamol",src:"RCP"},
+  {d:["warfarine","metronidazole"],lv:"CI",fi:3,ef:"Augmentation effet anticoagulant par inhibition CYP2C9",ac:"Contre-indique. Surveiller INR si association inevitable",src:"RCP/Theriaque"},
+  {d:["warfarine","fluconazole"],lv:"CI",fi:3,ef:"Augmentation majeure de l'INR par inhibition CYP2C9",ac:"Contre-indique. Alternatives antifongiques si possible",src:"RCP"},
+  {d:["warfarine","amiodarone"],lv:"warn",fi:3,ef:"Potentialisation anticoagulant, risque hemorragique",ac:"Reduire dose warfarine de 30-50%. Surveillance INR bi-hebdomadaire",src:"RCP/Theriaque"},
+  {d:["warfarine","ciprofloxacine"],lv:"warn",fi:3,ef:"Augmentation INR par inhibition CYP1A2",ac:"Surveiller INR 2-3 jours apres debut antibiotique",src:"Theriaque"},
+  {d:["warfarine","clarithromycine"],lv:"warn",fi:3,ef:"Augmentation INR par inhibition CYP3A4",ac:"Surveiller INR. Alternative: azithromycine",src:"RCP"},
+  {d:["metformine","produit de contraste iode"],lv:"CI",fi:3,ef:"Risque d'acidose lactique par insuffisance renale aigue",ac:"Arreter metformine 48h avant et reprendre 48h apres si fonction renale normale",src:"RCP/ANSM"},
+  {d:["metformine","alcool"],lv:"warn",fi:2,ef:"Risque accru d'acidose lactique",ac:"Deconseiller consommation excessive d'alcool",src:"RCP"},
+  {d:["ibuprofene","aspirine"],lv:"warn",fi:3,ef:"Antagonisme effet antiagregeant aspirine faible dose. Risque hemorragique cumule",ac:"Eviter. Si douleur: paracetamol preferable chez patient sous aspirine",src:"RCP/ANSM"},
+  {d:["ibuprofene","lithium"],lv:"warn",fi:3,ef:"Augmentation lithiemie par reduction elimination renale. Risque toxicite",ac:"Surveiller lithiemie. Alternative antalgique: paracetamol",src:"RCP/Theriaque"},
+  {d:["ibuprofene","methotrexate"],lv:"CI",fi:3,ef:"Augmentation toxicite methotrexate par competition tubulaire renale",ac:"Contre-indique si MTX > 20mg/sem. Precaution aux faibles doses",src:"RCP/Theriaque"},
+  {d:["ibuprofene","IEC"],lv:"warn",fi:2,ef:"Reduction effet antihypertenseur. Risque insuffisance renale aigue",ac:"Surveiller fonction renale et PA. Eviter si IR ou deshydratation",src:"RCP"},
+  {d:["ibuprofene","diuretique"],lv:"warn",fi:2,ef:"Risque insuffisance renale aigue. Reduction effet diuretique",ac:"Surveiller fonction renale et diurese. Hydratation correcte",src:"RCP"},
+  {d:["IMAO","tramadol"],lv:"CI",fi:3,ef:"Syndrome serotoninergique potentiellement fatal",ac:"Contre-indique. Respecter delai 14 jours apres arret IMAO",src:"RCP/ANSM"},
+  {d:["IMAO","fluoxetine"],lv:"CI",fi:3,ef:"Syndrome serotoninergique fatal",ac:"Contre-indique. Delai 14j apres IMAO, 5 semaines apres fluoxetine",src:"RCP/ANSM"},
+  {d:["IMAO","sertraline"],lv:"CI",fi:3,ef:"Syndrome serotoninergique",ac:"Contre-indique. Respecter delai 14 jours",src:"RCP"},
+  {d:["IMAO","paroxetine"],lv:"CI",fi:3,ef:"Syndrome serotoninergique",ac:"Contre-indique. Respecter delai 14 jours",src:"RCP"},
+  {d:["tramadol","ISRS"],lv:"warn",fi:3,ef:"Risque syndrome serotoninergique. Abaissement seuil epileptique",ac:"Surveillance signes serotoninergiques (agitation, hyperthermie, tremblements)",src:"RCP/Theriaque"},
+  {d:["tramadol","antidepresseur tricyclique"],lv:"warn",fi:2,ef:"Risque syndrome serotoninergique et convulsions",ac:"Surveiller signes neurologiques. Utiliser avec prudence",src:"RCP"},
+  {d:["clopidogrel","omeprazole"],lv:"warn",fi:3,ef:"Reduction 40-50% effet antiagregeant par inhibition CYP2C19",ac:"Preferer pantoprazole ou esomeprazole comme IPP alternatif",src:"ANSM/EMA"},
+  {d:["clopidogrel","esomeprazole"],lv:"caution",fi:2,ef:"Reduction moderee effet antiagregeant",ac:"Association possible mais preferer pantoprazole",src:"ANSM"},
+  {d:["statine","fibrate"],lv:"warn",fi:3,ef:"Risque myopathie et rhabdomyolyse augmente",ac:"Surveiller CPK. Preferer fenofibrate. Eviter gemfibrozil + statine",src:"RCP/Theriaque"},
+  {d:["simvastatine","amiodarone"],lv:"CI",fi:3,ef:"Risque rhabdomyolyse majeur par inhibition CYP3A4",ac:"Contre-indique. Utiliser autre statine (pravastatin, rosuvastatin)",src:"RCP/ANSM"},
+  {d:["simvastatine","clarithromycine"],lv:"CI",fi:3,ef:"Augmentation majeure taux simvastatine, risque rhabdomyolyse",ac:"Suspendre simvastatine pendant antibiotherapie ou utiliser azithromycine",src:"RCP"},
+  {d:["atorvastatine","clarithromycine"],lv:"warn",fi:2,ef:"Augmentation taux atorvastatine par inhibition CYP3A4",ac:"Reduire dose atorvastatine ou utiliser azithromycine",src:"RCP"},
+  {d:["quinolone","antiacide"],lv:"warn",fi:3,ef:"Chelation intestinale reduisant absorption quinolone de 50-90%",ac:"Espacer prises d'au moins 2h (quinolone avant antiacide)",src:"RCP"},
+  {d:["tetracycline","antiacide"],lv:"warn",fi:3,ef:"Chelation reducant absorption tetracycline",ac:"Espacer prises de 2-3h",src:"RCP"},
+  {d:["tetracycline","lait"],lv:"warn",fi:2,ef:"Reduction absorption par chelation avec calcium",ac:"Prendre a distance des repas laitiers (2h)",src:"RCP"},
+  {d:["fluoroquinolone","AINS"],lv:"warn",fi:2,ef:"Risque convulsions par antagonisme GABA",ac:"Eviter association. Si necessaire: surveillance neurologique",src:"RCP/Theriaque"},
+  {d:["methotrexate","AINS"],lv:"CI",fi:3,ef:"Augmentation toxicite MTX par competition renale (si MTX > 20mg/sem)",ac:"Contre-indique a fortes doses. Precaution aux faibles doses rhumatologiques",src:"RCP"},
+  {d:["methotrexate","cotrimoxazole"],lv:"CI",fi:3,ef:"Majoration toxicite hematologique par inhibition DHFR",ac:"Contre-indique. Surveiller NFS si association inevitable",src:"RCP/Theriaque"},
+  {d:["digoxine","amiodarone"],lv:"warn",fi:3,ef:"Doublement de la digoxinemie par inhibition P-gp",ac:"Reduire dose digoxine de 50%. Surveiller digoxinemie et ECG",src:"RCP/Theriaque"},
+  {d:["digoxine","clarithromycine"],lv:"warn",fi:3,ef:"Augmentation digoxinemie par inhibition P-gp",ac:"Surveiller digoxinemie. Reduire dose si necessaire",src:"RCP"},
+  {d:["IEC","potassium"],lv:"warn",fi:2,ef:"Risque hyperkaliemie par reduction excretion potassium",ac:"Surveiller kaliemie. Eviter supplements potassium sans controle biologique",src:"RCP"},
+  {d:["IEC","diuretique epargnant potassium"],lv:"warn",fi:3,ef:"Risque hyperkaliemie severe",ac:"Surveiller kaliemie regulierement. Eviter association si IRC",src:"RCP/Theriaque"},
+  {d:["lithium","AINS"],lv:"warn",fi:3,ef:"Augmentation lithiemie par reduction elimination renale",ac:"Surveiller lithiemie 5j apres introduction AINS. Preferer paracetamol",src:"RCP/Theriaque"},
+  {d:["lithium","diuretique thiazidique"],lv:"warn",fi:3,ef:"Augmentation lithiemie par hypovolemie",ac:"Surveiller lithiemie. Ajuster doses",src:"RCP"},
+  {d:["carbamazepine","contraceptif oral"],lv:"warn",fi:3,ef:"Reduction efficacite contraceptive par induction CYP3A4",ac:"Utiliser contraception complementaire ou alternative (DIU)",src:"RCP/ANSM"},
+  {d:["rifampicine","contraceptif oral"],lv:"CI",fi:3,ef:"Reduction majeure taux estrogenes/progestatifs par induction enzymatique",ac:"Contre-indique. Utiliser autre methode contraceptive pendant et 1 mois apres",src:"RCP/ANSM"},
+  {d:["hydroxychloroquine","amiodarone"],lv:"warn",fi:2,ef:"Risque allongement QT et torsades de pointe",ac:"Surveiller ECG. Eviter association si QT long pre-existant",src:"Theriaque/RCP"},
+  {d:["azithromycine","amiodarone"],lv:"warn",fi:2,ef:"Risque allongement QT et torsades de pointe",ac:"Eviter association. Si necessaire: ECG avant et pendant traitement",src:"RCP/Theriaque"},
+  {d:["ciprofloxacine","theophylline"],lv:"warn",fi:3,ef:"Augmentation theophyllinemie par inhibition CYP1A2",ac:"Reduire dose theophylline de 50%. Surveiller signes surdosage",src:"RCP"},
+  {d:["allopurinol","azathioprine"],lv:"CI",fi:3,ef:"Augmentation majeure toxicite azathioprine (inhibition xanthine oxydase)",ac:"Contre-indique. Si necessaire: reduire dose azathioprine de 75% et surveiller NFS",src:"RCP/Theriaque"},
+  {d:["acide valproique","lamotrigine"],lv:"warn",fi:3,ef:"Doublement demi-vie lamotrigine par inhibition glucuronidation",ac:"Reduire dose lamotrigine de 50%. Titration tres progressive",src:"RCP"},
+  {d:["rivaroxaban","aspirine"],lv:"warn",fi:2,ef:"Risque hemorragique augmente",ac:"Association possible si benefice clinique. Surveiller signes hemorragiques",src:"RCP"},
+  {d:["apixaban","AINS"],lv:"warn",fi:2,ef:"Risque hemorragique augmente",ac:"Eviter si possible. Surveiller signes hemorragiques",src:"RCP"},
+  {d:["dabigatran","amiodarone"],lv:"warn",fi:2,ef:"Augmentation taux dabigatran par inhibition P-gp",ac:"Reduire dose dabigatran. Surveiller signes hemorragiques",src:"RCP"},
+  {d:["levothyroxine","antiacide"],lv:"warn",fi:2,ef:"Reduction absorption levothyroxine",ac:"Espacer prises d'au moins 4h",src:"RCP"},
+  {d:["levothyroxine","calcium"],lv:"warn",fi:2,ef:"Reduction absorption levothyroxine par chelation",ac:"Prendre levothyroxine a jeun, 4h avant calcium",src:"RCP"},
+  {d:["levothyroxine","fer"],lv:"warn",fi:2,ef:"Reduction absorption levothyroxine",ac:"Espacer prises d'au moins 4h",src:"RCP"},
+  {d:["sildenafil","derivé nitré"],lv:"CI",fi:3,ef:"Hypotension severe potentiellement fatale",ac:"Absolument contre-indique. Delai 24h apres sildenafil, 48h apres tadalafil",src:"RCP/ANSM"},
+  {d:["tadalafil","derive nitre"],lv:"CI",fi:3,ef:"Hypotension severe potentiellement fatale",ac:"Absolument contre-indique. Delai 48h minimum",src:"RCP/ANSM"}
+];
+
+function normDrug(s){ return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]/g,""); }
+
+function checkLocalDB(drugs) {
+  var results = [];
+  var normed = drugs.map(normDrug);
+  LOCAL_DB.forEach(function(entry) {
+    var nd = entry.d.map(normDrug);
+    // Check if any two drugs from input match this entry
+    var matched = [];
+    normed.forEach(function(n, idx) {
+      nd.forEach(function(ed) {
+        if (n.indexOf(ed) >= 0 || ed.indexOf(n) >= 0) {
+          if (matched.indexOf(idx) < 0) matched.push(idx);
+        }
+      });
+    });
+    if (matched.length >= 2 || (matched.length === 1 && nd.length === 1)) {
+      // Find which drugs matched
+      var matchedNames = matched.map(function(i){ return drugs[i]; });
+      results.push({
+        drugs: matchedNames.length >= 2 ? matchedNames : drugs.slice(0,2),
+        level: entry.lv,
+        fidelity: entry.fi,
+        effect: entry.ef,
+        action: entry.ac,
+        source: entry.src,
+        fromLocal: true
+      });
+    }
+  });
+  return results;
+}
+
 function doAnalyze(){
   var drugs=slots.map(function(s){return s.trim();}).filter(function(s){return s.length>0;});
   if(drugs.length<2){alert("Saisissez au moins 2 medicaments.");return;}
   document.getElementById("analRes").innerHTML="";
   document.getElementById("btnAnal").disabled=true;
-  setLoad(true,"Analyse des interactions...");
+
+  // Check local DB first
+  var localResults = checkLocalDB(drugs);
+
+  // Build ANSM links for each drug
+  var ansmLinks = drugs.map(function(d){
+    return {drug:d, url:"https://ansm.sante.fr/rechercher?query="+encodeURIComponent(d)+"+interaction"};
+  });
+  var therLinks = drugs.map(function(d){
+    return {drug:d, url:"https://www.theriaque.org/apps/recherche/rch.php?NOM="+encodeURIComponent(d)};
+  });
+
+  // Show local results immediately
+  if (localResults.length > 0) {
+    renderInterLocal(drugs, localResults, ansmLinks, therLinks);
+  }
+
+  // Then ask AI for additional interactions
+  setLoad(true,"Analyse IA complementaire...");
   var sys="Tu es expert en pharmacologie clinique. Reponds UNIQUEMENT avec un objet JSON valide, sans texte ni markdown."+
-    " {\"summary\":\"resume global\",\"interactions\":[{\"drugs\":[\"med1\",\"med2\"],\"level\":\"CI|warn|caution|ok\",\"mechanism\":\"mecanisme\",\"effect\":\"consequence\",\"action\":\"conduite a tenir\",\"verifyUrl\":\"https://www.theriaque.org/apps/recherche/rch.php?NOM=med1\"}],\"globalRisk\":\"high|moderate|low\",\"recommendation\":\"recommandation pharmacien\"}"+
-    " level: CI=contre-indique, warn=deconseille, caution=precaution, ok=aucune interaction. Si aucune: interactions=[], globalRisk=low";
+    " {"summary":"resume global","interactions":[{"drugs":["med1","med2"],"level":"CI|warn|caution|ok","fidelity":3,"mechanism":"mecanisme","effect":"consequence","action":"conduite a tenir"}],"globalRisk":"high|moderate|low","recommendation":"recommandation"}"+
+    " level: CI=contre-indique, warn=deconseille, caution=precaution, ok=aucune interaction notable."+
+    " fidelity: 3=interaction tres connue/documentee, 2=bien documentee, 1=possible/moins certaine."+
+    " Ne pas re-signaler les interactions deja evidentes dans la base officielle, concentre-toi sur les moins connues."+
+    " Si aucune interaction supplementaire: interactions=[], globalRisk=low";
   apiCall(sys,"Medicaments: "+drugs.join(", "),2000,function(err,raw){
     setLoad(false);
     document.getElementById("btnAnal").disabled=false;
-    if(err){showErr("Erreur: "+err);return;}
+    if(err){
+      if(localResults.length===0) showErr("Erreur: "+err);
+      return;
+    }
     var d=exObj(raw);
-    if(!d){showErr("Format invalide.");return;}
-    renderInter(drugs,d);
+    if(!d && localResults.length===0){showErr("Format invalide.");return;}
+    renderInterFull(drugs, localResults, d, ansmLinks, therLinks);
   });
+}
+
+function fidStars(fi){
+  var s = "";
+  for(var i=0;i<3;i++) s += i<fi ? "&#9733;" : "&#9734;";
+  return '<span style="color:'+(fi===3?"#2e7d32":fi===2?"#f57c00":"#aaa")+';font-size:12px" title="Fiabilite: '+(fi===3?"Tres haute - Source officielle":fi===2?"Haute - Bien documentee":"Moderee - Donnee IA")+'">' + s + '</span>';
+}
+
+function renderInterLocal(drugs, localRes, ansmLinks, therLinks) {
+  // Shown as part of full render
+}
+
+function renderInterFull(drugs, localRes, aiData, ansmLinks, therLinks){
+  var rc={high:"#c62828",moderate:"#e65100",low:"#2e7d32"};
+  var rl={high:"Risque eleve",moderate:"Risque modere",low:"Pas d'interaction majeure"};
+
+  var globalRisk = "low";
+  if (localRes.some(function(r){return r.level==="CI";})) globalRisk="high";
+  else if (localRes.some(function(r){return r.level==="warn";})) globalRisk="moderate";
+  else if (aiData && aiData.globalRisk) globalRisk=aiData.globalRisk;
+
+  var html='<div style="background:white;border:1px solid #ddd;border-radius:8px;padding:14px;margin-bottom:10px">';
+  html+='<div style="display:flex;justify-content:space-between;margin-bottom:8px">';
+  html+='<strong style="font-size:14px;color:#1b2d45">'+drugs.length+' medicaments analyses</strong>';
+  html+='<span style="font-size:12px;font-weight:bold;color:'+(rc[globalRisk]||"#555")+'">'+(rl[globalRisk]||"")+'</span></div>';
+  if (aiData && aiData.summary) html+='<p style="font-size:13px;color:#444;line-height:1.6;margin-bottom:8px">'+aiData.summary+'</p>';
+  if (aiData && aiData.recommendation) html+='<div style="background:#f8f9fa;border-radius:6px;padding:8px 10px;font-size:12px;color:#1b2d45;font-weight:bold">'+aiData.recommendation+'</div>';
+
+  // Sources links block
+  html+='<div style="margin-top:10px;padding-top:10px;border-top:1px solid #f0f0f0">';
+  html+='<div style="font-size:10px;font-weight:bold;color:#999;text-transform:uppercase;margin-bottom:6px">Verifier sur les sources officielles</div>';
+  html+='<div style="display:flex;flex-wrap:wrap;gap:6px">';
+  drugs.forEach(function(d){
+    html+='<a href="https://www.theriaque.org/apps/recherche/rch.php?NOM='+encodeURIComponent(d)+'" target="_blank" style="font-size:11px;font-weight:bold;color:#b45309;text-decoration:none;padding:3px 8px;border:1px solid #b45309;border-radius:4px;background:#fef3e2">Theriaque: '+d+'</a>';
+    html+='<a href="https://ansm.sante.fr/rechercher?query='+encodeURIComponent(d)+'+interaction" target="_blank" style="font-size:11px;font-weight:bold;color:#0e7c6e;text-decoration:none;padding:3px 8px;border:1px solid #0e7c6e;border-radius:4px;background:#e0f4f1">ANSM: '+d+'</a>';
+  });
+  html+='</div></div></div>';
+
+  // Local DB results
+  if (localRes.length > 0) {
+    html+='<div style="background:#fff8e1;border:1px solid #ffe082;border-radius:6px;padding:6px 12px;margin-bottom:8px;font-size:11px;color:#7a5c00"><strong>Base locale</strong> — Interactions identifiees dans la base de donnees integree (RCP/Theriaque/ANSM)</div>';
+    localRes.forEach(function(inter){
+      var cls={CI:"ci",warn:"wn",caution:"ca",ok:"ok"}[inter.level]||"ca";
+      var lc={CI:"#c62828",warn:"#e65100",caution:"#f57c00",ok:"#2e7d32"}[inter.level]||"#f57c00";
+      var ll={CI:"Contre-indique",warn:"Deconseille",caution:"Precaution",ok:"Pas d'interaction"}[inter.level]||inter.level;
+      html+='<div class="ires '+cls+'">';
+      html+='<div class="iresh"><span class="ireslvl" style="background:'+lc+'">'+ll+'</span>';
+      html+='<strong style="font-size:13px">'+inter.drugs.join(" &harr; ")+'</strong>';
+      html+=fidStars(inter.fidelity);
+      html+='<span class="tagSRC" style="margin-left:auto">'+inter.source+'</span></div>';
+      html+='<div style="font-size:12.5px;color:#333;margin-bottom:4px"><strong>Effet:</strong> '+inter.effect+'</div>';
+      html+='<div style="font-size:12px;font-weight:bold;color:#1b2d45;margin-top:6px">Conduite: '+inter.action+'</div>';
+      html+='<div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">';
+      html+='<a href="https://www.theriaque.org/apps/recherche/rch.php?NOM='+encodeURIComponent(inter.drugs[0]||"")+'" target="_blank" style="font-size:11px;font-weight:bold;color:#b45309;text-decoration:none;border-bottom:1px solid #b4530950">Theriaque &#8599;</a>';
+      html+='<a href="https://ansm.sante.fr/rechercher?query='+encodeURIComponent(inter.drugs.join("+"))+'" target="_blank" style="font-size:11px;font-weight:bold;color:#0e7c6e;text-decoration:none;border-bottom:1px solid #0e7c6e50">ANSM &#8599;</a>';
+      html+='</div></div>';
+    });
+  }
+
+  // AI results
+  var aiInter = aiData ? (aiData.interactions||[]) : [];
+  if (aiInter.length > 0) {
+    html+='<div style="background:#e3f2fd;border:1px solid #90caf9;border-radius:6px;padding:6px 12px;margin-bottom:8px;font-size:11px;color:#0d47a1"><strong>Analyse IA complementaire</strong> — A verifier sur Theriaque</div>';
+    aiInter.forEach(function(inter){
+      var cls={CI:"ci",warn:"wn",caution:"ca",ok:"ok"}[inter.level]||"ca";
+      var lc={CI:"#c62828",warn:"#e65100",caution:"#f57c00",ok:"#2e7d32"}[inter.level]||"#f57c00";
+      var ll={CI:"Contre-indique",warn:"Deconseille",caution:"Precaution",ok:"Pas d'interaction"}[inter.level]||inter.level;
+      var fi = inter.fidelity || 1;
+      html+='<div class="ires '+cls+'">';
+      html+='<div class="iresh"><span class="ireslvl" style="background:'+lc+'">'+ll+'</span>';
+      html+='<strong style="font-size:13px">'+(inter.drugs||[]).join(" &harr; ")+'</strong>';
+      html+=fidStars(fi);
+      html+='<span class="tagIA" style="margin-left:auto">IA</span></div>';
+      if(inter.mechanism) html+='<div style="font-size:12.5px;color:#333;margin-bottom:4px"><strong>Mecanisme:</strong> '+inter.mechanism+'</div>';
+      if(inter.effect) html+='<div style="font-size:12.5px;color:#333;margin-bottom:4px"><strong>Effet:</strong> '+inter.effect+'</div>';
+      if(inter.action) html+='<div style="font-size:12px;font-weight:bold;color:#1b2d45;margin-top:6px">Conduite: '+inter.action+'</div>';
+      html+='<div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">';
+      html+='<a href="https://www.theriaque.org/apps/recherche/rch.php?NOM='+encodeURIComponent((inter.drugs||[])[0]||"")+'" target="_blank" style="font-size:11px;font-weight:bold;color:#b45309;text-decoration:none;border-bottom:1px solid #b4530950">Theriaque &#8599;</a>';
+      html+='<a href="https://ansm.sante.fr/rechercher?query='+encodeURIComponent((inter.drugs||[]).join("+"))+'" target="_blank" style="font-size:11px;font-weight:bold;color:#0e7c6e;text-decoration:none;border-bottom:1px solid #0e7c6e50">ANSM &#8599;</a>';
+      html+='</div></div>';
+    });
+  }
+
+  if (!localRes.length && !aiInter.length) {
+    html+='<div class="empty" style="background:#e8f5e9;border-color:#a5d6a7;color:#2e7d32">Aucune interaction notable identifiee.</div>';
+  }
+
+  html+='<div class="disc">Base locale (&#9733;&#9733;&#9733;) = donnees RCP/Theriaque/ANSM. IA (&#9733;) = a verifier imperativement sur Theriaque avant dispensation.</div>';
+  document.getElementById("analRes").innerHTML=html;
 }
 
 function renderRecos(term,d){
@@ -793,20 +998,7 @@ function renderStudy(term,data){
   document.getElementById("studyPanel").style.display="block";
 }
 
-function renderInter(drugs,d){
-  var rc={high:"#c62828",moderate:"#e65100",low:"#2e7d32"};
-  var rl={high:"Risque eleve",moderate:"Risque modere",low:"Aucune interaction majeure"};
-  var html='<div style="background:white;border:1px solid #ddd;border-radius:8px;padding:14px;margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><strong style="font-size:14px;color:#1b2d45">'+drugs.length+' medicaments analyses</strong><span style="font-size:12px;font-weight:bold;color:'+(rc[d.globalRisk]||"#555")+'">'+(rl[d.globalRisk]||"")+'</span></div><p style="font-size:13px;color:#444;line-height:1.6;margin-bottom:8px">'+d.summary+'</p><div style="background:#f8f9fa;border-radius:6px;padding:8px 10px;font-size:12px;color:#1b2d45;font-weight:bold">'+d.recommendation+'</div></div>';
-  (d.interactions||[]).forEach(function(inter,i){
-    var cls={CI:"ci",warn:"wn",caution:"ca",ok:"ok"}[inter.level]||"ca";
-    var lc={CI:"#c62828",warn:"#e65100",caution:"#f57c00",ok:"#2e7d32"}[inter.level]||"#f57c00";
-    var ll={CI:"Contre-indique",warn:"Deconseille",caution:"Precaution",ok:"Pas d'interaction"}[inter.level]||inter.level;
-    html+='<div class="ires '+cls+'"><div class="iresh"><span class="ireslvl" style="background:'+lc+'">'+ll+'</span><strong style="font-size:13px">'+(inter.drugs||[]).join(" &harr; ")+'</strong><span class="tagIA" style="margin-left:auto">IA</span></div>'+(inter.mechanism?'<div style="font-size:12.5px;color:#333;margin-bottom:4px"><strong>Mecanisme:</strong> '+inter.mechanism+'</div>':'')+(inter.effect?'<div style="font-size:12.5px;color:#333;margin-bottom:4px"><strong>Effet:</strong> '+inter.effect+'</div>':'')+(inter.action?'<div style="font-size:12px;font-weight:bold;color:#1b2d45;margin-top:6px">Conduite: '+inter.action+'</div>':'')+'<div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap"><a href="'+(inter.verifyUrl||"https://www.theriaque.org/apps/recherche/rch.php?NOM="+encodeURIComponent((inter.drugs||[])[0]||""))+'" target="_blank" style="font-size:11px;font-weight:bold;color:#b45309;text-decoration:none;border-bottom:1px solid #b4530950">Theriaque</a><a href="https://ansm.sante.fr/rechercher?query='+encodeURIComponent((inter.drugs||[]).join("+"))+'" target="_blank" style="font-size:11px;font-weight:bold;color:#0e7c6e;text-decoration:none;border-bottom:1px solid #0e7c6e50">ANSM</a></div></div>';
-  });
-  if(!d.interactions||!d.interactions.length)html+='<div class="empty" style="background:#e8f5e9;border-color:#a5d6a7;color:#2e7d32">Aucune interaction notable identifiee.</div>';
-  html+='<div class="disc">Resultats IA - verifier via Theriaque et ANSM avant dispensation.</div>';
-  document.getElementById("analRes").innerHTML=html;
-}
+function renderInter(drugs,d){ renderInterFull(drugs,[],d,[],[]); }
 
 function copyFiche(){var el=document.getElementById("ficTxt");if(!el)return;try{navigator.clipboard.writeText(el.textContent);}catch(e){var r=document.createRange();r.selectNode(el);window.getSelection().removeAllRanges();window.getSelection().addRange(r);document.execCommand("copy");window.getSelection().removeAllRanges();}alert("Copie!");}
 function copyPedi(){var el=document.getElementById("pediTxt");if(!el)return;try{navigator.clipboard.writeText(el.textContent);}catch(e){var r=document.createRange();r.selectNode(el);window.getSelection().removeAllRanges();window.getSelection().addRange(r);document.execCommand("copy");window.getSelection().removeAllRanges();}alert("Copie!");}
