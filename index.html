@@ -413,18 +413,23 @@ var drugSlots=[];
 SOURCES.forEach(function(s){activeFilters[s.id]=true;});
 
 function init(){
+try{
 var fr=document.getElementById(“filterRow”);
-SOURCES.forEach(function(s){
+if(fr){SOURCES.forEach(function(s){
 var el=document.createElement(“div”);el.className=“fpill”;el.id=“fp-”+s.id;
 el.style.borderColor=s.color;el.style.background=s.color;el.style.color=”#fff”;
 el.innerHTML=’<span class="fcheck">✓</span>’+s.label;
 el.onclick=function(){toggleFilter(s.id);};fr.appendChild(el);
-});
-addDrugSlot();addDrugSlot();
-renderQuickPills(QUICK_PATHO);
-renderFavPills();renderHistPills();
+});}
+try{renderQuickPills(QUICK_PATHO);}catch(e){}
+try{renderFavPills();}catch(e){}
+try{renderHistPills();}catch(e){}
 if(apiKey)showApp();
-document.addEventListener(“mousedown”,function(e){if(!document.getElementById(“searchWrap”).contains(e.target))hideAC();});
+document.addEventListener(“mousedown”,function(e){
+var sw=document.getElementById(“searchWrap”);
+if(sw&&!sw.contains(e.target))hideAC();
+});
+}catch(e){console.log(“init error:”,e);}
 }
 
 function renderQuickPills(arr){
@@ -604,7 +609,7 @@ var v=document.getElementById(“apiKeyInput”).value.trim();
 if(v.length<10){alert(“Clé invalide — vérifie que tu as bien tout copié”);return;}
 apiKey=v;localStorage.setItem(“reco_key”,v);showApp();
 }
-function showApp(){document.getElementById(“apiScreen”).style.display=“none”;document.getElementById(“appScreen”).style.display=“block”;document.getElementById(“apiBar”).style.display=“flex”;}
+function showApp(){document.getElementById(“apiScreen”).style.display=“none”;document.getElementById(“appScreen”).style.display=“block”;document.getElementById(“apiBar”).style.display=“flex”;if(drugSlots.length===0){addDrugSlot();addDrugSlot();}}
 function changeKey(){apiKey=””;localStorage.removeItem(“reco_key”);document.getElementById(“apiScreen”).style.display=“block”;document.getElementById(“appScreen”).style.display=“none”;document.getElementById(“apiBar”).style.display=“none”;document.getElementById(“apiKeyInput”).value=””;}
 function norm(s){return s.toLowerCase().normalize(“NFD”).replace(/[\u0300-\u036f]/g,””);}
 function onInput(){
