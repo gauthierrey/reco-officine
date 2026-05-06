@@ -189,6 +189,7 @@ body{font-family:Arial,sans-serif;background:#f4f4f4;padding-bottom:40px;}
     <p class="note">Clé stockée uniquement dans ton navigateur</p>
   </div>
   <div id="appScreen" style="display:none">
+  <div id="logDiv" style="font-size:11px;font-family:monospace;color:#555;padding:6px 14px;background:#f8f9fa;border-bottom:1px solid #ddd"></div>
     <div class="tabs">
       <button class="tab active" id="t0" onclick="setTab(0)">Recos</button>
       <button class="tab" id="t1" onclick="setTab(1)">Medicament</button>
@@ -344,11 +345,39 @@ document.getElementById(“apiBar”).style.display = “none”;
 document.getElementById(“apiKeyInput”).value = “”;
 }
 
+function log(msg) {
+var ld = document.getElementById(“logDiv”);
+if (ld) ld.innerHTML += msg + “<br>”;
+}
+
 function showApp() {
+log(“showApp start”);
 document.getElementById(“apiScreen”).style.display = “none”;
 document.getElementById(“appScreen”).style.display = “block”;
 document.getElementById(“apiBar”).style.display = “flex”;
-setTimeout(function(){ try { initApp(); } catch(e){ console.log(“initApp err:”, e); } }, 100);
+log(“appScreen visible”);
+setTimeout(function(){
+log(“initApp start”);
+try {
+var fr = document.getElementById(“frow”);
+log(“frow: “ + (fr ? “ok” : “null”));
+if (fr && fr.children.length === 0) {
+SRCS.forEach(function(s) {
+var el = document.createElement(“div”);
+el.className = “fp”; el.id = “fp”+s.id;
+el.style.borderColor = s.cl; el.style.background = s.cl; el.style.color = “#fff”;
+el.innerHTML = ‘<span class="fck">✓</span>’ + s.lb;
+el.onclick = (function(sid){ return function(){ togFilter(sid); }; })(s.id);
+fr.appendChild(el);
+});
+log(“filters built”);
+}
+} catch(e) { log(“ERREUR filters: “ + e.message); }
+try { renderQPills(); log(“qpills ok”); } catch(e) { log(“ERREUR qpills: “ + e.message); }
+try { renderFavPills(); log(“fav ok”); } catch(e) { log(“ERREUR fav: “ + e.message); }
+try { renderHistPills(); log(“hist ok”); } catch(e) { log(“ERREUR hist: “ + e.message); }
+log(“initApp done”);
+}, 100);
 }
 
 function initApp() {
