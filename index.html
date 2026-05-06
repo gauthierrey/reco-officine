@@ -682,16 +682,16 @@ function searchStudy(term){
 // BASE LOCALE interactions majeures (source: RCP, Theriaque, ANSM)
 // Fiabilite: 3=tres haute (CI officielle), 2=haute (deconseille), 1=moderee (precaution)
 var LOCAL_DB = [
-  {d:["warfarine","aspirine"],lv:"CI",fi:3,ef:"Risque hemorragique majeur",ac:"Eviter l'association. Si necessaire: surveillance INR rapprochee",src:"RCP/Theriaque"},
+  {d:["warfarine","aspirine"],lv:"CI",fi:3,ef:"Risque hemorragique majeur",ac:"Eviter l association. Si necessaire: surveillance INR rapprochee",src:"RCP/Theriaque"},
   {d:["warfarine","ibuprofene"],lv:"CI",fi:3,ef:"Risque hemorragique majeur par inhibition COX et deplacementprotein",ac:"Contre-indique. Utiliser paracetamol si antalgique necessaire",src:"RCP/Theriaque"},
   {d:["warfarine","naproxene"],lv:"CI",fi:3,ef:"Risque hemorragique majeur",ac:"Contre-indique. Alternatives: paracetamol",src:"RCP"},
   {d:["warfarine","metronidazole"],lv:"CI",fi:3,ef:"Augmentation effet anticoagulant par inhibition CYP2C9",ac:"Contre-indique. Surveiller INR si association inevitable",src:"RCP/Theriaque"},
-  {d:["warfarine","fluconazole"],lv:"CI",fi:3,ef:"Augmentation majeure de l'INR par inhibition CYP2C9",ac:"Contre-indique. Alternatives antifongiques si possible",src:"RCP"},
+  {d:["warfarine","fluconazole"],lv:"CI",fi:3,ef:"Augmentation majeure de l INR par inhibition CYP2C9",ac:"Contre-indique. Alternatives antifongiques si possible",src:"RCP"},
   {d:["warfarine","amiodarone"],lv:"warn",fi:3,ef:"Potentialisation anticoagulant, risque hemorragique",ac:"Reduire dose warfarine de 30-50%. Surveillance INR bi-hebdomadaire",src:"RCP/Theriaque"},
   {d:["warfarine","ciprofloxacine"],lv:"warn",fi:3,ef:"Augmentation INR par inhibition CYP1A2",ac:"Surveiller INR 2-3 jours apres debut antibiotique",src:"Theriaque"},
   {d:["warfarine","clarithromycine"],lv:"warn",fi:3,ef:"Augmentation INR par inhibition CYP3A4",ac:"Surveiller INR. Alternative: azithromycine",src:"RCP"},
-  {d:["metformine","produit de contraste iode"],lv:"CI",fi:3,ef:"Risque d'acidose lactique par insuffisance renale aigue",ac:"Arreter metformine 48h avant et reprendre 48h apres si fonction renale normale",src:"RCP/ANSM"},
-  {d:["metformine","alcool"],lv:"warn",fi:2,ef:"Risque accru d'acidose lactique",ac:"Deconseiller consommation excessive d'alcool",src:"RCP"},
+  {d:["metformine","produit de contraste iode"],lv:"CI",fi:3,ef:"Risque d acidose lactique par insuffisance renale aigue",ac:"Arreter metformine 48h avant et reprendre 48h apres si fonction renale normale",src:"RCP/ANSM"},
+  {d:["metformine","alcool"],lv:"warn",fi:2,ef:"Risque accru d acidose lactique",ac:"Deconseiller consommation excessive d alcool",src:"RCP"},
   {d:["ibuprofene","aspirine"],lv:"warn",fi:3,ef:"Antagonisme effet antiagregeant aspirine faible dose. Risque hemorragique cumule",ac:"Eviter. Si douleur: paracetamol preferable chez patient sous aspirine",src:"RCP/ANSM"},
   {d:["ibuprofene","lithium"],lv:"warn",fi:3,ef:"Augmentation lithiemie par reduction elimination renale. Risque toxicite",ac:"Surveiller lithiemie. Alternative antalgique: paracetamol",src:"RCP/Theriaque"},
   {d:["ibuprofene","methotrexate"],lv:"CI",fi:3,ef:"Augmentation toxicite methotrexate par competition tubulaire renale",ac:"Contre-indique si MTX > 20mg/sem. Precaution aux faibles doses",src:"RCP/Theriaque"},
@@ -709,7 +709,7 @@ var LOCAL_DB = [
   {d:["simvastatine","amiodarone"],lv:"CI",fi:3,ef:"Risque rhabdomyolyse majeur par inhibition CYP3A4",ac:"Contre-indique. Utiliser autre statine (pravastatin, rosuvastatin)",src:"RCP/ANSM"},
   {d:["simvastatine","clarithromycine"],lv:"CI",fi:3,ef:"Augmentation majeure taux simvastatine, risque rhabdomyolyse",ac:"Suspendre simvastatine pendant antibiotherapie ou utiliser azithromycine",src:"RCP"},
   {d:["atorvastatine","clarithromycine"],lv:"warn",fi:2,ef:"Augmentation taux atorvastatine par inhibition CYP3A4",ac:"Reduire dose atorvastatine ou utiliser azithromycine",src:"RCP"},
-  {d:["quinolone","antiacide"],lv:"warn",fi:3,ef:"Chelation intestinale reduisant absorption quinolone de 50-90%",ac:"Espacer prises d'au moins 2h (quinolone avant antiacide)",src:"RCP"},
+  {d:["quinolone","antiacide"],lv:"warn",fi:3,ef:"Chelation intestinale reduisant absorption quinolone de 50-90%",ac:"Espacer prises d au moins 2h (quinolone avant antiacide)",src:"RCP"},
   {d:["tetracycline","antiacide"],lv:"warn",fi:3,ef:"Chelation reducant absorption tetracycline",ac:"Espacer prises de 2-3h",src:"RCP"},
   {d:["tetracycline","lait"],lv:"warn",fi:2,ef:"Reduction absorption par chelation avec calcium",ac:"Prendre a distance des repas laitiers (2h)",src:"RCP"},
   {d:["fluoroquinolone","AINS"],lv:"warn",fi:2,ef:"Risque convulsions par antagonisme GABA",ac:"Eviter association. Si necessaire: surveillance neurologique",src:"RCP/Theriaque"},
@@ -731,9 +731,9 @@ var LOCAL_DB = [
   {d:["rivaroxaban","aspirine"],lv:"warn",fi:2,ef:"Risque hemorragique augmente",ac:"Association possible si benefice clinique. Surveiller signes hemorragiques",src:"RCP"},
   {d:["apixaban","AINS"],lv:"warn",fi:2,ef:"Risque hemorragique augmente",ac:"Eviter si possible. Surveiller signes hemorragiques",src:"RCP"},
   {d:["dabigatran","amiodarone"],lv:"warn",fi:2,ef:"Augmentation taux dabigatran par inhibition P-gp",ac:"Reduire dose dabigatran. Surveiller signes hemorragiques",src:"RCP"},
-  {d:["levothyroxine","antiacide"],lv:"warn",fi:2,ef:"Reduction absorption levothyroxine",ac:"Espacer prises d'au moins 4h",src:"RCP"},
+  {d:["levothyroxine","antiacide"],lv:"warn",fi:2,ef:"Reduction absorption levothyroxine",ac:"Espacer prises d au moins 4h",src:"RCP"},
   {d:["levothyroxine","calcium"],lv:"warn",fi:2,ef:"Reduction absorption levothyroxine par chelation",ac:"Prendre levothyroxine a jeun, 4h avant calcium",src:"RCP"},
-  {d:["levothyroxine","fer"],lv:"warn",fi:2,ef:"Reduction absorption levothyroxine",ac:"Espacer prises d'au moins 4h",src:"RCP"},
+  {d:["levothyroxine","fer"],lv:"warn",fi:2,ef:"Reduction absorption levothyroxine",ac:"Espacer prises d au moins 4h",src:"RCP"},
   {d:["sildenafil","derivé nitré"],lv:"CI",fi:3,ef:"Hypotension severe potentiellement fatale",ac:"Absolument contre-indique. Delai 24h apres sildenafil, 48h apres tadalafil",src:"RCP/ANSM"},
   {d:["tadalafil","derive nitre"],lv:"CI",fi:3,ef:"Hypotension severe potentiellement fatale",ac:"Absolument contre-indique. Delai 48h minimum",src:"RCP/ANSM"}
 ];
@@ -826,7 +826,7 @@ function renderInterLocal(drugs, localRes, ansmLinks, therLinks) {
 
 function renderInterFull(drugs, localRes, aiData, ansmLinks, therLinks){
   var rc={high:"#c62828",moderate:"#e65100",low:"#2e7d32"};
-  var rl={high:"Risque eleve",moderate:"Risque modere",low:"Pas d'interaction majeure"};
+  var rl={high:"Risque eleve",moderate:"Risque modere",low:"Pas d interaction majeure"};
 
   var globalRisk = "low";
   if (localRes.some(function(r){return r.level==="CI";})) globalRisk="high";
@@ -856,7 +856,7 @@ function renderInterFull(drugs, localRes, aiData, ansmLinks, therLinks){
     localRes.forEach(function(inter){
       var cls={CI:"ci",warn:"wn",caution:"ca",ok:"ok"}[inter.level]||"ca";
       var lc={CI:"#c62828",warn:"#e65100",caution:"#f57c00",ok:"#2e7d32"}[inter.level]||"#f57c00";
-      var ll={CI:"Contre-indique",warn:"Deconseille",caution:"Precaution",ok:"Pas d'interaction"}[inter.level]||inter.level;
+      var ll={CI:"Contre-indique",warn:"Deconseille",caution:"Precaution",ok:"Pas d interaction"}[inter.level]||inter.level;
       html+='<div class="ires '+cls+'">';
       html+='<div class="iresh"><span class="ireslvl" style="background:'+lc+'">'+ll+'</span>';
       html+='<strong style="font-size:13px">'+inter.drugs.join(" &harr; ")+'</strong>';
@@ -878,7 +878,7 @@ function renderInterFull(drugs, localRes, aiData, ansmLinks, therLinks){
     aiInter.forEach(function(inter){
       var cls={CI:"ci",warn:"wn",caution:"ca",ok:"ok"}[inter.level]||"ca";
       var lc={CI:"#c62828",warn:"#e65100",caution:"#f57c00",ok:"#2e7d32"}[inter.level]||"#f57c00";
-      var ll={CI:"Contre-indique",warn:"Deconseille",caution:"Precaution",ok:"Pas d'interaction"}[inter.level]||inter.level;
+      var ll={CI:"Contre-indique",warn:"Deconseille",caution:"Precaution",ok:"Pas d interaction"}[inter.level]||inter.level;
       var fi = inter.fidelity || 1;
       html+='<div class="ires '+cls+'">';
       html+='<div class="iresh"><span class="ireslvl" style="background:'+lc+'">'+ll+'</span>';
