@@ -198,6 +198,7 @@ body{font-family:Arial,sans-serif;background:#f4f4f4;padding-bottom:40px;}
   <label>Cle API :</label>
   <input class="keyinp" id="keyInp" type="password" placeholder="sk-ant-api03-..."/>
   <button class="keybtn" id="keyBtn" onclick="setKey()">Connecter</button>
+  <button style="background:#3a5a7a;color:#aac4d8;border:none;border-radius:5px;padding:6px 10px;font-size:11px;cursor:pointer" onclick="clearCache()" title="Vider le cache">&#128465; Cache</button>
   <span class="keystatus no" id="keySt">Non connecte</span>
 </div>
 
@@ -353,6 +354,21 @@ renderFavPills();
 renderHistPills();
 
 // Load saved key
+// CACHE - evite de rappeler l API pour les memes recherches
+var CACHE = {};
+try { CACHE = JSON.parse(localStorage.getItem("rc") || "{}"); } catch(e) { CACHE = {}; }
+var CACHE_MAX = 20;
+
+function cacheGet(key) {
+  return CACHE[key] || null;
+}
+function cacheSet(key, data) {
+  CACHE[key] = data;
+  var keys = Object.keys(CACHE);
+  if (keys.length > CACHE_MAX) delete CACHE[keys[0]];
+  try { localStorage.setItem("rc", JSON.stringify(CACHE)); } catch(e) {}
+}
+
 var savedKey = localStorage.getItem("rk");
 if (savedKey) {
   apiKey = savedKey;
@@ -379,6 +395,12 @@ function setKey() {
   document.getElementById("keySt").textContent = "Connecte";
   document.getElementById("keySt").className = "keystatus ok";
   document.getElementById("keyBtn").textContent = "Modifier";
+}
+
+function clearCache(){
+  CACHE = {};
+  try { localStorage.removeItem("rc"); } catch(e) {}
+  alert("Cache vide !");
 }
 
 function buildFilters() {
@@ -612,6 +634,9 @@ function tIA(ia,lb){return ia===false&&lb?'<span class="tagSRC">SOURCE: '+lb+'</
 
 function searchRecos(term){
   var srcs=SRCS.filter(function(s){return filters[s.id];}).map(function(s){return s.lb;}).join(", ");
+  var ckey="r_"+term+"_"+srcs;
+  var cached=cacheGet(ckey);
+  if(cached){setLoad(false);renderRecos(term,cached);updateFavBtn();return;}
   var enc=encodeURIComponent(term);
   var sys="Tu es expert pharmacien. Reponds UNIQUEMENT avec un objet JSON valide, sans texte ni markdown."+
     " Format: {\"ansmAlerts\":[{\"text\":\"alerte\",\"verifyUrl\":\"https://ansm.sante.fr/rechercher?query="+enc+"\"}],"+
@@ -620,16 +645,19 @@ function searchRecos(term){
     "\"recos\":[{\"sourceId\":\"has|ansm|ther|vidal|bdpm|spf|sav\",\"title\":\"titre\",\"date\":\"annee\",\"gradeEvidence\":\"A|B|C|AE\",\"gradeUtility\":\"high|mid|low\",\"summary\":{\"text\":\"resume\",\"isIA\":true},\"treatmentLines\":[{\"line\":\"1ere ligne\",\"drugs\":\"DCI\",\"isIA\":false,\"sourceLabel\":\"HAS 20XX\"}],\"keyPoints\":[{\"text\":\"point\",\"isIA\":true}],\"url\":\"url ou vide\"}],"+
     "\"fichePatient\":\"texte 150 mots\"}"+
     " gradeEvidence A=essais B=intermediaire C=faible AE=accord experts. gradeUtility high=dispensation mid=conseil low=informatif. Si inconnu recos=[].";
-  apiCall(sys,"Pathologie: "+term+"\nSources: "+srcs,3000,function(err,raw){
+  apiCall(sys,"Pathologie: "+term+"\nSources: "+srcs,2000,function(err,raw){
     setLoad(false);
     if(err){showErr("Erreur: "+err);return;}
     var d=exObj(raw);
     if(!d){showErr("Format invalide. Reessayez.");return;}
+    cacheSet("r_"+term+"_"+SRCS.filter(function(s){return filters[s.id];}).map(function(s){return s.lb;}).join(", "), d);
     renderRecos(term,d); updateFavBtn();
   });
 }
 
 function searchDrug(term){
+  var cached=cacheGet("d_"+term);
+  if(cached){setLoad(false);renderDrug(term,cached);updateFavBtn();return;}
   var sys="Tu es expert pharmacien. Reponds UNIQUEMENT avec un objet JSON valide, sans texte ni markdown."+
     " {\"dci\":\"DCI\",\"commercial\":[\"noms\"],\"class\":\"classe\",\"mechanism\":{\"text\":\"mecanisme\",\"isIA\":false},"+
     "\"indications\":[{\"text\":\"indication\",\"isIA\":false,\"sourceLabel\":\"RCP BDPM\"}],"+
@@ -640,27 +668,31 @@ function searchDrug(term){
     "\"sideEffects\":[{\"text\":\"effet\",\"frequency\":\"tres frequent|frequent|peu frequent\",\"isIA\":false,\"sourceLabel\":\"RCP BDPM\"}],"+
     "\"monitoring\":[{\"text\":\"surveillance\",\"isIA\":true}],"+
     "\"patientAdvice\":{\"text\":\"conseils\",\"isIA\":true}}"+
-    " Si inconnu: {\"error\":\"inconnu\"}";
-  apiCall(sys,"Medicament: "+term,2500,function(err,raw){
+    " Max 3 items par liste. Si inconnu: {\"error\":\"inconnu\"}";
+  apiCall(sys,"Medicament: "+term,1800,function(err,raw){
     setLoad(false);
     if(err){showErr("Erreur: "+err);return;}
     var d=exObj(raw);
     if(!d||d.error){showErr("Medicament non trouve.");return;}
+    cacheSet("d_"+term, d);
     renderDrug(term,d); updateFavBtn();
   });
 }
 
 function searchPedi(term){
+  var cached=cacheGet("p_"+term);
+  if(cached){setLoad(false);renderPedi(term,cached);updateFavBtn();return;}
   var sys="Tu es pediatre et pharmacien expert. Reponds UNIQUEMENT avec un objet JSON valide, sans texte ni markdown."+
     " {\"pathologie\":\"nom\",\"definition\":{\"text\":\"definition\",\"isIA\":true},"+
     "\"ageGroups\":[{\"age\":\"Nourrisson <1 an|Enfant 1-5 ans|Enfant 6-11 ans|Adolescent 12-17 ans\",\"specificities\":\"particularites\",\"treatments\":[{\"drug\":\"DCI\",\"dose\":\"dose mg/kg\",\"max\":\"dose max\",\"route\":\"voie\",\"notes\":\"notes\",\"isIA\":false,\"sourceLabel\":\"BDPM\"}],\"warnings\":[\"mise en garde\"]}],"+
     "\"generalWarnings\":[\"CI absolues\"],\"otcAdvice\":[\"conseil OTC\"],\"whenToRefer\":[\"criteres urgence\"],\"ficheParent\":\"texte parents 100 mots\"}"+
     " Si non applicable: {\"error\":\"non_pedi\"}";
-  apiCall(sys,"Pathologie pediatrique: "+term,2500,function(err,raw){
+  apiCall(sys,"Pathologie pediatrique: "+term,1800,function(err,raw){
     setLoad(false);
     if(err){showErr("Erreur: "+err);return;}
     var d=exObj(raw);
     if(!d||d.error){showErr("Pathologie non trouvee ou non applicable en pediatrie.");return;}
+    cacheSet("p_"+term, d);
     renderPedi(term,d); updateFavBtn();
   });
 }
@@ -670,7 +702,7 @@ function searchStudy(term){
     " [{\"type\":\"trial\",\"title\":\"nom\",\"phase\":\"Phase I|II|III|IV\",\"status\":\"En cours|Termine\",\"molecule\":\"DCI\",\"mechanism\":\"mecanisme\",\"objective\":\"objectif\",\"results\":\"resultats ou vide\",\"url\":\"lien ou vide\"},"+
     "{\"type\":\"molecule\",\"title\":\"DCI (nom commercial)\",\"status\":\"AMM|En evaluation EMA|Phase III\",\"mechanism\":\"mecanisme\",\"advantage\":\"avantage\",\"indication\":\"indication\",\"url\":\"lien ou vide\"}]"+
     " Si rien: []";
-  apiCall(sys,"Pathologie: "+term,2000,function(err,raw){
+  apiCall(sys,"Pathologie: "+term,1500,function(err,raw){
     setLoad(false);
     if(err){showErr("Erreur: "+err);return;}
     var d=exArr(raw);
@@ -687,7 +719,7 @@ function doAnalyze(){
   document.getElementById("btnAnal").disabled=true;
   setLoad(true,"Analyse des interactions...");
   var sys="Tu es expert en pharmacologie clinique. Reponds UNIQUEMENT avec un objet JSON valide, sans texte ni markdown. {\"summary\":\"resume global\",\"interactions\":[{\"drugs\":[\"med1\",\"med2\"],\"level\":\"CI|warn|caution|ok\",\"fidelity\":3,\"mechanism\":\"mecanisme\",\"effect\":\"consequence\",\"action\":\"conduite a tenir\"}],\"globalRisk\":\"high|moderate|low\",\"recommendation\":\"recommandation\"} level: CI=contre-indique, warn=deconseille, caution=precaution, ok=aucune interaction. fidelity: 3=tres connue, 2=bien documentee, 1=possible. Si aucune: interactions=[], globalRisk=low";
-  apiCall(sys,"Medicaments: "+drugs.join(", "),2000,function(err,raw){
+  apiCall(sys,"Medicaments: "+drugs.join(", "),1500,function(err,raw){
     setLoad(false);
     document.getElementById("btnAnal").disabled=false;
     if(err){showErr("Erreur: "+err);return;}
