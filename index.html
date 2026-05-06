@@ -348,7 +348,7 @@ function showApp() {
 document.getElementById(“apiScreen”).style.display = “none”;
 document.getElementById(“appScreen”).style.display = “block”;
 document.getElementById(“apiBar”).style.display = “flex”;
-initApp();
+setTimeout(function(){ try { initApp(); } catch(e){ console.log(“initApp err:”, e); } }, 100);
 }
 
 function initApp() {
